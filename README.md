@@ -2,30 +2,54 @@
 
 #### 任务目标
 
-* 数据集的管理：类别，规模，评价
-* 用户的管理：注册，会员，权限
-* 用户上传与下载数据集
-* 用户发布与接收任务
-* 用户对数据集质量的评价
-* 数据集报错与修改
+* [ ] 数据集的管理（如删除、修改已有数据集）
+* [ ] 用户的管理：注册，会员，权限（会员、权限、管理未完成）
+* [x] 数据集的展示、下载、搜索
+* [x] 用户上传与下载数据集
+* [x] 用户发布~~与接收~~任务
+* [ ] 用户对数据集质量的评价
+* [ ] 数据集报错与修改（参数未完成）
 
 #### ToDo-List
 
-* 写文档，完善网页功能
+* 需要设计Feedback相关参数
+* 需要设计数据集评价相关参数（包括显示url，或在某个url中显示，显示位置，接受参数等）
+* 设计用户的**会员、权限**
 
 #### Discussion
 
 * 可以考虑限制只能做图像数据集，不然上传格式会很乱 
 * 同意，目前可只支持分类和目标定位任务，即一幅图像只有1或5个标注：类别[必有，int]，(xmin，ymin，xmax，ymax)[可选，float]
+* 如何支持数据集管理？
 
 #### 框架
 
 * 后端框架：Django 2.2.6
 * 前端框架：Bootstrap
 
-#### 文件结构
+#### 网站结构
 
-（先完成网页功能设计）
+##### App
+
+* userManagement
+
+  完成页面`/login/` `/signup` `/profile/` `/logout/` `/resetPassword/`
+
+* query
+
+  完成页面`/query/(dataset/task)/`
+
+* dataset
+
+  完成页面`/dataset/(string:datasetname)` `/upload/`
+
+* task
+
+  完成页面`/task/post/` `/task/(int:Id)/`
+
+* feedback
+
+  完成页面`/feedback/report/` `/feedback/(int:Id)/`
 
 #### 网页功能
 
@@ -113,23 +137,23 @@
 
   以zip压缩将下载文件打包后回传，包含图片和xml
 
-* `/postTask/`
+* `/task/post/`
 
   发布任务
 
   参数：名称，类别，要求，报酬等
 
-* `/task/(int:taskid)/`
+* `/task/(int:Id)/`
 
   查看任务
 
   如果taskid留空，则显示所有任务，否则显示任务基本信息
 
-* `/reportError/`
+* `/feedback/report/`
 
   报错页面
 
-* `/Error/(int:id)/`
+* `/feedback/(int:Id)/`
 
   查看数据集错误
 
