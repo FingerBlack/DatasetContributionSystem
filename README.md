@@ -2,25 +2,20 @@
 
 #### 任务目标
 
-* [x] 数据集的管理（使用django自带的管理系统）
-* [ ] 用户的管理：注册，会员，权限（使用django自带的管理系统）（权限怎么定义？）
+* [x] 数据集的管理
+* [x] 用户的管理：注册，会员
 * [x] 数据集的展示、下载、搜索
 * [x] 用户上传与下载数据集
-* [x] 用户发布~~与接收~~任务
-* [ ] 用户对数据集质量的评价
-* [ ] 数据集报错与修改（参数未完成）
+* [x] 用户发布任务
+* [x] 用户对数据集质量的评价
+* [x] 数据集报错与修改
 
 #### ToDo-List
 
-* 需要设计Feedback相关参数
-* 需要设计数据集评价相关参数（包括显示url，或在某个url中显示，显示位置，接受参数等）
-* 设计用户的**会员、权限**
-
 #### Discussion
 
-* 可以考虑限制只能做图像数据集，不然上传格式会很乱 （任务具体要求限制格式，用于报错识别？）
-* 同意，目前可只支持分类和目标定位任务，即一幅图像只有1或5个标注：类别[必有，int]，(xmin，ymin，xmax，ymax)[可选，float]
-* 如何支持数据集管理？
+* 只能做图像数据集，限制格式
+* 目前只支持分类和目标定位任务，即一幅图像只有1或5个标注：类别[必有，int]，(xmin，ymin，xmax，ymax)[可选，float]
 
 #### 框架
 
@@ -31,33 +26,65 @@
 
 ##### App
 
+* homepage
+
+  `/`
+  
 * userManagement
 
-  完成页面`/login/` `/signup` `/profile/` `/logout/` `/resetPassword/`
+  `/login/`
+  
+  `/signup/`
+  
+  `/profile/`
+  
+  `/logout/`
+  
+  `/resetPassword/`
 
 * query
 
-  完成页面`/query/(dataset/task)/`
+  `/query/(dataset/task)/`
 
 * dataset
+  
+  `/dataset/`
+  
+  `/dataset/create/`
+  
+  `/dataset/(string:datasetname)/`
+  
+  `/dataset/(string:datasetname)/upload/`
+  
+  `/dataset/(string:datasetname)/download/`
+  
+* comment
 
-  完成页面`/dataset/(string:datasetname)` `/upload/` `/dataset/(string:datasetname)/comment/`
+  `/dataset/(string:datasetname)/comment/`
 
-* task
-
-  完成页面`/task/post/` `/task/(int:Id)/`
+  `/dataset/(string:datasetname)/comment/post/`
 
 * feedback
 
-  完成页面`/feedback/report/` `/feedback/(int:Id)/`
-  
-* homepage
+  `/dataset/(string:datasetname)/feedback/`
 
-  完成页面`/`
+  `/dataset/(string:datasetname)/feedback/post/`
+
+  `/dataset/(string:datasetname)/feedback/(int:Id)/`
+
+* task
+
+  `/dataset/(string:datasetname)/task/`
+  
+  `/dataset/(string:datasetname)/task/post/`
+  
+  `/dataset/(string:datasetname)/task/(int:Id)/edit/`
+
+  `/dataset/(string:datasetname)/task/(int:Id)/contribution/`
 
 #### 网页功能
 
-* `/` 
+* `/`
 
   首页
 
@@ -71,9 +98,7 @@
 
   参数：`username`：用户名，`password`：密码
 
-  用户登陆界面有用户名、密码和验证码输入框，用户输入之后，先将用户输入的验证码与验证码的真值比较，如果相同就将用户名和密码加密后传到后台进行验证，如果验证通过则用户完成登陆。
-
-  ~~验证码先搁一搁~~ ~~验证码应该可以直接调什么库之类的 实在不行搞几十张验证码放在后台~~
+  如果可能加入验证码
 
 * `/signup/`
 
@@ -99,15 +124,11 @@
 
 * `/resetPassword/`
 
-  密码重置(找回)
-
-  邮箱验证，或者输入老密码
-
-  ~~？邮箱验证咋做~~
+  密码重置(找回)邮箱验证
 
 * `/query/(dataset/task)/`
 
-  查询数据集/任务
+  查询数据集/任务（支持模糊搜索与排序）
 
   * `/query/dataset/`
 
@@ -121,29 +142,27 @@
 
     显示任务搜索结果
 
+* `/dataset/`
+
+  显示所有数据集
+
+* `/dataset/create/`
+
+  创建数据集
+
 * `/dataset/(string:datasetname)/`
 
   数据集展示
 
   展示名称为datasetname的数据集，显示基本预览信息，包括数据集大小，数量，价格等
 
-  如果datasetname留空，则显示平台全部数据集
-
-* `/dataset/(string:datasetname)/comment/`
-  
-  数据集用户评价
-  
-  展示为用户对于名称为datasetname的数据集的评价
-  
-  参数包括: `name`任务名称，`time`发布时间，`username`评价用户名称，`commment`评价内容等
-
-* `/upload/`
+* `/dataset/(string:datasetname)/upload/`
 
   上传数据
 
   单张图像及对应标注，上传必须为zip，包括每张图片和对应xml
 
-* `/download/`
+* `/dataset/(string:datasetname)/download/`
 
   下载数据集
 
@@ -153,31 +172,62 @@
 
   以zip压缩将下载文件打包后回传，包含图片和xml
 
-* `/task/post/`
+  注意，如果没有下载默认购买，弹窗提醒。
 
-  发布任务
+* `/dataset/(string:datasetname)/comment/`
 
-  参数：名称，类别，要求，报酬等
+  数据集用户评价
 
-* `/task/(int:Id)/`
+  展示为用户对于名称为datasetname的数据集的评价
+
+  参数包括: `name`任务名称，`time`发布时间，`username`评价用户名称，`commment`评价内容等
+
+* `/dataset/(string:datasetname)/comment/post/`
+
+  提交用户评价
+
+* `/dataset/(string:datasetname)/feedback/`
+
+  查看数据集错误
+
+  - 内容错误（是否为图片）
+  - 格式错误（是否超过限定大小）
+  - 数量错误（资源数量与任务要求是否一致）
+  - 时间错误（是否超过任务截止时间）要不要加？
+
+* `/dataset/(string:datasetname)/feedback/post/`
+
+  提交报错页面
+
+  - 上传数据集内容（成功：符合任务要求；失败：格式等具体要求简单识别）
+  - 下载数据集（权限提示：有些会员才可提供下载权限）
+
+* `/dataset/(string:datasetname)/feedback/(int:Id)/`
+
+  查看数据集上传任务错误类型与具体内容
+
+  内容错误（是否为图片）；格式错误（是否超过限定大小）；数量错误（资源数量与任务要求是否一致）；
+
+  添加修改按钮，重新下载或上传
+
+  参数：`name` 任务名称，`type` 错误类型，`time` 时间，`username` 用户名称，`warning` 错误具体信息等
+
+* `/dataset/(string:datasetname)/task/`
 
   查看任务
 
   如果taskid留空，则显示所有任务，否则显示任务基本信息
 
-* `/feedback/report/`
+* `/dataset/(string:datasetname)/task/post/`
 
-  报错页面
-  - 上传数据集内容（成功：符合任务要求；失败：格式等具体要求简单识别）
-  - 下载数据集（权限提示：有些会员才可提供下载权限）
+  发布任务
 
-* `/feedback/(int:Id)/`
+  参数：名称，类别，要求，报酬等
 
-  查看数据集错误
-  - 内容错误（是否为图片）
-  - 格式错误（是否超过限定大小）
-  - 数量错误（资源数量与任务要求是否一致）
-  - 时间错误（是否超过任务截止时间）要不要加？
-  
-  
+* `/dataset/(string:datasetname)/task/(int:Id)/edit/`
 
+  编辑任务
+
+* `/dataset/(string:datasetname)/task/(int:Id)/contribution/`
+
+  任务贡献列表
