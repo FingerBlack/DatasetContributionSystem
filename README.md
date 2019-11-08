@@ -18,7 +18,7 @@
 
 #### Discussion
 
-* 可以考虑限制只能做图像数据集，不然上传格式会很乱 
+* 可以考虑限制只能做图像数据集，不然上传格式会很乱 （任务具体要求限制格式，用于报错识别？）
 * 同意，目前可只支持分类和目标定位任务，即一幅图像只有1或5个标注：类别[必有，int]，(xmin，ymin，xmax，ymax)[可选，float]
 * 如何支持数据集管理？
 
@@ -41,7 +41,7 @@
 
 * dataset
 
-  完成页面`/dataset/(string:datasetname)` `/upload/`
+  完成页面`/dataset/(string:datasetname)` `/upload/` `/dataset/(string:datasetname)/comment/`
 
 * task
 
@@ -129,6 +129,14 @@
 
   如果datasetname留空，则显示平台全部数据集
 
+* `/dataset/(string:datasetname)/comment/`
+  
+  数据集用户评价
+  
+  展示为用户对于名称为datasetname的数据集的评价
+  
+  参数包括: `name`任务名称，`time`发布时间，`username`评价用户名称，`commment`评价内容等
+
 * `/upload/`
 
   上传数据
@@ -160,8 +168,16 @@
 * `/feedback/report/`
 
   报错页面
+  - 上传数据集内容（成功：符合任务要求；失败：格式等具体要求简单识别）
+  - 下载数据集（权限提示：有些会员才可提供下载权限）
 
 * `/feedback/(int:Id)/`
 
   查看数据集错误
+  - 内容错误（是否为图片）
+  - 格式错误（是否超过限定大小）
+  - 数量错误（资源数量与任务要求是否一致）
+  - 时间错误（是否超过任务截止时间）要不要加？
+  
+  
 
