@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from user.models import UserProfile
 
 # Create your views here.
 def login_view(request):
@@ -28,6 +28,6 @@ def signup_view(request):
         #用户注册过程
         username = request.POST.get('username', '')
         password = request.POST.get('password', '') 
-        User.objects.create_user(username = username, password = password)
+        UserProfile.objects.create_user(username = username, password = password)
         return render(request, 'user/signup_success.html')
     return render(request, 'user/signup.html')

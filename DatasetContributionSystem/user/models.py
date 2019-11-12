@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 
 # Create your models here.
 
-class profile(models.Model):
-    id = models.OneToOneField(User, on_delete = models.CASCADE, primary_key = True);
+class UserProfile(AbstractUser):
+    test = models.CharField(max_length = 10)

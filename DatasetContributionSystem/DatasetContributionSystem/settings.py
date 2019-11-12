@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'homepage',
     'user', 
-    'dataset', 
+    'dataset',  
 ]
 
 MIDDLEWARE = [
@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'DatasetContributionSystem.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 #指定用户认证表
-#AUTH_USER_MODEL = "user.userProfile"
+AUTH_USER_MODEL = "user.UserProfile"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
