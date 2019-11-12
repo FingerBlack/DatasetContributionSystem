@@ -17,9 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from homepage import views as homepage_views
 from user import views as user_views
+from dataset import views as dataset_views
 
 urlpatterns = [
     path('', homepage_views.index),
     path('admin/', admin.site.urls),
     path('login/', user_views.login_view), 
+    path('dataset/', dataset_views.index),
+    path('dataset/create/', dataset_views.create) 
 ]
