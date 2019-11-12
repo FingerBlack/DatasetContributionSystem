@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'homepage',
     'user', 
     'dataset', 
+    'task',
 ]
 
 MIDDLEWARE = [
