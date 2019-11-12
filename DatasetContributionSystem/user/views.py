@@ -28,6 +28,10 @@ def signup_view(request):
         #用户注册过程
         username = request.POST.get('username', '')
         password = request.POST.get('password', '') 
-        UserProfile.objects.create_user(username = username, password = password)
-        return render(request, 'user/signup_success.html')
+        email = request.POST.get('email', '')
+        try:
+            UserProfile.objects.create_user(username = username, password = password, email = email)
+            return render(request, 'success.html', {'title':'注册成功', 'content':'恭喜你🎉，注册成功了，赶快试试下载数据集吧！'})
+        except:
+            return render(request, 'failure.html', {'title':'注册失败', 'content':'滚'})
     return render(request, 'user/signup.html')
