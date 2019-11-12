@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}test-title{% endblock %}
 {% block content %}
-<button type="button" class="btn btn-primary">test bootstrap</button>
+<div class="container-fluid">
+    <div class="row p-4">
+        <div class="col-5">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">任务名</span>
+                </div>
+                <input type="text" class="form-control" placeholder="请输入任务名">
+              </div>
+        </div>
+        <div class="col-5">.col-sm-3</div>
+    </div>
+</div>
 {% endblock %}
