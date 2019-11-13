@@ -1,29 +1,21 @@
 {% extends 'base.html' %}
-{% block title %}test-title{% endblock %}
+{% block title %}任务发布{% endblock %}
 {% block content %}
 <div class="container-fluid">
-    <form>
-        <div class="row p-4">
-            <div class="col-5">
-                <div class="input-group pl-5">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">任务名</span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="请输入任务名" id="taskname">
-                  </div>
-            </div>
-            <div class="col-5">
-                <div class="input-group pl-5">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">数据集ID</span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="请输入数据集ID" id="dataid">
-                </div>
-            </div>
+    <form class="p-4">
+        <div class="col-5 offset-3 form-group">
+            <label for="exampleFormControlInput1">任务名</label>
+            <input class="form-control" id="FormTaskName" placeholder="请输入任务名">
         </div>
-        <div class="row">
-
+        <div class="col-5 offset-3 form-group">
+            <label for="exampleFormControlInput1">数据集ID</label>
+            <input class="form-control" id="FormDatasetID" placeholder="请输入数据集ID">
         </div>
+        <div class="col-5 offset-3 form-group">
+            <label for="name">任务描述</label>
+            <textarea class="form-control pre-scrollable" rows="5" placeholder="请输入任务描述"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary offset-5">发布任务</button>
     </form>
 </div>
 {% endblock %}
