@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from user.models import UserProfile
 
@@ -8,20 +9,19 @@ def login_view(request):
         #用户登陆过程
         username = request.POST.get("username", "")
         password = request.POST.get("password", "")
-        print(username)
-        print(password)
         user = authenticate(username = username, password = password)
         if user is not None:
             #返回用户页面
             login(request, user)
+            return HttpResponseRedirect('/')
         else:
             #返回登陆失败页面
-            pass
+            return render(request, 'failure.html', {'title':'登陆失败', 'content':'登陆失败，用户名或密码错误'})
     return render(request, 'user/login.html')
 
 def logout_view(request):
     logout(request)
-    return render(request, 'user/logout.html')
+    return render(request, 'success.html', {'title':'登出成功'})
 
 def signup_view(request):
     if request.method == "POST":
