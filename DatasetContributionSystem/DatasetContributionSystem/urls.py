@@ -24,13 +24,14 @@ urlpatterns = [
     path('', homepage_views.index),
     path('admin/', admin.site.urls),
     path('login/', user_views.login_view),
-    path('task', task_views.index),
+    path('task/', task_views.index),
 
     path('dataset/', dataset_views.index),
     path('dataset/create/', dataset_views.create),
     path('dataset/<str:datasetname>/', dataset_views.show),
     path('dataset/<str:datasetname>/download/', dataset_views.download),
     path('dataset/<str:datasetname>/upload/', dataset_views.upload_view),
+    path('dataset/<str:datasetname>/task/create/', task_views.index),
 
     path('logout/', user_views.logout_view), 
     path('signup/', user_views.signup_view), 

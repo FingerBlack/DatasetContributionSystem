@@ -3,5 +3,6 @@
 {% block content %}
 
 <div>{{dataset.description}}</div>
-<a href="/dataset/{{dataset.name}}/upload"><button type="button" class="btn btn-sm btn-outline-secondary">上传</button></a>
+    <a href="/dataset/{{dataset.name}}/upload"><button type="button" class="btn btn-sm btn-outline-secondary">上传</button></a>
+    <a href="/dataset/{{dataset.name}}/task/create"><button type="button" class="btn btn-sm btn-outline-secondary">创建任务</button></a>
 {% endblock %}

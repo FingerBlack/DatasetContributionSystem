@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="528012d2-9586-43c4-bd1e-9abc05ab3c17" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/DatasetContributionSystem/task/templates/task/create.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DatasetContributionSystem/dataset/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DatasetContributionSystem/user/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DatasetContributionSystem/dataset/templates/dataset/show.html" beforeDir="false" afterPath="$PROJECT_DIR$/DatasetContributionSystem/dataset/templates/dataset/show.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DatasetContributionSystem/task/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/DatasetContributionSystem/task/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,47 +21,65 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/homepage/views.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="7" column="66" selection-start-line="7" selection-start-column="66" selection-end-line="7" selection-end-column="66" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1659">
-              <caret line="79" column="2" selection-start-line="79" selection-start-column="2" selection-end-line="79" selection-end-column="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/local_settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="8" selection-start-line="8" selection-end-line="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/user/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="789">
+              <caret line="38" selection-start-line="38" selection-end-line="38" />
               <folding>
-                <element signature="e#0#28#0" expanded="true" />
+                <element signature="e#649#681#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/user/views.py">
+        <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-409">
+            <state relative-caret-position="126">
+              <caret line="6" column="43" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="353">
+              <caret line="42" column="10" selection-start-line="42" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/dataset/templates/dataset/create.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/templates/task/create.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="546">
+              <caret line="65" column="32" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="32" />
+              <folding>
+                <element signature="n#style#0;n#textarea#0;n#div#1;n#form#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/dataset/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -66,7 +87,23 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/dataset/templates/dataset/show.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="6" column="118" selection-start-line="6" selection-start-column="118" selection-end-line="6" selection-end-column="118" />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -81,8 +118,12 @@
       <list>
         <option value="$PROJECT_DIR$/DatasetContributionSystem/homepage/templates/nav.html" />
         <option value="$PROJECT_DIR$/DatasetContributionSystem/task/templates/task/task.html" />
-        <option value="$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/urls.py" />
         <option value="$PROJECT_DIR$/DatasetContributionSystem/local_settings.py" />
+        <option value="$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/settings.py" />
+        <option value="$PROJECT_DIR$/DatasetContributionSystem/task/views.py" />
+        <option value="$PROJECT_DIR$/DatasetContributionSystem/task/templates/task/create.html" />
+        <option value="$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/urls.py" />
+        <option value="$PROJECT_DIR$/DatasetContributionSystem/dataset/templates/dataset/show.html" />
       </list>
     </option>
   </component>
@@ -114,13 +155,55 @@
               <item name="DatasetContributionSystem" type="b2602c69:ProjectViewProjectNode" />
               <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
               <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="dataset" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DatasetContributionSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="dataset" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DatasetContributionSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="dataset" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="dataset" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DatasetContributionSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
               <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="DatasetContributionSystem" type="b2602c69:ProjectViewProjectNode" />
               <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
               <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
+              <item name="task" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DatasetContributionSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="task" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DatasetContributionSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="task" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="task" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DatasetContributionSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="DatasetContributionSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="upload" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -130,6 +213,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -222,17 +306,18 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8111000" />
+    <option name="totallyTimeSpent" value="9511000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="58" y="23" width="1862" height="1057" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.103846155" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49945053" weight="0.26839378" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49945053" visible="true" weight="0.26839378" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -241,7 +326,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32953367" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50054944" side_tool="true" weight="0.26839378" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32953367" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32953367" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -263,16 +348,10 @@
     <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/tests.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/apps.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/admin.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/migrations/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/homepage/admin.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/homepage/templates/base.html">
@@ -282,50 +361,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/homepage/templates/nav.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="14" column="38" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/templates/task/task.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="15" column="89" selection-start-line="15" selection-start-column="89" selection-end-line="15" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="7" column="66" selection-start-line="7" selection-start-column="66" selection-end-line="7" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/wsgi.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/local_settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/user/models.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -345,10 +382,122 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/templates/task/task.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="15" column="89" selection-start-line="15" selection-start-column="89" selection-end-line="15" selection-end-column="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/homepage/templates/nav.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/apps.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/homepage/admin.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/homepage/models.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/homepage/apps.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/homepage/tests.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/manage.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/local_settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1659">
-          <caret line="79" column="2" selection-start-line="79" selection-start-column="2" selection-end-line="79" selection-end-column="2" />
+        <state relative-caret-position="353">
+          <caret line="42" column="10" selection-start-line="42" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/dataset/templates/dataset/create.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/templates/task/create.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="65" column="32" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="32" />
+          <folding>
+            <element signature="n#style#0;n#textarea#0;n#div#1;n#form#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/dataset/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/homepage/views.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/dataset/templates/dataset/upload.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/task/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="6" column="43" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/DatasetContributionSystem/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="789">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+          <folding>
+            <element signature="e#649#681#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatasetContributionSystem/dataset/templates/dataset/show.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="6" column="118" selection-start-line="6" selection-start-column="118" selection-end-line="6" selection-end-column="118" />
         </state>
       </provider>
     </entry>
