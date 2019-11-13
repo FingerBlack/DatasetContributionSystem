@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import dataset
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
 import os
 
@@ -35,7 +35,8 @@ def upload_view(request, datasetname):
         for chunk in myfile.chunks():
             f.write(chunk)
         f.close()
-    return render(request, 'dataset/upload.html')
+        return HttpResponse('success')
+    return render(request, 'dataset/upload.html', {'datasetname':datasetname})
 
 def show(request, datasetname):
     return render(request, 'dataset/show.html', {'dataset': dataset.objects.get(name=datasetname)})

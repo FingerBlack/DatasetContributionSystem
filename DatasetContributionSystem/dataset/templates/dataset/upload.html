@@ -4,7 +4,6 @@
     $(document).ready(function () {
         $("button").click(function () {
             var fd = new FormData();
-            console.log($('#file')[0].files[0]);
             fd.append('file', $('#file')[0].files[0]);
             fd.append('csrfmiddlewaretoken', "{{csrf_token}}");
             $.ajax({
@@ -21,7 +20,7 @@
                                 percentage = parseInt(e.loaded / e.total * 100);
                                 var now_percentage = percentage + "%";
                                 $("#pgbar").css({"width":now_percentage});
-                                console.log(now_percentage);
+                                $("#pgbar-text").text(e.loaded + "/" + e.total);
                             }
                         }, false);
                     }
@@ -39,21 +38,41 @@
 </script>
 {% endblock %}
 {% block content %}
-<form method="POST" id="testf" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+<div class="container" style="margin-top:100px;">
+    <h2>数据集：{{datasetname}}</h2>
+    <br/>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+        <div class="col-md-9">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                </div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="file"
+                        onchange="$('#fn')[0].textContent=this.files[0].name;" aria-describedby="inputGroupFileAddon01">
+                    <label class="custom-file-label" for="inputGroupFile01" id="fn">Choose file</label>
+                </div>
+
+            </div>
         </div>
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="file" onchange="$('#fn')[0].textContent=this.files[0].name;" aria-describedby="inputGroupFileAddon01">
-            <label class="custom-file-label" for="inputGroupFile01" id="fn" >Choose file</label>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-primary btn-block" id="upload">上传点这个</button>
         </div>
-        <button type="button" class="btn btn-primary" id="upload">上传点这个</button>
     </div>
-</form>
-<div class="progress">
-    <div class="progress-bar progress-bar-striped progress-bar-animated" id="pgbar" role="progressbar"
-        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+    </form>
+    <div class="row">
+        <div class="col-md-2">上传进度:</div>
+        <div class="col-md-7">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" id="pgbar" role="progressbar"
+                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <span id="pgbar-text"></span>
+        </div>
+    </div>
 </div>
 {% endblock %}
