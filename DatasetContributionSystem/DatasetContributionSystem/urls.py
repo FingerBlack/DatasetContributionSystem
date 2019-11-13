@@ -26,5 +26,8 @@ urlpatterns = [
 
     path('dataset/', dataset_views.index),
     path('dataset/create/', dataset_views.create),
-    path('dataset/<str:datasetname>/', dataset_views.show) 
+    path('dataset/<str:datasetname>/', dataset_views.show),
+    path('logout/', user_views.logout_view), 
+    path('signup/', user_views.signup_view), 
+    path('profile/', user_views.profile_view), 
 ]

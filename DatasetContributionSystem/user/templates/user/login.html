@@ -1,21 +1,77 @@
 {% extends 'base.html' %}
+{% block title %}登陆{% endblock %}
+{% block head %}
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+
+    .form-signin {
+        width: 100%;
+        max-width: 330px;
+        padding: 15px;
+        margin: auto;
+    }
+
+    .form-signin .checkbox {
+        font-weight: 400;
+    }
+
+    .form-signin .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .form-signin .form-control:focus {
+        z-index: 2;
+    }
+
+    .form-signin input[type="text"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+</style>
+{% endblock %}
 {% block content %}
-<div class="container">
-    <div class="row p-4">
-        <div class="col-sm-4 offset-md-4">
-            <form method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label>用户名</label>
-                    <input type="text" class="form-control" name="username" placeholder="Username">
-                </div>
-                <div class="form-group">
-                    <label>密码</label>
-                    <input type="password" class="form-control" name="password" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-primary">登陆</button>
-            </form>
+<div style="margin-top:100px">
+    <form class="form-signin" method="POST">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal" style="text-align:center">请登录</h1>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="text" name="username" id="inputEmail" class="form-control" placeholder="Username" required=""
+            autofocus="">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password"
+            required="">
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
         </div>
-    </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
+        <p class="mt-5 mb-3 text-muted">© 2017-2019</p>
+    </form>
 </div>
 {% endblock %}
