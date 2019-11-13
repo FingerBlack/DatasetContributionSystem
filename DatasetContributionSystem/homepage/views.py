@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import dataset
+from dataset.models import dataset
 
 # Create your views here.
 
