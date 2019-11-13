@@ -18,11 +18,13 @@ from django.urls import path
 from homepage import views as homepage_views
 from user import views as user_views
 from dataset import views as dataset_views
+from task import views as task_views
 
 urlpatterns = [
     path('', homepage_views.index),
     path('admin/', admin.site.urls),
-    path('login/', user_views.login_view), 
+    path('login/', user_views.login_view),
+    path('task', task_views.index),
 
     path('dataset/', dataset_views.index),
     path('dataset/create/', dataset_views.create),
@@ -32,5 +34,5 @@ urlpatterns = [
 
     path('logout/', user_views.logout_view), 
     path('signup/', user_views.signup_view), 
-    path('profile/', user_views.profile_view), 
+    path('profile/', user_views.profile_view),
 ]
