@@ -16,10 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from homepage import views as homepage_views
-from task import views as task_views
+from user import views as user_views
+from dataset import views as dataset_views
 
 urlpatterns = [
     path('', homepage_views.index),
     path('admin/', admin.site.urls),
-    path('task/', task_views.index)
+    path('login/', user_views.login_view), 
+
+    path('dataset/', dataset_views.index),
+    path('dataset/create/', dataset_views.create),
+    path('dataset/<str:datasetname>/', dataset_views.show),
+    path('dataset/<str:datasetname>/download/', dataset_views.download),
+    path('dataset/<str:datasetname>/upload/', dataset_views.upload_view),
+
+    path('logout/', user_views.logout_view), 
+    path('signup/', user_views.signup_view), 
+    path('profile/', user_views.profile_view), 
 ]
