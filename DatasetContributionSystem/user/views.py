@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from user.models import UserProfile
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def login_view(request):
@@ -35,3 +36,8 @@ def signup_view(request):
         except:
             return render(request, 'failure.html', {'title':'注册失败', 'content':'滚'})
     return render(request, 'user/signup.html')
+
+@login_required
+def profile_view(request):
+    return render(request, 'user/profile.html')
+    
