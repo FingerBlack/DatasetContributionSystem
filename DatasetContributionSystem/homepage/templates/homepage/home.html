@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}test-title{% endblock %}
 {% block content %}
-<button type="button" class="btn btn-primary">test bootstrap</button>
+现在有的数据集
+<ul class="list-group">
+    {% for item in dataset %}
+    <li class="list-group-item">{{item.name}}</li>
+    {% endfor %}
+</ul>
 {% endblock %}
