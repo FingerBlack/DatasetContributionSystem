@@ -40,3 +40,6 @@ def upload_view(request, datasetname):
 
 def show(request, datasetname):
     return render(request, 'dataset/show.html', {'dataset': dataset.objects.get(name=datasetname)})
+
+def download(request, datasetname):
+    return render(request, 'dataset/download.html', {'dataset': dataset.objects.get(name=datasetname)})

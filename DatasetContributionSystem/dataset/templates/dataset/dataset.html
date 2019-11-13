@@ -50,9 +50,9 @@
             <div class="card-body">
               <p class="card-text">{{item.description}}</p>
               <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
+                <div>
                   <a href="/dataset/{{item.name}}/"><button type="button" class="btn btn-sm btn-outline-secondary">展示</button></a>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">下载</button>
+                  <a href="/dataset/{{item.name}}/download/"><button type="button" class="btn btn-sm btn-outline-secondary">下载</button></a>
                 </div>
                 <small class="text-muted">{{item.pv}}次</small>
               </div>
