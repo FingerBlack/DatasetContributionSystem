@@ -39,9 +39,6 @@ def upload_view(request, datasetname):
 
 def show(request, datasetname):
     return render(request, 'dataset/show.html', {'dataset': dataset.objects.get(name=datasetname)})
-<<<<<<< HEAD
 
 def download(request, datasetname):
     return render(request, 'dataset/download.html', {'dataset': dataset.objects.get(name=datasetname)})
-=======
->>>>>>> 82557c321e4ae0af6e431faada45cf89d2bac830
