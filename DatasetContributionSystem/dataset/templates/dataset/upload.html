@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block head %}
+<script>
+    $(document).ready(function () {
+        $("button").click(function () {
+            var fd = new FormData();
+            console.log($('#file')[0].files[0]);
+            fd.append('file', $('#file')[0].files[0]);
+            fd.append('csrfmiddlewaretoken', "{{csrf_token}}");
+            $.ajax({
+                url: "{{request.path}}",
+                type: "POST",
+                data: fd,
+                processData: false,
+                contentType: false,
+                xhr: function xhr() {
+                    var myxhr = $.ajaxSettings.xhr();
+                    if (myxhr.upload) {
+                        myxhr.upload.addEventListener('progress', function (e) {
+                            if (e.lengthComputable) {
+                                percentage = parseInt(e.loaded / e.total * 100);
+                                var now_percentage = percentage + "%";
+                                $("#pgbar").css({"width":now_percentage});
+                                console.log(now_percentage);
+                            }
+                        }, false);
+                    }
+                    return myxhr;
+                },
+                success: function (data) {
+                    alert("上传成功！");
+                },
+                error: function (data) {
+                    alert("上传失败！滚！");
+                }
+            });
+        })
+    });
+</script>
+{% endblock %}
+{% block content %}
+<form method="POST" id="testf" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+        </div>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="file" onchange="$('#fn')[0].textContent=this.files[0].name;" aria-describedby="inputGroupFileAddon01">
+            <label class="custom-file-label" for="inputGroupFile01" id="fn" >Choose file</label>
+        </div>
+        <button type="button" class="btn btn-primary" id="upload">上传点这个</button>
+    </div>
+</form>
+<div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" id="pgbar" role="progressbar"
+        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+</div>
+{% endblock %}
