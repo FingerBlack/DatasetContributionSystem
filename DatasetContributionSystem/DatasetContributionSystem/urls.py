@@ -23,6 +23,8 @@ urlpatterns = [
     path('', homepage_views.index),
     path('admin/', admin.site.urls),
     path('login/', user_views.login_view), 
+
     path('dataset/', dataset_views.index),
-    path('dataset/create/', dataset_views.create) 
+    path('dataset/create/', dataset_views.create),
+    path('dataset/<str:datasetname>/', dataset_views.show) 
 ]
