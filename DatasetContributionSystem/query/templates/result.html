@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}test-title{% endblock %}
+{% block head %}
+<script>
+(function () {
+  'use strict'
+
+  window.addEventListener('load', function () {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.filter.call(forms, function (form) {
+      form.addEventListener('submit', function (event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  }, false)
+}())
+</script>
+{% endblock %}
+{% block content %}
+
+<main role="main">
+
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">{{dataset.name}}</h1>
+      <p>{{dataset.description}}</p>
+      <p><a class="btn btn-primary btn-lg" href="#" role="button">发布任务 &raquo;</a></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h2>评论</h2>
+        <p>在这里你可以评价数据集的质量，提出问题并和其他用户交流。</p>
+        <p><a class="btn btn-secondary" href="#" role="button">前往评论区 &raquo;</a></p>
+      </div>
+      <div class="col-md-4">
+        <h2>贡献</h2>
+        <p>在这里你可以贡献新图片到此数据集，或修改反馈数据集中存在的问题。</p>
+        <p><a class="btn btn-secondary" href="/dataset/{{dataset.name}}/upload/" role="button">前往贡献 &raquo;</a></p>
+      </div>
+      <div class="col-md-4">
+        <h2>下载</h2>
+        <p>前往下载界面以获取全部数据集。</p>
+        <p><a class="btn btn-secondary" href="/dataset/{{dataset.name}}/download/" role="button">前往下载 &raquo;</a></p>
+      </div>
+    </div>
+    <hr>
+  </div>
+
+</main>
+{% endblock %}
