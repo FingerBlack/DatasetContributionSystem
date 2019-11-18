@@ -12,7 +12,7 @@ def search(request):
     if  request.method == "GET":
         x = request.GET.get("Datasetname")
         y =request.GET.get("Taskname")
-        name_list = dataset.objects.filter(name=x)
+        name_list = dataset.objects.filter(name__contains=x)
         if not x and not y:
             return render(request, 'querypage/query.html')
         return render(request, 'querypage/result.html', {'dataset': name_list})
