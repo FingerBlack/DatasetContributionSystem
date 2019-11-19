@@ -3,7 +3,7 @@ from .models import dataset
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
-import os
+import os, zipfile
 
 # Create your views here.
 def index(request):
@@ -29,12 +29,10 @@ def create(request):
 def upload_view(request, datasetname):
     if request.method == 'POST':
         myfile = request.FILES.get('file')
+        zf = zipfile.ZipFile(myfile)
         filename = myfile.name
-        filepath = os.path.join("./"+settings.MEDIA_ROOT, filename)
-        f = open(filepath,'wb+')
-        for chunk in myfile.chunks():
-            f.write(chunk)
-        f.close()
+        filepath = os.path.join("./"+settings.MEDIA_ROOT + "/tmp/", filename)
+        zf.extractall(path=filepath)
         return HttpResponse('success')
     return render(request, 'dataset/upload.html', {'datasetname':datasetname})
 
