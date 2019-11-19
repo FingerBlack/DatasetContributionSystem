@@ -19,8 +19,10 @@
                             if (e.lengthComputable) {
                                 percentage = parseInt(e.loaded / e.total * 100);
                                 var now_percentage = percentage + "%";
-                                $("#pgbar").css({"width":now_percentage});
-                                $("#pgbar-text").text(e.loaded + "/" + e.total);
+                                $("#pgbar").css({
+                                    "width": now_percentage
+                                });
+                                $("#pgbar-text").text(e.loaded + "/" + e.total + "Bytes");
                             }
                         }, false);
                     }
@@ -40,27 +42,28 @@
 {% block content %}
 <div class="container" style="margin-top:100px;">
     <h2>数据集：{{datasetname}}</h2>
-    <br/>
+    <br />
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
-        <div class="col-md-9">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                </div>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="file"
-                        onchange="$('#fn')[0].textContent=this.files[0].name;" aria-describedby="inputGroupFileAddon01">
-                    <label class="custom-file-label" for="inputGroupFile01" id="fn">Choose file</label>
-                </div>
+            <div class="col-md-9">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="file"
+                            onchange="$('#fn')[0].textContent=this.files[0].name;"
+                            aria-describedby="inputGroupFileAddon01" accept=".zip">
+                        <label class="custom-file-label" for="inputGroupFile01" id="fn">Choose file</label>
+                    </div>
 
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary btn-block" id="upload">上传点这个</button>
             </div>
         </div>
-        <div class="col-md-3">
-            <button type="button" class="btn btn-primary btn-block" id="upload">上传点这个</button>
-        </div>
-    </div>
     </form>
     <div class="row">
         <div class="col-md-2">上传进度:</div>
