@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', user_views.login_view),
     path('task/', task_views.index),
+    path('task/create/', task_views.create),
 
     path('dataset/', dataset_views.index),
     path('dataset/create/', dataset_views.create),

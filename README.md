@@ -231,7 +231,7 @@
 
   参数：`name` 任务名称，`type` 错误类型，`time` 时间，`username` 用户名称，`warning` 错误具体信息等
 
-* `/dataset/(string:datasetname)/task/`
+* `/dataset/(string:datasetname)/task/(int:taskid)`
 
   查看任务
 
