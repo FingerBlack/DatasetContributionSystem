@@ -10,6 +10,9 @@ class dataset(models.Model):
     price = models.FloatField()
     size = models.IntegerField(default = 0)
     description = models.CharField(max_length = 200)
-
     dataType_str = {(1, '分类'), (2, '检测')}
     dataType = models.IntegerField(choices = dataType_str)
+
+class datasetFileIndex(models.Model):
+    name = models.ForeignKey(dataset, on_delete=models.CASCADE, related_name="dataset_name")
+    filename = models.CharField(max_length = 50)

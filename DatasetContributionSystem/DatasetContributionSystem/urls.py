@@ -19,6 +19,7 @@ from homepage import views as homepage_views
 from user import views as user_views
 from dataset import views as dataset_views
 from task import views as task_views
+from query import views as query_views
 
 urlpatterns = [
     path('', homepage_views.index),
@@ -32,8 +33,9 @@ urlpatterns = [
     path('dataset/<str:datasetname>/download/', dataset_views.download),
     path('dataset/<str:datasetname>/upload/', dataset_views.upload_view),
     path('dataset/<str:datasetname>/task/create/', task_views.index),
-
-    path('logout/', user_views.logout_view), 
+    path('query/', query_views.index),
+    path('query/search/', query_views.search),
+    path('logout/', user_views.logout_view),
     path('signup/', user_views.signup_view), 
     path('profile/', user_views.profile_view),
 ]

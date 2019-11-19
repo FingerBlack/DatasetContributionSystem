@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'user', 
     'dataset',
     'task',
+    'query',
 ]
 
 MIDDLEWARE = [
