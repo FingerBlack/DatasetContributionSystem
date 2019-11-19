@@ -11,10 +11,10 @@
       <li class="nav-item {% if request.path == '/dataset/' %} active {% endif %} ">
         <a class="nav-link" href="/dataset/">数据集</a>
       </li>
-      <li class="nav-item {% if request.path == '/' %} active {% endif %} ">
+      <li class="nav-item {% if 'task' in request.path %} active {% endif %} ">
         <a class="nav-link" href="/">任务</a>
       </li>
-      <li class="nav-item {% if request.path == '/' %} active {% endif %} ">
+      <li class="nav-item {% if 'comment' in request.path %} active {% endif %} ">
         <a class="nav-link" href="/">搜索</a>
       </li>
     </ul>
