@@ -21,6 +21,7 @@ from user import views as user_views
 from dataset import views as dataset_views
 from query import views as query_views
 
+
 urlpatterns = [
     path('', homepage_views.index),
     path('admin/', admin.site.urls),
@@ -37,5 +38,6 @@ urlpatterns = [
     path('signup/', user_views.signup_view), 
     path('profile/', user_views.profile_view),
 
-path('comment/',comment_views.idex),
+    path('comment/<str:datasetname>/',comment_views.idex),
+    path('comment/<str:datasetname>/post/',comment_views.post),
 ]
