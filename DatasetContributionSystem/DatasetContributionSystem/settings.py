@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'user', 
     'dataset',  
     'query',
+    'comment',
 ]
 
 MIDDLEWARE = [
