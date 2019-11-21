@@ -106,5 +106,5 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-.DS_Store
+**/.DS_Store
 .idea/workspace.xml
