@@ -14,6 +14,7 @@ dist/
 downloads/
 eggs/
 .eggs/
+.idea/
 lib/
 lib64/
 parts/
@@ -23,6 +24,8 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.idea/
+.idea
 MANIFEST
 
 # PyInstaller
@@ -103,6 +106,5 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-.idea/
-
-.DS_store
+.DS_Store
+.idea/workspace.xml

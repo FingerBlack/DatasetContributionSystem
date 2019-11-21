@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}test-title{% endblock %}
+{% block content %}
+
+    <main role="main">
+
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="display-3">{{task.name}}</h1>
+                <p>{{task.description}}</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>截止日期</h2>
+                    <p>{{task.deadline}}</p>
+                </div>
+                <div class="col-md-4">
+                    <h2>需求数量</h2>
+                    <p>{{task.amount}}</p>
+                </div>
+                <div class="col-md-4">
+                    <h2>所属数据集</h2>
+                    <p>{{task.related_dataset}}</p>
+                </div>
+            </div>
+            <hr>
+        </div>
+
+    </main>
+{% endblock %}

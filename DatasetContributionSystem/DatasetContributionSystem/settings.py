@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'homepage',
     'user', 
-    'dataset',  
+    'dataset',
+    'task',
     'query',
 ]
 
@@ -81,8 +82,8 @@ WSGI_APPLICATION = 'DatasetContributionSystem.wsgi.application'
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': 'dbhomework',
-#         'PASSWORD': 'password', 
-#         'HOST': '127.0.0.1', 
+#         'PASSWORD': 'password',
+#         'HOST': '127.0.0.1',
 #         'PORT':5432
 #     }
 # }
@@ -130,8 +131,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
 MEDIA_ROOT = '/upload/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "common_static"),
+)
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder"
+)
 
 #import local_settings
 try:
