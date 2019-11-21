@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}下载{% endblock %}
+
+{% block head %}
+<script>
+(function () {
+  'use strict'
+
+  window.addEventListener('load', function () {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.filter.call(forms, function (form) {
+      form.addEventListener('submit', function (event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  }, false)
+}())
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="bg-light text-center cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto"></header>
+
+  <main role="main" class="inner cover">
+    <h1 class="cover-heading">确认下载数据集</h1>
+    
+    <p class="lead">请确定不将数据集用作任何商业用途，并自行承担数据集的质量。</p>
+    <p class="lead">
+      <a href="#" class="btn btn-lg btn-primary">点击下载</a>
+    </p>
+  </main>
+
+  <footer class="mastfoot mt-auto"></footer>
+</div>
+<script src="form-validation.js"></script>
+{% endblock %}
