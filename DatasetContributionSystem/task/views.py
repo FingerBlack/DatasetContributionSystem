@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
-from task.models import task
+from .models import task, dataset
 
 # Create your views here.
 
@@ -13,19 +13,20 @@ def index(request):
 @login_required
 def create(request, datasetname):
     if request.method == "POST":
+        dataset_obj = dataset.objects.get(name = datasetname)
         name = request.POST.get("name", '')
         deadline = request.POST.get("deadline", '')
         description = request.POST.get('description', '')
         amount = request.POST.get('amount', '')
         task.objects.create(name=name,
                             deadline=deadline[0:9],
-                            related_dataset=datasetname,
+                            dataset=dataset_obj,
                             # dataset_name=datasetname,
                             description=description,
                             pv=0,
                             amount=amount,
                             owner=request.user.username)
-        return HttpResponseRedirect('/')
+        return render(request, 'success.html', {'title':'创建任务成功'})
     return render(request, 'task/create.html')
 
 @login_required

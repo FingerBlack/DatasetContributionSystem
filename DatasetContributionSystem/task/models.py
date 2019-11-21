@@ -6,9 +6,8 @@ from dataset.models import dataset
 
 
 class task(models.Model):
-    name = models.CharField(max_length=50, primary_key=True)
-    # name = models.ForeignKey(dataset, on_delete=models.CASCADE, related_name="related_dataset")
-    related_dataset = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    dataset = models.ForeignKey(dataset, on_delete=models.CASCADE)
     createdTime = models.DateTimeField(default=timezone.now)
     deadline = models.DateField()
     owner = models.CharField(max_length=50)
