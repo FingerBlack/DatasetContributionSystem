@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.contrib.staticfiles.views import serve
 from django.urls import path
 from homepage import views as homepage_views
+from comment import views as comment_views
 from user import views as user_views
 from dataset import views as dataset_views
 from task import views as task_views
 from query import views as query_views
+
 
 urlpatterns = [
     path('', homepage_views.index),
@@ -41,4 +43,7 @@ urlpatterns = [
     path('logout/', user_views.logout_view),
     path('signup/', user_views.signup_view), 
     path('profile/', user_views.profile_view),
+
+    path('comment/<str:datasetname>/',comment_views.idex),
+    path('comment/<str:datasetname>/post/',comment_views.post),
 ]
