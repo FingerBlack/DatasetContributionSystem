@@ -11,7 +11,7 @@ def index(request):
 def search(request):
     if  request.method == "GET":
         x = request.GET.get("Datasetname")
-        y =request.GET.get("Taskname")
+        y = request.GET.get("Taskname")
         name_list = dataset.objects.filter(name__contains=x)
         if not x and not y:
             return render(request, 'querypage/query.html')

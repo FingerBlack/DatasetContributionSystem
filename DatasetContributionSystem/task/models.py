@@ -7,9 +7,11 @@ from dataset.models import dataset
 
 class task(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
-    dataset_name = models.ForeignKey(dataset, on_delete=models.CASCADE, related_name="dataset_name")
+    # name = models.ForeignKey(dataset, on_delete=models.CASCADE, related_name="related_dataset")
+    related_dataset = models.CharField(max_length=50)
     createdTime = models.DateTimeField(default=timezone.now)
-    pv = models.IntegerField()
+    deadline = models.DateField()
     owner = models.CharField(max_length=50)
     description = models.CharField(max_length=200)
-    task_type = models.CharField(max_length=20)
+    amount = models.BigIntegerField(default=0)
+    pv = models.IntegerField()  # 浏览次数

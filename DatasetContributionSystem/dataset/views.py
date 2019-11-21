@@ -20,7 +20,7 @@ def create(request):
                                price=price, 
                                dataType=datatype, 
                                pv=0, 
-                               description = description,
+                               description=description,
                                owner=request.user.username)
         return HttpResponseRedirect('/dataset/'+name+'/')
     return render(request, 'dataset/create.html')
