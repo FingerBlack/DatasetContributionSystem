@@ -95,19 +95,18 @@
         <label for="Datasetname" class="sr-only">Dataset name</label>
 
         <!-- <form method="get" action="search/" class="input-group col-md-20" style="margin-top:0px positon:relative"> -->
-             
-        <form method="get" action="/query/search" class="input-group col-md-20" id="form" style="margin-top:0px positon:relative" >
+             <form method="get" action="/query/search" class="input-group col-md-20" id="form" style="margin-top:0px positon:relative" >
+        
             {% csrf_token %}
             <input type="text" name="Datasetname" class="form-control" placeholder="Dataset name" 
             required="">
             
-            <button id= "submit" class="btn btn-primary btn-lg" form ="form" >
+            <button id= "submit" onclick="updata()" class="btn btn-primary btn-lg" form ="form" >
                     Search
             </button>
            
             
-        </form>
-
+      </form>
         <label for="Taskname" class="sr-only">Task name</label>
         <h1 class="h3 mb-2 font-weight-normal" style="text-align:left "> Input the Taskname you want to search 
         </h1>
