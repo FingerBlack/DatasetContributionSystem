@@ -3,36 +3,40 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
 import os
-from .models import List
+from .models import Lists
 from dataset.models import dataset
 from django.core.paginator import Paginator
 from task.models import task
+from itertools import chain
 # Create your views here.
 def index(request):
     return render(request, 'querypage/query.html', {'dataset': dataset.objects.all()})
 
 def search(request):
     if  request.method == "GET":
-        x = request.GET.get("Datasetname") 
-        y =request.GET.get("Taskname")
-        x_list=[]
-        y_list=[]
-        for i in x.split(' '):
-            x_list.append(i)
-        for i in y.split(' '):
-            y_list.append(i)
-        if x !=  None:
-            List.name_list = dataset.objects.all().filter(name__in = x_list)  #导入的Article模型
+        x =str(request.GET.get("Datasetname") )
+        y =str(request.GET.get("Taskname"))
+        list_all=[]
+        data=[]
+        if x != None:
+            for i in x.split(' '):
+                list_all=chain(list_all,dataset.objects.filter(name__contains = i))
+            list2=[]
+            for i in list_all:
+                list2.append(i.name)
+            Lists.name_list = dataset.objects.filter(name__in=list2)  
         elif y!= None:
-            List.name_list = task.objects.all().filter(name__in = y_list)  #导入的Article模型
+            for i in y.split(' '):
+                list_all=chain(list_all,task.objects.filter(name__contains = i))
+            list2=[]
         return paginator(request)
         #return render(request,'querypage/result.html',context={
 def paginator(request):
     #paginator = Paginator(dataset, settings.EACH_OF_NUMBER)#每10篇文章分一页
     #page_of_blogs = paginator.get_page(page_num)#get_page方法处理用户输入的错误值
     #name_list = dataset.objects.all().filter(name__contains = x)  #导入的Article模型
-    p = Paginator(List.name_list,6)   #分页，6篇文章一页
-    result_list = List.name_list  
+    p = Paginator(Lists.name_list,6)   #分页，6篇文章一页
+    result_list = Lists.name_list  
     if p.num_pages <= 1:  #如果文章不足一页
         data = ''  #不需要分页按钮
     else:

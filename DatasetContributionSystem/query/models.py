@@ -3,5 +3,5 @@ import django.utils.timezone as timezone
 from dataset.models import dataset
 
 # Create your models here.
-class List(models.Model):
+class Lists(models.Model):
     name_list=dataset.objects.all().filter(name__contains = 1)
