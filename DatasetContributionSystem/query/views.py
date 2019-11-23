@@ -6,15 +6,25 @@ import os
 from .models import List
 from dataset.models import dataset
 from django.core.paginator import Paginator
+from task.models import task
 # Create your views here.
 def index(request):
     return render(request, 'querypage/query.html', {'dataset': dataset.objects.all()})
 
 def search(request):
     if  request.method == "GET":
-        x = request.GET.get("Datasetname")  
-        y =request.GET.get("Taskname");
-        List.name_list = dataset.objects.all().filter(name__contains = x)  #导入的Article模型
+        x = request.GET.get("Datasetname") 
+        y =request.GET.get("Taskname")
+        x_list=[]
+        y_list=[]
+        for i in x.split(' '):
+            x_list.append(i)
+        for i in y.split(' '):
+            y_list.append(i)
+        if x !=  None:
+            List.name_list = dataset.objects.all().filter(name__in = x_list)  #导入的Article模型
+        elif y!= None:
+            List.name_list = task.objects.all().filter(name__in = y_list)  #导入的Article模型
         return paginator(request)
         #return render(request,'querypage/result.html',context={
 def paginator(request):
