@@ -25,23 +25,19 @@ def create(request):
         return HttpResponseRedirect('/dataset/'+name+'/')
     return render(request, 'dataset/create.html')
 
-@login_required
-def upload_view(request, datasetname):
-    data = dataset.objects.get(name = datasetname)
-    if request.method == 'POST':
-        myfile = request.FILES.get('file')
+class Upload():
+    #define the relation between function and type
+    def image_recognition(self):
+        myfile = self.file
         zf = zipfile.ZipFile(myfile)
         filename = myfile.name
-        filepath = os.path.join("./"+settings.MEDIA_ROOT + "/tmp/", filename)
+        filepath = os.path.join('./', settings.MEDIA_ROOT , '/tmp/', myfile.filename)
         zf.extractall(path=filepath)
         pic_list = os.listdir(filepath+'/'+os.listdir(filepath)[0]+'/')
-
         src = filepath+'/'+os.listdir(filepath)[0]+'/'
-        dest = os.path.join("./"+settings.MEDIA_ROOT, 'dataset', datasetname)
-
+        dest = os.path.join("./"+settings.MEDIA_ROOT, 'dataset', self.dataset.name)
         if os.path.exists(dest) == False:
             os.mkdir(dest)
-
         dataset_len = 0
         for item in pic_list:
             tmp = item.split('.')
@@ -51,14 +47,27 @@ def upload_view(request, datasetname):
                randomname = str(uuid.uuid4())
                shutil.move(src+'/'+ pic_pre + '.txt', dest + '/'+ randomname + '.txt')
                shutil.move(src+'/'+ pic_pre + '.jpg', dest + '/'+ randomname + '.jpg')
-        
-        data.size += dataset_len
-        print(data.size, dataset_len)
+        self.dataset.size += dataset_len
+        self.dataset.save()
         if os.path.exists(filepath) == True:
             shutil.rmtree(filepath)
-        data.save()
         return HttpResponse('success')
-    
+    type_to_func = {2: image_recognition, 1: image_recognition}
+    def __init__(self, file, dataset):
+        self.file = file
+        self.dataset = dataset
+    def handle(self):
+        return self.type_to_func[self.dataset.dataType](self)
+
+@login_required
+def upload_view(request, datasetname):
+    data = dataset.objects.get(name = datasetname)
+    if data == None:
+        return render(request, 'failure.html', {'title': '所选数据集不存在'})
+    if request.method == 'POST':
+        myfile = request.FILES.get('file')
+        Upload_obj = Upload(myfile, data)
+        return Upload_obj.handle()
     return render(request, 'dataset/upload.html', {'datasetname':datasetname})
 
 def show(request, datasetname):
