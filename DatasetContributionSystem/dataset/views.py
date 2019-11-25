@@ -25,7 +25,7 @@ def create(request):
         return HttpResponseRedirect('/dataset/'+name+'/')
     return render(request, 'dataset/create.html')
 
-class Upload():
+class DatasetHandler():
     #define the relation between function and type
     def image_recognition(self):
         ret = {}
@@ -64,11 +64,13 @@ class Upload():
         self.dataset.save()
         return ret
     type_to_func = {2: image_recognition, 1: image_recognition}
-    def __init__(self, file, dataset):
-        self.file = file
+    def __init__(self, dataset):
         self.dataset = dataset
-    def handle(self):
+    def upload(self, file):
+        self.file = file
         return HttpResponse(json.dumps(self.type_to_func[self.dataset.dataType](self)))
+    def download(self):
+        return HttpResponse()
 
 @login_required
 def upload_view(request, datasetname):
@@ -77,8 +79,8 @@ def upload_view(request, datasetname):
         return render(request, 'failure.html', {'title': '所选数据集不存在'})
     if request.method == 'POST':
         myfile = request.FILES.get('file')
-        Upload_obj = Upload(myfile, data)
-        return Upload_obj.handle()
+        dh = DatasetHandler(data)
+        return dh.upload(myfile)
     return render(request, 'dataset/upload.html', {'datasetname':datasetname})
 
 def show(request, datasetname):
