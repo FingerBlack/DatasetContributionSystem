@@ -2,7 +2,7 @@
 {% block head %}
 <script>
     $(document).ready(function () {
-        $("button").click(function () {
+        $("#btn_upload").click(function () {
             var fd = new FormData();
             fd.append('file', $('#file')[0].files[0]);
             fd.append('csrfmiddlewaretoken', "{{csrf_token}}");
@@ -29,10 +29,17 @@
                     return myxhr;
                 },
                 success: function (data) {
-                    alert(data);
+                    data_json = JSON.parse(data);
+                    $('#status').text(data_json['status']);
+                    $('#message').text(data_json['message']);
+                    $('#acceptFileList').text(data_json['acceptFileList']);
+                    $('#mymodal').modal('show');
                 },
                 error: function (data) {
-                    alert("由于未知原因，上传失败！");
+                    $('#status').text('上传失败');
+                    $('#message').text('网络原因或服务器错误');
+                    $('#acceptFileList').text('');
+                    $('#mymodal').modal('show');
                 }
             });
         })
@@ -61,7 +68,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <button type="button" class="btn btn-primary btn-block" id="upload">上传点这个</button>
+                <button type="button" class="btn btn-primary btn-block" id="btn_upload">上传点这个</button>
             </div>
         </div>
     </form>
@@ -78,4 +85,27 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="mymodal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">上传完成</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>状态：</span><span id='status'></span><br/>
+                <span>错误信息：</span><span id='message'></span><br/>
+                <span>上传文件列表：</span><span id='acceptFileList'></span><br/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

@@ -34,14 +34,15 @@ class Upload():
             zf = zipfile.ZipFile(self.file)
             zf.testzip()
         except:
-            ret['status'] = 'error'
-            ret['message'] = 'bad zip file'
+            ret['status'] = '错误'
+            ret['message'] = 'zip文件损坏'
             return ret
         dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
         #check whether the dataset is empty
         if os.path.exists(dir_dest) == False:
             os.mkdir(dir_dest)
-        ret['status'] = 'ok'
+        ret['status'] = '成功'
+        ret['message'] = '上传成功'
         ret['acceptFileList'] = []
         for item in zf.infolist():
             fn_jpg = item.filename.split('.')
