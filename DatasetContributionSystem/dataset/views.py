@@ -96,6 +96,11 @@ class DatasetHandler():
             self.dataset.cached_time = timezone.now()
             self.dataset.save()
         fp = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name + '.zip')
+        if os.path.exists(fp) == False:
+            print('not exists, rebuild now...')
+            self.download_type_to_func[self.dataset.dataType](self)
+            self.dataset.cached_time = timezone.now()
+            self.dataset.save()
         file = open(fp, 'rb')
         response = FileResponse(file)
         response['Content-Type'] = 'application/octet-stream'
