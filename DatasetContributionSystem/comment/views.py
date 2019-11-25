@@ -10,14 +10,17 @@ def post(request,datasetname):
 
     if request.method == "POST":
         description = request.POST.get('description', '')
-        print(request.user.username)
+        score = request.POST.get('score')
+        #print(score)
+        #print(request.user.username)
         comment.objects.create(DatasetName = dataset.objects.get(name=datasetname),
                                Username = request.user,
                                Description = description,
-                               Score = 70)
-        return HttpResponseRedirect('/comment/'+datasetname+'/')
+                               Score = int(score))
+        return HttpResponseRedirect('/dataset/'+datasetname+'/comment/')
     return render(request,'comment/post.html')
 
 def idex(request,datasetname):
+    
     return render(request,'comment/comment.html', {'comment': comment.objects.all()})
 # Create your views here.

@@ -4,6 +4,7 @@
 
 {% block content %}
     <div class="bg-light">
+    <section class="jumbotron text-center">
         <div class="container">
             <div class="py-5 text-center">
                 <h2>数据集评论区</h2>
@@ -12,40 +13,41 @@
                     <a href="post/" class="btn btn-primary my-2">添加评论</a>
                 </p>
             </div>
+        </div>
+    </section>
 
+        <div class="container">
+            <div class="row">
                 <table class="table">
                       <thead class="thead-dark">
                         <tr>
-                          <th scope="col"></th>
+                            <th scope="col">序号</th>
                           <th scope="col">用户名</th>
-                          <th scope="col">评论内容</th>
+                          <th scope="col"><centre>评论内容</centre></th>
                           <th scope="col">数据集</th>
                             <th scope="col">数据集评分</th>
                             <th scope="col">评论时间</th>
+                            <th scope="col">编辑</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>@mdo</td>
-                        </tr>
                         {%for item in comment%}
                             <tr>
-                                <th scope="row">{{ item.indexes }}</th>
+                                <th scope="row">{{ item.id }}</th>
                                 <td>{{ item.Username }}</td>
                                 <td>{{ item.Description }}</td>
-                                <td>{{ item.DatasetName }}</td>
+                                <td>{{ item.DatasetName.name }}</td>
                                 <td>{{ item.Score }}</td>
                                 <td>{{ item.Time }}</td>
+                                <td><button type="button" class="btn btn-primary"><i class="fas fa-pen"></i></button>
+                                    <button type="button" class="btn btn-dark"><i class="fas fa-trash"></i></button>
+                                    <button type="button" class="btn btn-danger"><i class="fas fa-heart"></i></button></td>
+
                             </tr>
                         {%endfor%}
                       </tbody>
                 </table>
-
-
+            </div>
         </div>
     </div>
-
 {% endblock %}
