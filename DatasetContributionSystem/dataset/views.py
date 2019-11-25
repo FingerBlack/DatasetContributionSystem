@@ -3,7 +3,8 @@ from .models import dataset
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, FileResponse
 from django.conf import settings
-import os, zipfile, shutil, uuid, json
+import django.utils.timezone as timezone
+import os, zipfile, shutil, uuid, json, datetime
 
 # Create your views here.
 def index(request):
@@ -65,14 +66,7 @@ class DatasetHandler():
         return ret
 
     def download_image_recognition(self):
-        fp = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name + '.zip')
-        #zip = zipfile.ZipFile(fp, "w", zipfile.ZIP_DEFLATED)
-        print(fp)
-        file = open(fp, 'rb')
-        response = FileResponse(file)
-        response['Content-Type'] = 'application/octet-stream'
-        response['Content-Disposition'] = 'attachment;filename="1.zip"'
-        return response
+        pass
     
     upload_type_to_func = {
         2: upload_image_recognition, 1: upload_image_recognition}
@@ -87,7 +81,17 @@ class DatasetHandler():
         return HttpResponse(json.dumps(self.upload_type_to_func[self.dataset.dataType](self)))
 
     def download(self):
-        return self.download_type_to_func[self.dataset.dataType](self)
+        if (timezone.now() - self.dataset.cached_time) > datetime.timedelta(seconds = 10):
+            print('exceed cached time, rebuild now...')
+            self.download_type_to_func[self.dataset.dataType](self)
+            self.dataset.cached_time = timezone.now()
+            self.dataset.save()
+        fp = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name + '.zip')
+        file = open(fp, 'rb')
+        response = FileResponse(file)
+        response['Content-Type'] = 'application/octet-stream'
+        response['Content-Disposition'] = 'attachment;filename="download.zip"'
+        return response
 
 @login_required
 def upload_view(request, datasetname):
@@ -104,6 +108,7 @@ def upload_view(request, datasetname):
 def show(request, datasetname):
     return render(request, 'dataset/show.html', {'dataset': dataset.objects.get(name=datasetname)})
 
+@login_required
 def download(request, datasetname):
     try:
         data = dataset.objects.get(name = datasetname)
