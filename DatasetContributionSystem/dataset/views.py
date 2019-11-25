@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import dataset, datasetFileIndex
+from .models import dataset, datasetFileIndex, datasetStatistic
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, FileResponse
 from django.conf import settings
@@ -20,7 +20,6 @@ def create(request):
         dataset.objects.create(name=name, 
                                price=price, 
                                dataType=datatype, 
-                               pv=0, 
                                description=description,
                                owner=request.user.username)
         return HttpResponseRedirect('/dataset/'+name+'/')
@@ -87,17 +86,19 @@ class DatasetHandler():
 
     def upload(self, file):
         self.file = file
+        self.dataset.last_revise_time = timezone.now()
         return HttpResponse(json.dumps(self.upload_type_to_func[self.dataset.dataType](self)))
 
     def download(self):
-        if (timezone.now() - self.dataset.cached_time) > datetime.timedelta(seconds = 600):
-            print('exceed cached time, rebuild now...')
+        if (self.dataset.last_revise_time - self.dataset.cached_time) > datetime.timedelta(seconds = 1):
+            #set eps = 1 sec to avoid mistake
+            print('revise detected, rebuild now...')
             self.download_type_to_func[self.dataset.dataType](self)
             self.dataset.cached_time = timezone.now()
             self.dataset.save()
         fp = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name + '.zip')
         if os.path.exists(fp) == False:
-            print('not exists, rebuild now...')
+            print('not exists, build now...')
             self.download_type_to_func[self.dataset.dataType](self)
             self.dataset.cached_time = timezone.now()
             self.dataset.save()
@@ -120,7 +121,13 @@ def upload_view(request, datasetname):
     return render(request, 'dataset/upload.html', {'datasetname':datasetname})
 
 def show(request, datasetname):
-    return render(request, 'dataset/show.html', {'dataset': dataset.objects.get(name=datasetname)})
+    try:
+        data = dataset.objects.get(name = datasetname)
+    except:
+        return render(request, 'failure.html', {'title': '所选数据集不存在'})
+    data.page_view += 1
+    data.save()
+    return render(request, 'dataset/show.html', {'dataset': data})
 
 @login_required
 def download(request, datasetname):
@@ -129,5 +136,7 @@ def download(request, datasetname):
     except:
         return render(request, 'failure.html', {'title': '所选数据集不存在'})
     dh = DatasetHandler(data)
+    data.page_download += 1
+    data.save()
     return dh.download()
     #return render(request, 'dataset/download.html', {'dataset': dataset.objects.get(name=datasetname)})
