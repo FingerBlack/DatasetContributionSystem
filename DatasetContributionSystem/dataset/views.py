@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import dataset, datasetFileIndex, datasetStatistic
+from .models import dataset, datasetFileIndex
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, FileResponse
 from django.conf import settings
@@ -22,8 +22,8 @@ def create(request):
                                price=price, 
                                dataType=datatype, 
                                description=description,
-                               owner=request.user.username)
-        return HttpResponseRedirect('/dataset/'+name+'/')
+                               owner=request.user)
+        return HttpResponseRedirect('/dataset/' + name + '/')
     return render(request, 'dataset/create.html')
 
 
@@ -61,7 +61,7 @@ class DatasetHandler():
                 f.write(zf.read('.'.join(fn_jpg)))
             with open(os.path.join(dir_dest, targetName + '.txt'), 'wb') as f:
                 f.write(zf.read('.'.join(fn_txt)))
-            datasetFileIndex.objects.create(name = self.dataset, filename = targetName)
+            datasetFileIndex.objects.create(name = self.dataset, filename = targetName, owner = self.user)
             self.dataset.size += 1
         self.dataset.save()
         return ret
@@ -82,7 +82,8 @@ class DatasetHandler():
     download_type_to_func = {
         2: download_image_recognition, 1: download_image_recognition}
 
-    def __init__(self, dataset):
+    def __init__(self, user, dataset):
+        self.user = user
         self.dataset = dataset
 
     def upload(self, file):
@@ -117,7 +118,7 @@ def upload_view(request, datasetname):
         return render(request, 'failure.html', {'title': '所选数据集不存在'})
     if request.method == 'POST':
         myfile = request.FILES.get('file')
-        dh = DatasetHandler(data)
+        dh = DatasetHandler(request.user, data)
         return dh.upload(myfile)
     return render(request, 'dataset/upload.html', {'datasetname':datasetname})
 
@@ -136,7 +137,7 @@ def download(request, datasetname):
         data = dataset.objects.get(name = datasetname)
     except:
         return render(request, 'failure.html', {'title': '所选数据集不存在'})
-    dh = DatasetHandler(data)
+    dh = DatasetHandler(request.user, data)
     data.page_download += 1
     data.save()
     return dh.download()
