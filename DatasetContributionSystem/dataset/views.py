@@ -191,6 +191,6 @@ def delete(request, datasetname):
            ret['status'] = 'no authority'
            return HttpResponse(json.dumps(ret))
         dh = DatasetHandler(request.user, data)
-        return HttpResponse(json.dumps(dh.delete(request.POST.get('id', ''))))
+        return HttpResponse(dh.delete(request.POST.get('id', '')))
     ret['status'] = 'ok'
     return HttpResponse(json.dumps(ret))
