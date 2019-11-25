@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import dataset
+from .models import dataset, datasetFileIndex
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, FileResponse
 from django.conf import settings
@@ -61,15 +61,21 @@ class DatasetHandler():
                 f.write(zf.read('.'.join(fn_jpg)))
             with open(os.path.join(dir_dest, targetName + '.txt'), 'wb') as f:
                 f.write(zf.read('.'.join(fn_txt)))
+            datasetFileIndex.objects.create(name = self.dataset, filename = targetName)
             self.dataset.size += 1
         self.dataset.save()
         return ret
 
     def download_image_recognition(self):
-        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name + '.zip')
-        zf = zipfile.ZipFile(dir_dest, 'w')
+        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
+        fp = dir_dest + '.zip'
+        zf = zipfile.ZipFile(fp, 'w', zipfile.zlib.DEFLATED)
+        for item in datasetFileIndex.objects.filter(name = self.dataset):
+            fp2 = os.path.join(dir_dest, item.filename + '.jpg')
+            zf.write(fp2, './' + self.dataset.name + '/' + item.filename + '.jpg')
+            fp2 = os.path.join(dir_dest, item.filename + '.txt')
+            zf.write(fp2, './' + self.dataset.name + '/' + item.filename + '.txt')
         zf.close()
-        pass
     
     upload_type_to_func = {
         2: upload_image_recognition, 1: upload_image_recognition}
@@ -84,7 +90,7 @@ class DatasetHandler():
         return HttpResponse(json.dumps(self.upload_type_to_func[self.dataset.dataType](self)))
 
     def download(self):
-        if (timezone.now() - self.dataset.cached_time) > datetime.timedelta(seconds = 10):
+        if (timezone.now() - self.dataset.cached_time) > datetime.timedelta(seconds = 600):
             print('exceed cached time, rebuild now...')
             self.download_type_to_func[self.dataset.dataType](self)
             self.dataset.cached_time = timezone.now()
