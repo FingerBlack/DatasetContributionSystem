@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import dataset
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, FileResponse
 from django.conf import settings
 import os, zipfile, shutil, uuid, json
 
@@ -25,11 +25,11 @@ def create(request):
         return HttpResponseRedirect('/dataset/'+name+'/')
     return render(request, 'dataset/create.html')
 
+
 class DatasetHandler():
     #define the relation between function and type
-    def image_recognition(self):
+    def upload_image_recognition(self):
         ret = {}
-        zf = None
         try:
             zf = zipfile.ZipFile(self.file)
             zf.testzip()
@@ -63,19 +63,37 @@ class DatasetHandler():
             self.dataset.size += 1
         self.dataset.save()
         return ret
-    type_to_func = {2: image_recognition, 1: image_recognition}
+
+    def download_image_recognition(self):
+        fp = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name + '.zip')
+        #zip = zipfile.ZipFile(fp, "w", zipfile.ZIP_DEFLATED)
+        print(fp)
+        file = open(fp, 'rb')
+        response = FileResponse(file)
+        response['Content-Type'] = 'application/octet-stream'
+        response['Content-Disposition'] = 'attachment;filename="1.zip"'
+        return response
+    
+    upload_type_to_func = {
+        2: upload_image_recognition, 1: upload_image_recognition}
+    download_type_to_func = {
+        2: download_image_recognition, 1: download_image_recognition}
+
     def __init__(self, dataset):
         self.dataset = dataset
+
     def upload(self, file):
         self.file = file
-        return HttpResponse(json.dumps(self.type_to_func[self.dataset.dataType](self)))
+        return HttpResponse(json.dumps(self.upload_type_to_func[self.dataset.dataType](self)))
+
     def download(self):
-        return HttpResponse()
+        return self.download_type_to_func[self.dataset.dataType](self)
 
 @login_required
 def upload_view(request, datasetname):
-    data = dataset.objects.get(name = datasetname)
-    if data == None:
+    try:
+        data = dataset.objects.get(name = datasetname)
+    except:
         return render(request, 'failure.html', {'title': '所选数据集不存在'})
     if request.method == 'POST':
         myfile = request.FILES.get('file')
@@ -87,4 +105,10 @@ def show(request, datasetname):
     return render(request, 'dataset/show.html', {'dataset': dataset.objects.get(name=datasetname)})
 
 def download(request, datasetname):
-    return render(request, 'dataset/download.html', {'dataset': dataset.objects.get(name=datasetname)})
+    try:
+        data = dataset.objects.get(name = datasetname)
+    except:
+        return render(request, 'failure.html', {'title': '所选数据集不存在'})
+    dh = DatasetHandler(data)
+    return dh.download()
+    #return render(request, 'dataset/download.html', {'dataset': dataset.objects.get(name=datasetname)})
