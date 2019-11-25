@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'task',
     'query',
     'comment',
+    'dataset.templatetags', 
 ]
 
 MIDDLEWARE = [

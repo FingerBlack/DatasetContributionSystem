@@ -57,12 +57,13 @@ class DatasetHandler():
                 continue
             ret['acceptFileList'].append('.'.join(fn_jpg))
             targetName = str(uuid.uuid4())
+            size = 0
             with open(os.path.join(dir_dest, targetName + '.jpg'), 'wb') as f:
-                f.write(zf.read('.'.join(fn_jpg)))
+                size += f.write(zf.read('.'.join(fn_jpg)))
             with open(os.path.join(dir_dest, targetName + '.txt'), 'wb') as f:
-                f.write(zf.read('.'.join(fn_txt)))
-            datasetFileIndex.objects.create(name = self.dataset, filename = targetName, owner = self.user)
-            self.dataset.size += 1
+                size += f.write(zf.read('.'.join(fn_txt)))
+            datasetFileIndex.objects.create(name = self.dataset, filename = targetName, owner = self.user, size = size)
+            self.dataset.size += size
         self.dataset.save()
         return ret
 
@@ -85,6 +86,8 @@ class DatasetHandler():
         fn2 = os.path.join(dir_dest, obj.filename + '.txt')
         os.remove(fn1)
         os.remove(fn2)
+        self.dataset.size -= obj.size
+        self.dataset.save()
         obj.delete()
         ret['status'] = 'ok'
         return ret
@@ -179,7 +182,11 @@ def delete(request, datasetname):
         ret['status'] = 'no such dataset'
         return HttpResponse(json.dumps(ret))
     if request.method == "POST":
-        obj = datasetFileIndex.objects.get(name = data, id = request.POST.get("id", ""))
+        try:
+            obj = datasetFileIndex.objects.get(name = data, id = request.POST.get("id", ""))
+        except:
+            ret['status'] = 'no such record'
+            return HttpResponse(json.dumps(ret))
         if not (data.owner == request.user or obj.owner == request.user):
            ret['status'] = 'no authority'
            return HttpResponse(json.dumps(ret))
