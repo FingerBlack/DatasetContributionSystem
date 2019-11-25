@@ -1,25 +1,70 @@
 {% extends 'base.html' %}
+{% block title %}注册{% endblock %}
+{% block head %}
+    <script>
+        (function () {
+            'use strict'
+
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation')
+
+                // Loop over them and prevent submission
+                Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+            }, false)
+        }())
+    </script>
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <div class="row p-4">
-        <div class="col-sm-4 offset-md-4">
-            <form method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label>用户名</label>
-                    <input type="text" class="form-control" name="username" placeholder="Username">
+    <div class="bg-light">
+        <div class="container">
+            <div class="py-5 text-center">
+                <h2>注册新用户</h2>
+                <p class="lead">填写必要信息以完成注册</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <form class="needs-validation" novalidate="" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name">用户名</label>
+                            <input type="text" class="form-control" name="username" required="">
+                            <div class="invalid-feedback">
+                                请输入合法的用户名
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name">密码</label>
+                            <input type="password" class="form-control" name="password" required="">
+                            <div class="invalid-feedback">
+                                请输入合法的密码
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name">邮箱</label>
+                            <input type="email" class="form-control" name="email" required="">
+                            <div class="invalid-feedback">
+                                请输入合法的邮箱地址
+                            </div>
+                        </div>
+
+                        <hr class="mb-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">注册</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label>密码</label>
-                    <input type="password" class="form-control" name="password" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <label>邮箱</label>
-                    <input type="email" class="form-control" name="email" placeholder="Email">
-                </div>
-                <button type="submit" class="btn btn-primary">注册</button>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+    <script src="form-validation.js"></script>
 {% endblock %}
