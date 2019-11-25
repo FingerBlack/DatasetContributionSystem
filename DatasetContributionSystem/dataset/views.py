@@ -77,10 +77,24 @@ class DatasetHandler():
             zf.write(fp2, './' + self.dataset.name + '/' + item.filename + '.txt')
         zf.close()
     
+    def delete_image_recognition(self):
+        ret = {}
+        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
+        obj = datasetFileIndex.objects.get(id = self.id)
+        fn1 = os.path.join(dir_dest, obj.filename + '.jpg')
+        fn2 = os.path.join(dir_dest, obj.filename + '.txt')
+        os.remove(fn1)
+        os.remove(fn2)
+        obj.delete()
+        ret['status'] = 'ok'
+        return ret
+
     upload_type_to_func = {
         2: upload_image_recognition, 1: upload_image_recognition}
     download_type_to_func = {
         2: download_image_recognition, 1: download_image_recognition}
+    delete_type_to_func = {
+        2: delete_image_recognition, 1: delete_image_recognition}
 
     def __init__(self, user, dataset):
         self.user = user
@@ -109,6 +123,11 @@ class DatasetHandler():
         response['Content-Type'] = 'application/octet-stream'
         response['Content-Disposition'] = 'attachment;filename="download.zip"'
         return response
+
+    def delete(self, id):
+        self.id = id
+        return json.dumps(self.delete_type_to_func[self.dataset.dataType](self))
+        
 
 @login_required
 def upload_view(request, datasetname):
@@ -142,3 +161,29 @@ def download(request, datasetname):
     data.save()
     return dh.download()
     #return render(request, 'dataset/download.html', {'dataset': dataset.objects.get(name=datasetname)})
+
+@login_required
+def manage(request, datasetname):
+    try:
+        data = dataset.objects.get(name = datasetname)
+    except:
+        return render(request, 'failure.html', {'title': '所选数据集不存在'})
+    return render(request, 'dataset/manage.html', {'dataset': data, 'fileIndex': datasetFileIndex.objects.filter(name = data)})
+
+@login_required
+def delete(request, datasetname):
+    ret = {}
+    try:
+        data = dataset.objects.get(name = datasetname)
+    except:
+        ret['status'] = 'no such dataset'
+        return HttpResponse(json.dumps(ret))
+    if request.method == "POST":
+        obj = datasetFileIndex.objects.get(name = data, id = request.POST.get("id", ""))
+        if not (data.owner == request.user or obj.owner == request.user):
+           ret['status'] = 'no authority'
+           return HttpResponse(json.dumps(ret))
+        dh = DatasetHandler(request.user, data)
+        return HttpResponse(json.dumps(dh.delete(request.POST.get('id', ''))))
+    ret['status'] = 'ok'
+    return HttpResponse(json.dumps(ret))

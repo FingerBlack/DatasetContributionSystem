@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}管理{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+    <table class="table table-condensed">
+        <caption>...</caption>
+        <thead>
+            <tr>
+                <th>文件名</th>
+                <th>拥有者</th>
+                <th>上传时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in fileIndex %}
+            <tr id="row-{{item.id}}">
+                <td>{{item.filename}}</td>
+                <td>{{item.owner.username}}</td>
+                <td>{{item.upload_time}}</td>
+                <td>
+                    
+                    <button class="btn btn-danger" {% if not request.user == dataset.owner and not request.user == item.owner %}disabled="disabled"{% endif %} onclick='
+                        $.post("/dataset/{{dataset.name}}/manage/delete/",
+                        {
+                        id:"{{item.id}}",
+                        csrfmiddlewaretoken:"{{csrf_token}}"
+                        },
+                        function(data,status){
+                            dt = JSON.parse(data);
+                            if(dt["status"] = "ok"){
+                                $("#row-{{item.id}}").remove();
+                            }else{
+                                alert(dt["status"]);
+                            }
+                        });
+                    '><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

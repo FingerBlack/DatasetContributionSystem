@@ -38,6 +38,8 @@ urlpatterns = [
     path('dataset/<str:datasetname>/download/', dataset_views.download),
     path('dataset/<str:datasetname>/upload/', dataset_views.upload_view),
     path('dataset/<str:datasetname>/task/create/', task_views.index),
+    path('dataset/<str:datasetname>/manage/', dataset_views.manage), 
+    path('dataset/<str:datasetname>/manage/delete/', dataset_views.delete), 
     path('query/', query_views.index),
     path('query/search/', query_views.search),
     path('logout/', user_views.logout_view),

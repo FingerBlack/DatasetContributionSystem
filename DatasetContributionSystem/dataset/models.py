@@ -21,3 +21,4 @@ class datasetFileIndex(models.Model):
     name = models.ForeignKey(dataset, on_delete = models.CASCADE)
     filename = models.CharField(max_length = 50)
     owner = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
+    upload_time = models.DateTimeField(default = timezone.now)

@@ -4,12 +4,12 @@
 
 
 <main role="main">
-
   <div class="jumbotron">
     <div class="container">
       <h1 class="display-3">{{dataset.name}}</h1>
       <p>{{dataset.description}}</p>
-      <p><a class="btn btn-primary btn-lg" href="/dataset/{{dataset.name}}/task/create/" role="button">发布任务 &raquo;</a></p>
+      <a href="/dataset/{{dataset.name}}/task/create/"><button class="btn btn-primary btn-lg" role="button">发布任务 &raquo;</button></a>
+      <a href="/dataset/{{dataset.name}}/manage/"><button class="btn btn-primary btn-lg" role="button">管理 &raquo;</button></a>
       <p>数据集大小:{{dataset.size}} 数据集发布日期:{{dataset.createdTime}}</p>
     </div>
   </div>
