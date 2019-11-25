@@ -66,6 +66,9 @@ class DatasetHandler():
         return ret
 
     def download_image_recognition(self):
+        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name + '.zip')
+        zf = zipfile.ZipFile(dir_dest, 'w')
+        zf.close()
         pass
     
     upload_type_to_func = {
