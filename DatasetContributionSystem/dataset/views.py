@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse, FileResponse
 from django.conf import settings
 import django.utils.timezone as timezone
 import os, zipfile, shutil, uuid, json, datetime
+from django.views.decorators.cache import cache_page
 
 # Create your views here.
 def index(request):
