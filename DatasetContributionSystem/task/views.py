@@ -13,7 +13,7 @@ def index(request):
 @login_required
 def create(request, datasetname):
     if request.method == "POST":
-        dataset_obj = dataset.objects.get(name = datasetname)
+        dataset_obj = dataset.objects.get(name=datasetname)
         name = request.POST.get("name", '')
         deadline = request.POST.get("deadline", '')
         description = request.POST.get('description', '')
@@ -21,7 +21,6 @@ def create(request, datasetname):
         task.objects.create(name=name,
                             deadline=deadline[0:9],
                             dataset=dataset_obj,
-                            # dataset_name=datasetname,
                             description=description,
                             pv=0,
                             amount=amount,
@@ -30,8 +29,15 @@ def create(request, datasetname):
     return render(request, 'task/create.html')
 
 @login_required
-def show(request, datasetname, taskname):
-    ta = task.objects.get(name = taskname)
-    ta.pv += 1
-    ta.save()
-    return render(request, 'task/show.html', {'task': task.objects.get(name=taskname)})
+def show(request, datasetname, taskid):
+    task_tmp = task.objects.get(id=taskid)
+    task_tmp.pv += 1
+    task_tmp.save()
+    return render(request, 'task/show.html', {'task': task.objects.get(id=taskid)})
+
+@login_required
+def delete(request, datasetname, taskid):
+    task_tmp = task.objects.get(id=taskid)
+    if task_tmp.owner == request.user.username:
+        task_tmp.delete()
+    return render(request, 'task/task.html', {'task': task.objects.all()})

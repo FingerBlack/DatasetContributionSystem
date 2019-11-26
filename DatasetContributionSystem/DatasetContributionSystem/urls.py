@@ -30,7 +30,9 @@ urlpatterns = [
     path('login/', user_views.login_view),
     path('task/', task_views.index),
     path('dataset/<str:datasetname>/task/create/', task_views.create),
-    path('dataset/<str:datasetname>/task/<str:taskname>/', task_views.show),
+    path('dataset/<str:datasetname>/task/<str:taskid>/', task_views.show),
+    path('dataset/<str:datasetname>/task/<str:taskid>/delete/', task_views.delete),
+
 
     path('dataset/', dataset_views.index),
     path('dataset/create/', dataset_views.create),
