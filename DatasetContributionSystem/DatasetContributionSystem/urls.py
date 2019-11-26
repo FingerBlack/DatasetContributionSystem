@@ -46,4 +46,5 @@ urlpatterns = [
 
     path('dataset/<str:datasetname>/comment/',comment_views.idex),
     path('dataset/<str:datasetname>/comment/post/',comment_views.post),
+    path('dataset/<str:datasetname>/comment/delete/',comment_views.delete),
 ]

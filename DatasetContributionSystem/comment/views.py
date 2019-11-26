@@ -5,6 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+import os, zipfile, shutil, uuid, json, datetime
+from django.views.decorators.cache import cache_page
+
 @login_required
 def post(request,datasetname):
 
@@ -21,6 +24,18 @@ def post(request,datasetname):
     return render(request,'comment/post.html')
 
 def idex(request,datasetname):
-    
-    return render(request,'comment/comment.html', {'comment': comment.objects.filter(DatasetName=datasetname)})
+
+    return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=datasetname) })
+
+def delete(request,datasetname):
+    ret = {}
+
+    if request.method == "POST":
+        id = request.POST.get('id','')
+        dh = comment.objects.get(id=id)
+        return HttpResponse(dh.delete())
+    ret['status'] = 'ok'
+    return HttpResponse(json.dumps(ret))
+
+
 # Create your views here.

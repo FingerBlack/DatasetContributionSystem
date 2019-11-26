@@ -40,7 +40,21 @@
                                 <td>{{ item.Score }}</td>
                                 <td>{{ item.Time }}</td>
                                 <td><button type="button" class="btn btn-primary"><i class="fas fa-pen"></i></button>
-                                    <button type="button" class="btn btn-dark"><i class="fas fa-trash"></i></button>
+                                    <button type="button" class="btn btn-dark" {% if not request.user == item.Username %}disabled="disabled"{% endif %} onclick='
+                                            $.post("/dataset/{{item.DatasetName.name}}/comment/delete/",
+                                            {
+                                            id:"{{item.id}}",
+                                            csrfmiddlewaretoken:"{{csrf_token}}"
+                                            },
+                                            function(data,status){
+                                            dt = JSON.parse(data);
+                                            if(dt["status"] == "ok"){
+                                            $("#row-{{item.id}}").remove();
+                                            }else{
+                                            alert(dt["status"]);
+                                            }
+                                            });
+                                            '><i class="fas fa-trash"></i></button>
                                     <button type="button" class="btn btn-danger"><i class="fas fa-heart"></i></button></td>
 
                             </tr>
