@@ -66,7 +66,6 @@ class DatasetHandler():
             self.dataset.size += size
         self.dataset.save()
         return ret
-
     def download_image_with_tag(self):
         dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
         fp = dir_dest + '.zip'
@@ -77,7 +76,6 @@ class DatasetHandler():
             fp2 = os.path.join(dir_dest, item.filename + '.txt')
             zf.write(fp2, './' + self.dataset.name + '/' + item.filename + '.txt')
         zf.close()
-    
     def delete_image_with_tag(self):
         ret = {}
         dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
@@ -91,12 +89,56 @@ class DatasetHandler():
         obj.delete()
         ret['status'] = 'ok'
         return ret
+
     def upload_image_without_tag(self):
-        pass
+        ret = {}
+        try:
+            zf = zipfile.ZipFile(self.file)
+            zf.testzip()
+        except:
+            ret['status'] = '错误'
+            ret['message'] = 'zip文件损坏'
+            return ret
+        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
+        #check whether the dataset is empty
+        if os.path.exists(dir_dest) == False:
+            os.mkdir(dir_dest)
+        ret['status'] = '成功'
+        ret['message'] = '上传成功'
+        ret['acceptFileList'] = []
+        for item in zf.infolist():
+            fn_jpg = item.filename.split('.')
+            if fn_jpg[-1] != 'jpg':
+                #ignore the file
+                continue
+            ret['acceptFileList'].append('.'.join(fn_jpg))
+            targetName = str(uuid.uuid4())
+            size = 0
+            with open(os.path.join(dir_dest, targetName + '.jpg'), 'wb') as f:
+                size += f.write(zf.read('.'.join(fn_jpg)))
+            datasetFileIndex.objects.create(name = self.dataset, filename = targetName, owner = self.user, size = size)
+            self.dataset.size += size
+        self.dataset.save()
+        return ret
     def download_image_without_tag(self):
-        pass
+        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
+        fp = dir_dest + '.zip'
+        zf = zipfile.ZipFile(fp, 'w', zipfile.zlib.DEFLATED)
+        for item in datasetFileIndex.objects.filter(name = self.dataset):
+            fp2 = os.path.join(dir_dest, item.filename + '.jpg')
+            zf.write(fp2, './' + self.dataset.name + '/' + item.filename + '.jpg')
+        zf.close()
     def delete_image_without_tag(self):
-        pass
+        ret = {}
+        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
+        obj = datasetFileIndex.objects.get(id = self.id)
+        fn1 = os.path.join(dir_dest, obj.filename + '.jpg')
+        os.remove(fn1)
+        self.dataset.size -= obj.size
+        self.dataset.save()
+        obj.delete()
+        ret['status'] = 'ok'
+        return ret
 
     upload_type_to_func = {
         1: upload_image_with_tag, 2: upload_image_without_tag}
@@ -113,7 +155,6 @@ class DatasetHandler():
         self.file = file
         self.dataset.last_revise_time = timezone.now()
         return HttpResponse(json.dumps(self.upload_type_to_func[self.dataset.dataType](self)))
-
     def download(self):
         if (self.dataset.last_revise_time - self.dataset.cached_time) > datetime.timedelta(seconds = 1):
             #set eps = 1 sec to avoid mistake
@@ -130,9 +171,8 @@ class DatasetHandler():
         file = open(fp, 'rb')
         response = FileResponse(file)
         response['Content-Type'] = 'application/octet-stream'
-        response['Content-Disposition'] = 'attachment;filename="download.zip"'
+        response['Content-Disposition'] = 'attachment;filename="' + self.dataset.name + '.zip"'
         return response
-
     def delete(self, id):
         self.id = id
         return json.dumps(self.delete_type_to_func[self.dataset.dataType](self))
