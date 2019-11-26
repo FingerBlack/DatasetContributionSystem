@@ -35,7 +35,7 @@ def signup_view(request):
             UserProfile.objects.create_user(username = username, password = password, email = email)
             return render(request, 'success.html', {'title':'注册成功', 'content':'恭喜你🎉，注册成功了，赶快试试下载数据集吧！'})
         except:
-            return render(request, 'failure.html', {'title':'注册失败', 'content':'滚'})
+            return render(request, 'failure.html', {'title':'注册失败', 'content':'请检查用户名与密码可用性'})
     return render(request, 'user/signup.html')
 
 @login_required
