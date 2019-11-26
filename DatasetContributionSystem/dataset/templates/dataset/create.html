@@ -22,21 +22,29 @@
             }, false)
         }())
     </script>
+    <script>
+        lastType = '';
+        function changeType(){
+            $("#format-" + lastType).hide();
+            $("#format-" + $("#datatype").val()).show();
+            lastType=$("#datatype").val();
+        }
+    </script>
 {% endblock %}
 
 {% block content %}
-    <div class="bg-light">
+    <div>
         <div class="container">
             <div class="py-5 text-center">
                 <h2>创建数据集</h2>
                 <p class="lead">输入必要信息，以创建属于你的数据集。</p>
             </div>
 
-            <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <form class="needs-validation" novalidate="" method="POST">
-                        {% csrf_token %}
+            <form class="needs-validation" novalidate="" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5">
                         <div class="mb-3">
                             <label for="name">名称</label>
                             <input type="text" class="form-control" name="name" required="">
@@ -46,39 +54,62 @@
                         </div>
                         <div class="mb-3">
                             <label for="description">描述</label>
-                            <textarea style='height: 100' class="form-control" name="description" required=""></textarea>
+                            <textarea style='height: 100' class="form-control" name="description"
+                                required=""></textarea>
                             <div class="invalid-feedback">
                                 请输入数据集描述
                             </div>
                         </div>
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3">
-                                <label for="price">价格</label>
-                                <input type="number" step='0.1' min='0.0' class="form-control" name="price" placeholder="0.0" required="">
-                                <div class="invalid-feedback">
-                                    请输入数据集价格
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="datatype">类别</label>
-                                <select class="custom-select d-block w-100" name="datatype" required="">
-                                    <option value="">---</option>
-                                    <option value="1">分类</option>
-                                    <option value="2">检测</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    请选择数据集类别
-                                </div>
+                        <div class="mb-3">
+                            <label for="price">价格</label>
+                            <input type="number" step='0.1' min='0.0' class="form-control" name="price"
+                                placeholder="0.0" required="">
+                            <div class="invalid-feedback">
+                                请输入数据集价格
                             </div>
                         </div>
-
-                        <hr class="mb-4">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">完成创建</button>
-                    </form>
+                        <!--<hr class="mb-4">-->
+                    </div>
+                    <div class="col-md-5">
+                        <row>
+                            <div class="mb-3">
+                                <label for="datatype">类别</label>
+                                <select class="custom-select d-block w-100" name="datatype" 
+                                   id="datatype" required="" onchange="changeType()">
+                                    <option value="">---</option>
+                                    <option value="1">带标签的图片</option>
+                                    <option value="2">无标签的图片</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    请选择数据类别
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="datatype">上传数据格式要求</label>
+                                <div id="format-" style="">
+                                    请选择数据集格式
+                                </div>
+                                <div id="format-1" style="display:none">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">上传文件要求为ZIP文件</li>
+                                        <li class="list-group-item">仅限JPG和TXT文件，JPG为图像，TXT为对应标签</li>
+                                        <li class="list-group-item">每个JPG应对应同名TXT文件</li>
+                                    </ul>
+                                </div>
+                                <div id="format-2" style="display:none">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">上传文件要求为ZIP文件</li>
+                                        <li class="list-group-item">包含多张JPG</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </row>
+                    </div>
                 </div>
-            </div>
+                <div class="col-md-4 offset-4">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">完成创建</button>
+                </div>
+            </form>
         </div>
     </div>
-    <script src="form-validation.js"></script>
 {% endblock %}
