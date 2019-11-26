@@ -31,4 +31,7 @@ def create(request, datasetname):
 
 @login_required
 def show(request, datasetname, taskname):
+    ta = task.objects.get(name = taskname)
+    ta.pv += 1
+    ta.save()
     return render(request, 'task/show.html', {'task': task.objects.get(name=taskname)})
