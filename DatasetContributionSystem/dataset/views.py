@@ -18,11 +18,14 @@ def create(request):
         price = float(request.POST.get("price", ''))
         datatype = request.POST.get("datatype", '')
         description = request.POST.get('description', '')
-        dataset.objects.create(name=name, 
+        data = dataset.objects.create(name=name, 
                                price=price, 
                                dataType=datatype, 
                                description=description,
                                owner=request.user)
+        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', str(data.id))
+        if os.path.exists(dir_dest) == False:
+            os.mkdir(dir_dest)
         return HttpResponseRedirect('/dataset/' + name + '/')
     return render(request, 'dataset/create.html')
 
@@ -38,10 +41,6 @@ class DatasetHandler():
             ret['status'] = '错误'
             ret['message'] = 'zip文件损坏'
             return ret
-        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
-        #check whether the dataset is empty
-        if os.path.exists(dir_dest) == False:
-            os.mkdir(dir_dest)
         ret['status'] = '成功'
         ret['message'] = '上传成功'
         ret['acceptFileList'] = []
@@ -58,30 +57,28 @@ class DatasetHandler():
             ret['acceptFileList'].append('.'.join(fn_jpg))
             targetName = str(uuid.uuid4())
             size = 0
-            with open(os.path.join(dir_dest, targetName + '.jpg'), 'wb') as f:
+            with open(os.path.join(self.dir_dest, targetName + '.jpg'), 'wb') as f:
                 size += f.write(zf.read('.'.join(fn_jpg)))
-            with open(os.path.join(dir_dest, targetName + '.txt'), 'wb') as f:
+            with open(os.path.join(self.dir_dest, targetName + '.txt'), 'wb') as f:
                 size += f.write(zf.read('.'.join(fn_txt)))
             datasetFileIndex.objects.create(name = self.dataset, filename = targetName, owner = self.user, size = size)
             self.dataset.size += size
         self.dataset.save()
         return ret
     def download_image_with_tag(self):
-        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
-        fp = dir_dest + '.zip'
+        fp = self.dir_dest + '.zip'
         zf = zipfile.ZipFile(fp, 'w', zipfile.zlib.DEFLATED)
         for item in datasetFileIndex.objects.filter(name = self.dataset):
-            fp2 = os.path.join(dir_dest, item.filename + '.jpg')
+            fp2 = os.path.join(self.dir_dest, item.filename + '.jpg')
             zf.write(fp2, './' + self.dataset.name + '/' + item.filename + '.jpg')
-            fp2 = os.path.join(dir_dest, item.filename + '.txt')
+            fp2 = os.path.join(self.dir_dest, item.filename + '.txt')
             zf.write(fp2, './' + self.dataset.name + '/' + item.filename + '.txt')
         zf.close()
     def delete_image_with_tag(self):
         ret = {}
-        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
         obj = datasetFileIndex.objects.get(id = self.id)
-        fn1 = os.path.join(dir_dest, obj.filename + '.jpg')
-        fn2 = os.path.join(dir_dest, obj.filename + '.txt')
+        fn1 = os.path.join(self.dir_dest, obj.filename + '.jpg')
+        fn2 = os.path.join(self.dir_dest, obj.filename + '.txt')
         os.remove(fn1)
         os.remove(fn2)
         self.dataset.size -= obj.size
@@ -99,10 +96,6 @@ class DatasetHandler():
             ret['status'] = '错误'
             ret['message'] = 'zip文件损坏'
             return ret
-        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
-        #check whether the dataset is empty
-        if os.path.exists(dir_dest) == False:
-            os.mkdir(dir_dest)
         ret['status'] = '成功'
         ret['message'] = '上传成功'
         ret['acceptFileList'] = []
@@ -114,25 +107,23 @@ class DatasetHandler():
             ret['acceptFileList'].append('.'.join(fn_jpg))
             targetName = str(uuid.uuid4())
             size = 0
-            with open(os.path.join(dir_dest, targetName + '.jpg'), 'wb') as f:
+            with open(os.path.join(self.dir_dest, targetName + '.jpg'), 'wb') as f:
                 size += f.write(zf.read('.'.join(fn_jpg)))
             datasetFileIndex.objects.create(name = self.dataset, filename = targetName, owner = self.user, size = size)
             self.dataset.size += size
         self.dataset.save()
         return ret
     def download_image_without_tag(self):
-        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
-        fp = dir_dest + '.zip'
+        fp = self.dir_dest + '.zip'
         zf = zipfile.ZipFile(fp, 'w', zipfile.zlib.DEFLATED)
         for item in datasetFileIndex.objects.filter(name = self.dataset):
-            fp2 = os.path.join(dir_dest, item.filename + '.jpg')
+            fp2 = os.path.join(self.dir_dest, item.filename + '.jpg')
             zf.write(fp2, './' + self.dataset.name + '/' + item.filename + '.jpg')
         zf.close()
     def delete_image_without_tag(self):
         ret = {}
-        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
         obj = datasetFileIndex.objects.get(id = self.id)
-        fn1 = os.path.join(dir_dest, obj.filename + '.jpg')
+        fn1 = os.path.join(self.dir_dest, obj.filename + '.jpg')
         os.remove(fn1)
         self.dataset.size -= obj.size
         self.dataset.save()
@@ -150,6 +141,7 @@ class DatasetHandler():
     def __init__(self, user, dataset):
         self.user = user
         self.dataset = dataset
+        self.dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', str(self.dataset.id))
 
     def upload(self, file):
         self.file = file
@@ -162,7 +154,7 @@ class DatasetHandler():
             self.download_type_to_func[self.dataset.dataType](self)
             self.dataset.cached_time = timezone.now()
             self.dataset.save()
-        fp = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name + '.zip')
+        fp = self.dir_dest + '.zip'
         if os.path.exists(fp) == False:
             print('not exists, build now...')
             self.download_type_to_func[self.dataset.dataType](self)
@@ -240,3 +232,21 @@ def delete(request, datasetname):
         return HttpResponse(dh.delete(request.POST.get('id', '')))
     ret['status'] = 'ok'
     return HttpResponse(json.dumps(ret))
+
+@login_required
+def drop(request, datasetname):
+    try:
+        data = dataset.objects.get(name = datasetname)
+    except:
+        return render(request, 'failure.html', {'title': '所选数据集不存在'})
+    if request.user != data.owner:
+        return render(request, 'failure.html', {'title': '只有数据集的所有者可以删除数据集'})
+    #删除文件
+    dh = DatasetHandler(request.user, data)
+    for item in datasetFileIndex.objects.filter(name = data):
+        dh.delete(item.id)
+    dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', str(data.id))
+    #check whether the dataset is empty
+    os.rmdir(dir_dest)
+    data.delete()
+    return render(request, 'success.html', {'title': '删除成功'})

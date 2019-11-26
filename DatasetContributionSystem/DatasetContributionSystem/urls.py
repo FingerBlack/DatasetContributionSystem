@@ -40,6 +40,7 @@ urlpatterns = [
     path('dataset/<str:datasetname>/task/create/', task_views.index),
     path('dataset/<str:datasetname>/manage/', dataset_views.manage), 
     path('dataset/<str:datasetname>/manage/delete/', dataset_views.delete), 
+    path('dataset/<str:datasetname>/manage/drop/', dataset_views.drop), 
     path('query/', query_views.index),
     path('query/search/', query_views.search),
     path('logout/', user_views.logout_view),
