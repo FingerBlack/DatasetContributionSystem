@@ -29,7 +29,7 @@ def create(request):
 
 class DatasetHandler():
     #define the relation between function and type
-    def upload_image_recognition(self):
+    def upload_image_with_tag(self):
         ret = {}
         try:
             zf = zipfile.ZipFile(self.file)
@@ -67,7 +67,7 @@ class DatasetHandler():
         self.dataset.save()
         return ret
 
-    def download_image_recognition(self):
+    def download_image_with_tag(self):
         dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
         fp = dir_dest + '.zip'
         zf = zipfile.ZipFile(fp, 'w', zipfile.zlib.DEFLATED)
@@ -78,7 +78,7 @@ class DatasetHandler():
             zf.write(fp2, './' + self.dataset.name + '/' + item.filename + '.txt')
         zf.close()
     
-    def delete_image_recognition(self):
+    def delete_image_with_tag(self):
         ret = {}
         dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', self.dataset.name)
         obj = datasetFileIndex.objects.get(id = self.id)
@@ -91,13 +91,19 @@ class DatasetHandler():
         obj.delete()
         ret['status'] = 'ok'
         return ret
+    def upload_image_without_tag(self):
+        pass
+    def download_image_without_tag(self):
+        pass
+    def delete_image_without_tag(self):
+        pass
 
     upload_type_to_func = {
-        2: upload_image_recognition, 1: upload_image_recognition}
+        1: upload_image_with_tag, 2: upload_image_without_tag}
     download_type_to_func = {
-        2: download_image_recognition, 1: download_image_recognition}
+        1: download_image_with_tag, 2: download_image_without_tag}
     delete_type_to_func = {
-        2: delete_image_recognition, 1: delete_image_recognition}
+        1: delete_image_with_tag, 2: delete_image_without_tag}
 
     def __init__(self, user, dataset):
         self.user = user
