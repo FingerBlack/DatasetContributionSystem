@@ -28,8 +28,8 @@
     <div>
         <div class="container">
             <div class="py-5 text-center">
-                <h2>修改密码</h2>
-                <p class="lead">填写必要信息以修改密码</p>
+                <h2>修改个人信息</h2>
+                <p class="lead">填写旧密码以修改个人信息</p>
             </div>
 
             <div class="row">
@@ -38,19 +38,31 @@
                     <form class="needs-validation" novalidate="" method="POST">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="old_password" required="" placeholder="旧密码">
+                            <label for="name">旧密码</label>
+                            <input type="password" class="form-control" name="old_password" required="">
                             <div class="invalid-feedback">
-                                请输入正确的旧密码
+                                请输入旧密码
                             </div>
                         </div>
                         <div class="mb-3">
-                            <input type="password" class="form-control" name="new_password" required="" placeholder="新密码">
-                            <div class="invalid-feedback">
-                                请输入合法的新密码
-                            </div>
+                            <label for="name">新密码</label>
+                            <input type="password" class="form-control" name="new_password">
                         </div>
-
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">修改密码</button>
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label for="firstName">姓</label>
+                            <input type="text" class="form-control" name="first_name" value="{{request.user.first_name}}">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label for="lastName">名</label>
+                            <input type="text" class="form-control" name="last_name" value="{{request.user.last_name}}">
+                          </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name">个性签名</label>
+                            <textarea style='height: 100' class="form-control" name="description">{{request.user.description}}</textarea>
+                        </div>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">修改个人信息</button>
                     </form>
                 </div>
             </div>

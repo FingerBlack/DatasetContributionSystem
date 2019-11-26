@@ -44,7 +44,7 @@ urlpatterns = [
     path('logout/', user_views.logout_view),
     path('signup/', user_views.signup_view), 
     path('profile/', user_views.profile_view),
-    path('profile/password/', user_views.password_view),
+    path('profile/revise/', user_views.revise_view),
 
     path('comment/<str:datasetname>/',comment_views.idex),
     path('comment/<str:datasetname>/post/',comment_views.post),

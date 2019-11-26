@@ -38,29 +38,30 @@
                     <form class="needs-validation" novalidate="" method="POST">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="username" required="" placeholder="用户名">
+                            <label for="name">用户名</label>
+                            <input type="text" class="form-control" name="username" required="">
                             <div class="invalid-feedback">
                                 请输入合法的用户名
                             </div>
                         </div>
                         <div class="mb-3">
-                            <input type="password" class="form-control" name="password" required="" placeholder="密码">
+                            <label for="name">密码</label>
+                            <input type="password" class="form-control" name="password" required="">
                             <div class="invalid-feedback">
                                 请输入合法的密码
                             </div>
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" name="email" required="" placeholder="邮箱地址">
+                            <label for="name">邮箱地址</label>
+                            <input type="email" class="form-control" name="email" required="">
                             <div class="invalid-feedback">
                                 请输入合法的邮箱地址
                             </div>
                         </div>
-
                         <button class="btn btn-primary btn-lg btn-block" type="submit">注册</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <script src="form-validation.js"></script>
 {% endblock %}

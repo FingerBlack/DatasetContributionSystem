@@ -43,19 +43,28 @@ def profile_view(request):
     return render(request, 'user/profile.html')
 
 @login_required
-def password_view(request):
+def revise_view(request):
     if request.method == "POST":
-        #用户注册过程
         old_password = request.POST.get('old_password', '')
         new_password = request.POST.get('new_password', '')
+        description = request.POST.get('description', '')
+        first_name = request.POST.get('first_name', '')
+        last_name = request.POST.get('last_name', '')
         if check_password(old_password, request.user.password):
             try:
-                request.user.password = make_password(new_password)
+                if len(new_password) > 0:
+                    request.user.password = make_password(new_password)
+                if len(description) > 0:    
+                    request.user.description = description
+                if len(first_name) > 0:    
+                    request.user.first_name = first_name
+                if len(last_name) > 0:    
+                    request.user.last_name = last_name
                 request.user.save()
-                return render(request, 'success.html', {'title':'修改成功', 'content': '修改密码成功'})
+                return render(request, 'success.html', {'title':'修改成功'})
             except:
-                return render(request, 'failure.html', {'title':'修改失败', 'content':'请检查新密码可用性'})
+                return render(request, 'failure.html', {'title':'修改失败'})
         else:
             return render(request, 'failure.html', {'title':'修改失败', 'content':'旧密码不正确'})
-    return render(request, 'user/password.html') 
+    return render(request, 'user/revise.html') 
     
