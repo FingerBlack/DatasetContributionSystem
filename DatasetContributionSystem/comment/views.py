@@ -22,5 +22,5 @@ def post(request,datasetname):
 
 def idex(request,datasetname):
     
-    return render(request,'comment/comment.html', {'comment': comment.objects.all()})
+    return render(request,'comment/comment.html', {'comment': comment.objects.filter(DatasetName=datasetname)})
 # Create your views here.
