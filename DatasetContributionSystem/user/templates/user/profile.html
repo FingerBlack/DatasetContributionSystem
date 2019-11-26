@@ -15,14 +15,19 @@
             <rect width="100%" height="100%" fill="#777"/>
             <text x="50%" y="50%" fill="#aaa" dy=".8rem" style="font-size: 1.5rem;text-anchor: middle">{{request.user.username}}</text>
         </svg>
-        <h2 style="margin-top: 2rem">{{request.user.username}}</h2>
+        <h2 style="margin-top: 2rem; margin-bottom: 1.5rem;">{{request.user.username}}</h2>
+        <p>
+          <a href="password/" class="btn btn-primary my-2">修改密码</a>
+        </p>
       </div>
     </div>
 
 
     <!-- START THE FEATURETTES -->
 
-    <hr class="featurette-divider">
+    <div class="row col-2" style="margin-bottom: 1rem;">
+      <h4>创建的数据集</h4>
+    </div>
 
     <div class="row">
       <div class="col-md-4">

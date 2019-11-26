@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from user.models import UserProfile
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password, check_password
 
 # Create your views here.
 def login_view(request):
@@ -31,7 +32,6 @@ def signup_view(request):
         password = request.POST.get('password', '') 
         email = request.POST.get('email', '')
         try:
-            print(username, password, email)
             UserProfile.objects.create_user(username = username, password = password, email = email)
             return render(request, 'success.html', {'title':'注册成功', 'content':'恭喜你🎉，注册成功了，赶快试试下载数据集吧！'})
         except:
@@ -41,4 +41,21 @@ def signup_view(request):
 @login_required
 def profile_view(request):
     return render(request, 'user/profile.html')
+
+@login_required
+def password_view(request):
+    if request.method == "POST":
+        #用户注册过程
+        old_password = request.POST.get('old_password', '')
+        new_password = request.POST.get('new_password', '')
+        if check_password(old_password, request.user.password):
+            try:
+                request.user.password = make_password(new_password)
+                request.user.save()
+                return render(request, 'success.html', {'title':'修改成功', 'content': '修改密码成功'})
+            except:
+                return render(request, 'failure.html', {'title':'修改失败', 'content':'请检查新密码可用性'})
+        else:
+            return render(request, 'failure.html', {'title':'修改失败', 'content':'旧密码不正确'})
+    return render(request, 'user/password.html') 
     

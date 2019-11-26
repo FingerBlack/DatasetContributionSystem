@@ -39,10 +39,12 @@ urlpatterns = [
     path('dataset/<str:datasetname>/upload/', dataset_views.upload_view),
     path('dataset/<str:datasetname>/task/create/', task_views.index),
     path('query/', query_views.index),
-    path('query/search/', query_views.search),
+    path('query/search/', query_views.search),    
+
     path('logout/', user_views.logout_view),
     path('signup/', user_views.signup_view), 
     path('profile/', user_views.profile_view),
+    path('profile/password/', user_views.password_view),
 
     path('comment/<str:datasetname>/',comment_views.idex),
     path('comment/<str:datasetname>/post/',comment_views.post),
