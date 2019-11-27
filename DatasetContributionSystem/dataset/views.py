@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import dataset, datasetFileIndex
+from task.models import task
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, FileResponse
 from django.conf import settings
@@ -178,9 +179,14 @@ def upload_view(request, datasetname):
         return render(request, 'failure.html', {'title': '所选数据集不存在'})
     if request.method == 'POST':
         myfile = request.FILES.get('file')
+        taskid = request.POST.get('taskid', '')
+        if taskid != '':
+            taskid = int(taskid)
+            print(taskid)
+            pass
         dh = DatasetHandler(request.user, data)
         return dh.upload(myfile)
-    return render(request, 'dataset/upload.html', {'datasetname':datasetname})
+    return render(request, 'dataset/upload.html', {'dataset':data, 'task':task.objects.filter(dataset = data)})
 
 def show(request, datasetname):
     try:

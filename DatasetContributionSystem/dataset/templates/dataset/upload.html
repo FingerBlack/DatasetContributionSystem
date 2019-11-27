@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 {% block head %}
 <script>
+    $().ready(function () {
+        $("#format-{{dataset.dataType}}").show();
+    })
     $(document).ready(function () {
         $("#btn_upload").click(function () {
+            for (i = 1; i <= 3; i++) { 
+                if(!$("#condition-" + i).is(':checked')){
+                    alert("请检查上传要求！");
+                    return;
+                }
+            }
             var fd = new FormData();
             fd.append('file', $('#file')[0].files[0]);
             fd.append('csrfmiddlewaretoken', "{{csrf_token}}");
+            fd.append('taskid', $('#taskid').val());
             $.ajax({
                 url: "{{request.path}}",
                 type: "POST",
@@ -22,7 +32,8 @@
                                 $("#pgbar").css({
                                     "width": now_percentage
                                 });
-                                $("#pgbar-text").text(e.loaded + "/" + e.total + "Bytes");
+                                $("#pgbar-text").text(e.loaded + "/" + e.total +
+                                    "Bytes");
                             }
                         }, false);
                     }
@@ -48,46 +59,82 @@
 {% endblock %}
 {% block content %}
 <div class="container" style="margin-top:100px;">
-    <h2>数据集：{{datasetname}}</h2>
-    <br />
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-md-9">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+    <div class="row">
+        <div class="col-md-4">
+            <p>数据集：{{dataset.name}}</p>
+            <p>创建时间：{{dataset.createdTime}}</p>
+            <p>拥有者：{{dataset.owner.username}}</p>
+            {% include 'dataset/format_requirements.html' %}
+        </div>
+        <div class="col-md-8">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="file"
+                                    onchange="$('#fn')[0].textContent=this.files[0].name;"
+                                    aria-describedby="inputGroupFileAddon01" accept=".zip">
+                                <label class="custom-file-label" for="inputGroupFile01" id="fn">Choose file</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="file"
-                            onchange="$('#fn')[0].textContent=this.files[0].name;"
-                            aria-describedby="inputGroupFileAddon01" accept=".zip">
-                        <label class="custom-file-label" for="inputGroupFile01" id="fn">Choose file</label>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary btn-block" id="btn_upload">上传</button>
                     </div>
-
+                </div>
+                <div class="mb-3">
+                    <label for="taskid">关联任务</label>
+                    <select class="custom-select d-block w-100" name="taskid" id="taskid">
+                        <option value="">---</option>
+                        {% for item in task %}
+                        <option value="{{item.id}}">{{item.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-md-12">上传前检查</div>
+                <div class="col-md-12">
+                    <ul class="list-group">
+                        <li class="list-group-item"><input type="checkbox" id="condition-1"
+                                aria-label="Checkbox for following text input" /><span>上传文件符合左侧要求</span>
+                        </li>
+                        <li class="list-group-item"><input type="checkbox" id="condition-2"
+                                aria-label="Checkbox for following text input" /><span>上传文件不包含隐私信息</span>
+                        </li>
+                        <li class="list-group-item"><input type="checkbox" id="condition-3"
+                                aria-label="Checkbox for following text input" /><span>上传文件不包含违反法律的信息</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="col-md-3">
-                <button type="button" class="btn btn-primary btn-block" id="btn_upload">上传点这个</button>
+            <div class="row" style="margin-top:20px;">
+                <div class="col-md-2">上传进度:</div>
+                <div class="col-md-10">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" id="pgbar"
+                            role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                            style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <span id="pgbar-text"></span>
+                </div>
             </div>
         </div>
-    </form>
+    </div>
     <div class="row">
-        <div class="col-md-2">上传进度:</div>
-        <div class="col-md-7">
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" id="pgbar" role="progressbar"
-                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <span id="pgbar-text"></span>
-        </div>
+
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="mymodal" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+<div class="modal fade" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -97,9 +144,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <span>状态：</span><span id='status'></span><br/>
-                <span>错误信息：</span><span id='message'></span><br/>
-                <span>上传文件列表：</span><span id='acceptFileList'></span><br/>
+                <span>状态：</span><span id='status'></span><br />
+                <span>错误信息：</span><span id='message'></span><br />
+                <span>上传文件列表：</span><span id='acceptFileList'></span><br />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
