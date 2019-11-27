@@ -71,39 +71,7 @@
                         <!--<hr class="mb-4">-->
                     </div>
                     <div class="col-md-5">
-                        <row>
-                            <div class="mb-3">
-                                <label for="datatype">类别</label>
-                                <select class="custom-select d-block w-100" name="datatype" 
-                                   id="datatype" required="" onchange="changeType()">
-                                    <option value="">---</option>
-                                    <option value="1">带标签的图片</option>
-                                    <option value="2">无标签的图片</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    请选择数据类别
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="datatype">上传数据格式要求</label>
-                                <div id="format-" style="">
-                                    请选择数据集格式
-                                </div>
-                                <div id="format-1" style="display:none">
-                                    <ul class="list-group">
-                                        <li class="list-group-item">上传文件要求为ZIP文件</li>
-                                        <li class="list-group-item">仅限JPG和TXT文件，JPG为图像，TXT为对应标签</li>
-                                        <li class="list-group-item">每个JPG应对应同名TXT文件</li>
-                                    </ul>
-                                </div>
-                                <div id="format-2" style="display:none">
-                                    <ul class="list-group">
-                                        <li class="list-group-item">上传文件要求为ZIP文件</li>
-                                        <li class="list-group-item">包含多张JPG</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </row>
+                        {% include 'dataset/format_requirements.html' %}
                     </div>
                 </div>
                 <div class="col-md-4 offset-4">
