@@ -31,6 +31,7 @@ def delete(request,datasetname):
     ret = {}
 
     if request.method == "POST":
+
         id = request.POST.get('id','')
         dh = comment.objects.get(id=id)
         return HttpResponse(dh.delete())

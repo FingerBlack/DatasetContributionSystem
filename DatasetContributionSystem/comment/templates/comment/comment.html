@@ -32,27 +32,22 @@
                       </thead>
                       <tbody>
                         {%for item in comment%}
-                            <tr>
-                                <th scope="row">{{ item.id }}</th>
+                            <tr id="row-{{item.id}}">
+                                <th scope="row">{{ forloop.counter }}</th>
                                 <td>{{ item.Username }}</td>
                                 <td>{{ item.Description }}</td>
                                 <td>{{ item.DatasetName.name }}</td>
                                 <td>{{ item.Score }}</td>
                                 <td>{{ item.Time }}</td>
-                                <td><button type="button" class="btn btn-primary"><i class="fas fa-pen"></i></button>
-                                    <button type="button" class="btn btn-dark" {% if not request.user == item.Username %}disabled="disabled"{% endif %} onclick='
+                                <td><button type="button" class="btn btn-dark" {% if not request.user == item.Username %}disabled="disabled"{% endif %} onclick='
                                             $.post("/dataset/{{item.DatasetName.name}}/comment/delete/",
                                             {
                                             id:"{{item.id}}",
                                             csrfmiddlewaretoken:"{{csrf_token}}"
                                             },
                                             function(data,status){
-                                            dt = JSON.parse(data);
-                                            if(dt["status"] == "ok"){
                                             $("#row-{{item.id}}").remove();
-                                            }else{
-                                            alert(dt["status"]);
-                                            }
+
                                             });
                                             '><i class="fas fa-trash"></i></button>
                                     <button type="button" class="btn btn-danger"><i class="fas fa-heart"></i></button></td>
