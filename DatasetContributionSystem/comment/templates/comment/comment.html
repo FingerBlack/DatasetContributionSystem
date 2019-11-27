@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}评论区{% endblock %}
+{% block head %}<style>tbody {
+   counter-reset:sectioncounter;
+}
 
+.SortCLASS:before {
+   content:counter(sectioncounter);
+   counter-increment:sectioncounter;
+
+}
+</style>
+{% endblock %}
 
 {% block content %}
     <div class="bg-light">
@@ -33,7 +43,8 @@
                       <tbody>
                         {%for item in comment%}
                             <tr id="row-{{item.id}}">
-                                <th scope="row">{{ forloop.counter }}</th>
+
+                                <td class="SortCLASS" scope="row"></td>
                                 <td>{{ item.Username }}</td>
                                 <td>{{ item.Description }}</td>
                                 <td>{{ item.DatasetName.name }}</td>
@@ -47,7 +58,6 @@
                                             },
                                             function(data,status){
                                             $("#row-{{item.id}}").remove();
-
                                             });
                                             '><i class="fas fa-trash"></i></button>
                                     <button type="button" class="btn btn-danger"><i class="fas fa-heart"></i></button></td>
