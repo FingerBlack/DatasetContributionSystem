@@ -11,7 +11,11 @@
    counter-increment:sectioncounter;
 
 }
+
 </style>
+    <script>
+    var i = {{ i }};
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -24,17 +28,24 @@
                 <p>
                     <a href="post/" class="btn btn-primary my-2">添加评论</a>
                 </p>
-                <button type="button" class="btn btn-danger" onclick="$.post('/dataset/{{check.DatasetName.name}}/comment/like/'
+                <button type="button" class="btn btn-danger"  {% if request.user.username == '' %}disabled="disabled"{% endif %}  onclick="$.post('/dataset/{{check.DatasetName.name}}/comment/like/'
                         ,{name:'{{ check.DatasetName.name }}',csrfmiddlewaretoken:'{{csrf_token}}'
                                             },myLunction())">点赞</button>
                 <script>
                     function myLunction(){
-                        document.getElementById("like").innerHTML=parseInt(document.getElementById("like").innerHTML)+1;
-                        alert("对数据集点赞成功，当前点赞数："+document.getElementById("like").innerHTML)
+
+                            document.getElementById("like").innerHTML = parseInt(document.getElementById("like").innerHTML) + i;
+
+                            if (i == 1) {
+                                alert("对数据集点赞成功，当前点赞数：" + document.getElementById("like").innerHTML)
+                            } else {
+                                alert("对数据集点赞取消，当前点赞数：" + document.getElementById("like").innerHTML)
+                            }
+                            i *= -1;
 
                     };
                 </script>
-                &ensp;<a><button id="like" type="button" class="btn btn-success">{{ check.Like }}</button></a>
+                &ensp;<a><button id="like" type="button" class="btn btn-success">{{ countt }}</button></a>
 
             </div>
         </div>

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import comment
+from .models import likelike
 from dataset.models import dataset
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
@@ -25,8 +26,19 @@ def post(request,datasetname):
 
 def idex(request,datasetname):
     data = dataset.objects.get(name = datasetname)
-    return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=data), 'check': comment.objects.filter(DatasetName=data).first()})
 
+    cc = likelike.objects.filter(DatasetName=data)
+    countt = cc.count()
+
+    try:
+        likelike.objects.get(DatasetName=data,Username=request.user)
+        i = -1
+    except:
+        i = 1
+
+    return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=data), 'check': comment.objects.filter(DatasetName=data).first(),'i': i, 'countt': countt})
+
+@login_required
 def delete(request,datasetname):
     ret = {}
     if request.method == "POST":
@@ -37,23 +49,21 @@ def delete(request,datasetname):
     ret['status'] = 'ok'
     return HttpResponse(json.dumps(ret))
 
+@login_required
 def like(request,datasetname):
-    #print(11111)
+
+    data = dataset.objects.get(name=datasetname)
     ret = {}
+    print(12212)
     if request.method == "POST":
         dn = request.POST.get('name','')
-        #print(dn)
-        dd = comment.objects.filter(DatasetName=dataset.objects.get(name = dn))
+        cc = likelike.objects.filter(DatasetName=data,Username=request.user)
+        print(2222)
 
-        todo = dd.values("Like")
-        #print(todo)
-        for item in dd:
-            item.Like = item.Like+1
-            item.save()
-        dd = comment.objects.filter(DatasetName=dataset.objects.get(name=dn))
-
-        todo = dd.values("Like")
-        #print(todo)
-    data = dataset.objects.get(name=datasetname)
+        if cc.count() == 0:
+            print(1)
+            likelike.objects.create(DatasetName=data,Username=request.user)
+        else:
+            cc.delete()
     return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=data), 'check': comment.objects.filter(DatasetName=data).first()})
 # Create your views here.
