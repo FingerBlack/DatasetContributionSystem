@@ -25,12 +25,14 @@
               <rect width="100%" height="100%" fill="#55595c"></rect>
               <text x="10%" y="85%" fill="#eceeef" style="font-size: 1.5em">{{item.name}}</text>
             </svg>
+            {% if item.bought %}
+            <div style="position:relative; margin-top:-200px; margin-bottom:175px; border-radius: 0px 1000px 1000px 0px;background-color:green; height:25px; width:25%;padding-left:3%;">已购买</div>
+            {% endif %}
             <div class="card-body">
               <p class="card-text">{{item.description}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div>
-                  <a href="/dataset/{{item.name}}/"><button type="button" class="btn btn-sm btn-outline-secondary">展示</button></a>
-                  <a href="/dataset/{{item.name}}/download/"><button type="button" class="btn btn-sm btn-outline-secondary">下载</button></a>
+                  <a href="/dataset/{{item.name}}/"><button type="button" class="btn btn-sm btn-outline-secondary">查看详情</button></a>
                 </div>
                 <small class="text-muted">浏览：{{item.page_view}}次，下载{{item.page_download}}次</small>
               </div>

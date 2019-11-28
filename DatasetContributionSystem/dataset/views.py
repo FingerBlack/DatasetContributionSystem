@@ -12,7 +12,13 @@ from django.views.decorators.cache import cache_page
 
 # Create your views here.
 def index(request):
-    return render(request, 'dataset/dataset.html', {'dataset': dataset.objects.all()})
+    data = dataset.objects.all()
+    for item in data:
+        if userBuyDataset.objects.filter(user = request.user, dataset = item).exists():
+            item.bought = True
+        else:
+            item.bought = False
+    return render(request, 'dataset/dataset.html', {'dataset': data})
 
 @login_required
 def create(request):
@@ -195,9 +201,13 @@ def show(request, datasetname):
         data = dataset.objects.get(name = datasetname)
     except:
         return render(request, 'failure.html', {'title': '所选数据集不存在'})
+    if userBuyDataset.objects.filter(dataset = data, user = request.user).exists():
+        user_have_bought = True
+    else:
+        user_have_bought = False
     data.page_view += 1
     data.save()
-    return render(request, 'dataset/show.html', {'dataset': data})
+    return render(request, 'dataset/show.html', {'dataset': data, 'user_have_bought': user_have_bought})
 
 @login_required
 def download(request, datasetname):
