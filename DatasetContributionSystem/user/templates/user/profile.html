@@ -2,23 +2,6 @@
 {% block title %}个人主页{% endblock %}
 {% block content %}
 
-<style>
-    .bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    }
-
-    @media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-    }
-    }
-</style>
-
 <main role="main">
 
   <div class="container marketing">
@@ -27,31 +10,46 @@
     
     <div class="row" style="margin-top: 5rem;margin-bottom: 5rem;">
       <div class="col-12" style="text-align:center">
-        <svg class="bd-placeholder-img rounded-circle" width="200" height="200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 200x200">
+        <svg class="rounded-circle" width="200" height="200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 200x200">
             <title>用户头像</title>
             <rect width="100%" height="100%" fill="#777"/>
-            <text x="50%" y="50%" fill="#aaa" dy=".3em">null</text>
+            <text x="50%" y="50%" fill="#aaa" dy=".8rem" style="font-size: 1.5rem;text-anchor: middle">{{request.user.username}}</text>
         </svg>
-        <h2 style="margin-top: 2rem">{{request.user.username}}</h2>
+        <h2 style="margin-top: 1rem;">{{request.user.username}}</h2>
+        <p class="lead">{{request.user.first_name}} {{request.user.last_name}}</p>
+        <p class="lead text-muted">{{request.user.description}}</p>
+        <p>
+          <a href="revise/" class="btn btn-primary my-2">修改个人信息</a>
+        </p>
       </div>
     </div>
 
 
     <!-- START THE FEATURETTES -->
 
-    <hr class="featurette-divider">
+    <div class="row col-2" style="margin-bottom: 1rem;">
+      <h4>创建的数据集</h4>
+    </div>
 
-    <div class="row featurette">
-      <div class="col-md-7">
-        <h2 class="featurette-heading">数据集1号</h2>
-        <p class="lead">描述</p>
-      </div>
-      <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500">
-            <title>数据集封面图</title>
-            <rect width="100%" height="100%" fill="#eee"/>
-            <text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
-        </svg>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#55595c"></rect>
+            <text x="10%" y="85%" fill="#eceeef" style="font-size: 1.5em">test</text>
+          </svg>
+          <div class="card-body">
+            <p class="card-text">test</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <a href="/dataset/{{item.name}}/"><button type="button" class="btn btn-sm btn-outline-secondary">展示</button></a>
+                <a href="/dataset/{{item.name}}/download/"><button type="button" class="btn btn-sm btn-outline-secondary">下载</button></a>
+              </div>
+              <small class="text-muted">0次</small>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
