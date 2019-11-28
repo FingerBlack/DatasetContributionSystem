@@ -25,3 +25,8 @@ class datasetFileIndex(models.Model):
     owner = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
     upload_time = models.DateTimeField(default = timezone.now)
     size = models.IntegerField(default = 0)
+
+class transaction(models.Model):
+    dataset = models.ForeignKey(dataset, on_delete = models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
+    price = models.FloatField()
