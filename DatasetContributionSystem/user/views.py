@@ -15,7 +15,7 @@ def login_view(request):
         if user is not None:
             #返回用户页面
             login(request, user)
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(request.GET.get('next', '/'))
         else:
             #返回登陆失败页面
             return render(request, 'failure.html', {'title':'登陆失败', 'content':'登陆失败，用户名或密码错误'})

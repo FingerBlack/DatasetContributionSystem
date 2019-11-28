@@ -14,8 +14,11 @@ from django.views.decorators.cache import cache_page
 def index(request):
     data = dataset.objects.all()
     for item in data:
-        if userBuyDataset.objects.filter(user = request.user, dataset = item).exists():
-            item.bought = True
+        if request.user.is_authenticated:
+            if userBuyDataset.objects.filter(user = request.user, dataset = item).exists():
+                item.bought = True
+            else:
+                item.bought = False
         else:
             item.bought = False
     return render(request, 'dataset/dataset.html', {'dataset': data})
@@ -201,7 +204,7 @@ def show(request, datasetname):
         data = dataset.objects.get(name = datasetname)
     except:
         return render(request, 'failure.html', {'title': '所选数据集不存在'})
-    if userBuyDataset.objects.filter(dataset = data, user = request.user).exists():
+    if request.user.is_authenticated and userBuyDataset.objects.filter(dataset = data, user = request.user).exists():
         user_have_bought = True
     else:
         user_have_bought = False
