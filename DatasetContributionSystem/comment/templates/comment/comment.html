@@ -44,8 +44,8 @@
 
                         };
                     </script>
-                    &ensp;<button type="button" class="btn btn-danger"  style="vertical-align: middle" {% if request.user.username == '' %}disabled="disabled"{% endif %} onclick="$.post('/dataset/{{check.DatasetName.name}}/comment/like/'
-                        ,{name:'{{ check.DatasetName.name }}',csrfmiddlewaretoken:'{{csrf_token}}'
+                    &ensp;<button type="button" class="btn btn-danger"  style="vertical-align: middle" {% if request.user.username == '' %}disabled="disabled"{% endif %} onclick="$.post('/dataset/{{check.name}}/comment/like/'
+                        ,{name:'{{ check.name }}',csrfmiddlewaretoken:'{{csrf_token}}'
                         },myLunction())"
                 ><span class="glyphicon glyphicon-star{% if i == 1 %}-empty{% endif %}" id="like-icon"></span><span> </span><span id="like" >{{ countt }}</span></button>
 
