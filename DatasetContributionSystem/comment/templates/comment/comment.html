@@ -10,6 +10,10 @@
 
 }
 </style>
+
+
+
+
 {% endblock %}
 
 {% block content %}
@@ -21,6 +25,16 @@
                 <p class="lead">在这里，可以添加对数据集的任何评论。</p>
                 <p>
                     <a href="post/" class="btn btn-primary my-2">添加评论</a>
+                </p>
+                <p>
+                    <a><button type="button" class="btn btn-danger" onclikc="myfunction()">11</button></a>
+                    <script>
+                        function myfunction(){
+                            document.getElementById('like').innerHTML=parseInt(document.getElementById('like').innerHTML)+1;
+                        }
+
+                    </script>
+                    &ensp;<a id="like"><button type="button" class="btn btn-success">{{ check.Like }}</button></a>
                 </p>
             </div>
         </div>
@@ -43,14 +57,13 @@
                       <tbody>
                         {%for item in comment%}
                             <tr id="row-{{item.id}}">
-
                                 <td class="SortCLASS" scope="row"></td>
                                 <td>{{ item.Username }}</td>
                                 <td>{{ item.Description }}</td>
                                 <td>{{ item.DatasetName.name }}</td>
                                 <td>{{ item.Score }}</td>
                                 <td>{{ item.Time }}</td>
-                                <td><button type="button" class="btn btn-dark" {% if not request.user == item.Username %}disabled="disabled"{% endif %} onclick='
+                                <td><button type="button" class="btn btn-warning" {% if not request.user == item.Username %}disabled="disabled"{% endif %} onclick='
                                             $.post("/dataset/{{item.DatasetName.name}}/comment/delete/",
                                             {
                                             id:"{{item.id}}",
@@ -59,9 +72,8 @@
                                             function(data,status){
                                             $("#row-{{item.id}}").remove();
                                             });
-                                            '><i class="fas fa-trash"></i></button>
-                                    <button type="button" class="btn btn-danger"><i class="fas fa-heart"></i></button></td>
-
+                                            '>删除</button>
+                                </td>
                             </tr>
                         {%endfor%}
                       </tbody>

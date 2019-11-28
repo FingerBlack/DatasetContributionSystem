@@ -25,7 +25,7 @@ def post(request,datasetname):
 
 def idex(request,datasetname):
 
-    return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=datasetname) })
+    return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=datasetname), 'check': comment.objects.first() })
 
 def delete(request,datasetname):
     ret = {}

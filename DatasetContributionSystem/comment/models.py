@@ -10,3 +10,4 @@ class comment(models.Model):
     Description = models.CharField(max_length = 50)
     Score = models.IntegerField()
     Time = models.DateTimeField(default = timezone.now)
+    Like = models.IntegerField(default = 0)
