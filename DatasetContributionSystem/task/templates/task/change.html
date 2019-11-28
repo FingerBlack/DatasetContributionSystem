@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}修改数据集{% endblock %}
+{% block head %}
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <script>
+        (function () {
+            'use strict'
+
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation')
+
+                // Loop over them and prevent submission
+                Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+            }, false)
+        }())
+    </script>
+    <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment-with-locales.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#ddl').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: 'zh-CN'
+            });
+        });
+        {#$("#ddl").datetimepicker("setDate", {{ task.deadline }});#}
+    </script>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>修改任务</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <form class="needs-validation" novalidate="" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name">任务名称</label>
+                        <input type="text" class="form-control" name="name" required="" value={{ task.name }}>
+                        <div class="invalid-feedback">
+                            请输入任务名称
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">描述</label>
+                        <textarea style='height: 100px' class="form-control" name="description" required=""></textarea>
+                        <div class="invalid-feedback">
+                            请输入任务描述
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label for="amount">需求数量</label>
+                            <input type="number" step='1' min='0' class="form-control" name="amount" value={{ task.amount }} required="">
+                            <div class="invalid-feedback">
+                                请输入需求数量
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="datatype">截止日期</label>
+                            <input type="text" class="form-control datetimepicker-input" id="ddl" name = "deadline" data-toggle="datetimepicker" data-target="#datetimepicker5"/>
+                            <div class="invalid-feedback">
+                                请选择截止日期
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">完成创建</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

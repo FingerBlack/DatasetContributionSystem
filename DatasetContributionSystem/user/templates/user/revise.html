@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}注册{% endblock %}
+{% block head %}
+    <script>
+        (function () {
+            'use strict'
+
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation')
+
+                // Loop over them and prevent submission
+                Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+            }, false)
+        }())
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <div class="container">
+            <div class="py-5 text-center">
+                <h2>修改个人信息</h2>
+                <p class="lead">填写旧密码以修改个人信息</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <form class="needs-validation" novalidate="" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name">旧密码</label>
+                            <input type="password" class="form-control" name="old_password" required="">
+                            <div class="invalid-feedback">
+                                请输入旧密码
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name">新密码</label>
+                            <input type="password" class="form-control" name="new_password">
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label for="firstName">姓</label>
+                            <input type="text" class="form-control" name="first_name" value="{{request.user.first_name}}">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label for="lastName">名</label>
+                            <input type="text" class="form-control" name="last_name" value="{{request.user.last_name}}">
+                          </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name">个性签名</label>
+                            <textarea style='height: 100' class="form-control" name="description">{{request.user.description}}</textarea>
+                        </div>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">修改个人信息</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="form-validation.js"></script>
+{% endblock %}

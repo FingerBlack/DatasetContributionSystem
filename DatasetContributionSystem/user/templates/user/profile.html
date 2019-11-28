@@ -1,6 +1,70 @@
 {% extends 'base.html' %}
+{% block title %}个人主页{% endblock %}
 {% block content %}
-<div class="container">
-    {{request.user.username}}
-</div>
+
+<main role="main">
+
+  <div class="container marketing">
+
+    <!-- Three columns of text below the carousel -->
+    
+    <div class="row" style="margin-top: 5rem;margin-bottom: 5rem;">
+      <div class="col-12" style="text-align:center">
+        <svg class="rounded-circle" width="200" height="200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 200x200">
+            <title>用户头像</title>
+            <rect width="100%" height="100%" fill="#777"/>
+            <text x="50%" y="50%" fill="#aaa" dy=".8rem" style="font-size: 1.5rem;text-anchor: middle">{{request.user.username}}</text>
+        </svg>
+        <h2 style="margin-top: 1rem;">{{request.user.username}}</h2>
+        <p class="lead">{{request.user.first_name}} {{request.user.last_name}}</p>
+        <p class="lead text-muted">{{request.user.description}}</p>
+        <p>
+          <a href="revise/" class="btn btn-primary my-2">修改个人信息</a>
+        </p>
+      </div>
+    </div>
+
+
+    <!-- START THE FEATURETTES -->
+
+    <div class="row col-2" style="margin-bottom: 1rem;">
+      <h4>创建的数据集</h4>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#55595c"></rect>
+            <text x="10%" y="85%" fill="#eceeef" style="font-size: 1.5em">test</text>
+          </svg>
+          <div class="card-body">
+            <p class="card-text">test</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <a href="/dataset/{{item.name}}/"><button type="button" class="btn btn-sm btn-outline-secondary">展示</button></a>
+                <a href="/dataset/{{item.name}}/download/"><button type="button" class="btn btn-sm btn-outline-secondary">下载</button></a>
+              </div>
+              <small class="text-muted">0次</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <!-- /END THE FEATURETTES -->
+
+  </div><!-- /.container -->
+
+
+  <!-- FOOTER -->
+  <footer class="container">
+    <p class="float-right"><a href="#">Back to top</a></p>
+    <p>&copy; 2017-2019.</p>
+  </footer>
+</main>
+
 {% endblock %}

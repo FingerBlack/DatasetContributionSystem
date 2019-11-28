@@ -5,11 +5,9 @@
 <script>
 (function () {
   'use strict'
-
   window.addEventListener('load', function () {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.getElementsByClassName('needs-validation')
-
     // Loop over them and prevent submission
     Array.prototype.filter.call(forms, function (form) {
       form.addEventListener('button', function (event) {
@@ -32,21 +30,17 @@
         -ms-user-select: none;
         user-select: none;
     }
-
     @media (min-width: 768px) {
         .bd-placeholder-img-lg {
             font-size: 3.5rem;
         }
     }
-
     .form-signin {
         width: 1000px;
         max-width: 560px;
         padding: 15px;
         margin: auto;
     }
-
-
     .form-signin .form-control {
         position: relative;
         box-sizing: border-box;
@@ -55,7 +49,6 @@
         font-size: 16px;
         border-right: 10px ;
     }
-
     .form-signin .form-control:focus {
         z-index: 2;
     }
@@ -67,12 +60,10 @@
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
     }
-
     .form-signin input[type="Taskname"] {
         margin-bottom: 10px;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
-
     }
 </style>
 
@@ -95,19 +86,18 @@
         <label for="Datasetname" class="sr-only">Dataset name</label>
 
         <!-- <form method="get" action="search/" class="input-group col-md-20" style="margin-top:0px positon:relative"> -->
-             
-        <form method="get" action="/query/search" class="input-group col-md-20" id="form" style="margin-top:0px positon:relative" >
+             <form method="get" action="/query/search" class="input-group col-md-20" id="form" style="margin-top:0px positon:relative" >
+        
             {% csrf_token %}
             <input type="text" name="Datasetname" class="form-control" placeholder="Dataset name" 
             required="">
             
-            <button id= "submit" class="btn btn-primary btn-lg" form ="form" >
+            <button id= "submit" onclick="updata()" class="btn btn-primary btn-lg" form ="form" >
                     Search
             </button>
            
             
-        </form>
-
+      </form>
         <label for="Taskname" class="sr-only">Task name</label>
         <h1 class="h3 mb-2 font-weight-normal" style="text-align:left "> Input the Taskname you want to search 
         </h1>

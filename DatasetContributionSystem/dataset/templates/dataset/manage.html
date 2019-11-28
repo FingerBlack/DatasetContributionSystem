@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}管理{% endblock %}
+{% load my_filter %}
+{% block content %}
+<div class='container'>
+    <div class="col-md-12 mb-3">
+        <span>数据集操作：</span>
+        <a href="/dataset/{{dataset.name}}/manage/drop/"><button class="btn btn-danger"><span
+                    class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除数据集</button></a>
+    </div>
+    <div class="col-md-12 mb-3">
+        <table class="table table-condensed">
+            <!--<caption>...</caption>-->
+            <thead>
+                <tr>
+                    <th>UUID
+                    </th>
+                    <th>拥有者</th>
+                    <th>上传时间</th>
+                    <th>大小</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in fileIndex %}
+                <tr id="row-{{item.id}}">
+                    <td>{{item.filename}}</td>
+                    <td>{{item.owner.username}}</td>
+                    <td>{{item.upload_time}}</td>
+                    <td>{{item.size|unitConvert}}</td>
+                    <td>
+
+                        <button class="btn btn-danger"
+                            {% if not request.user == dataset.owner and not request.user == item.owner %}disabled="disabled"
+                            {% endif %} onclick='
+                        $.post("/dataset/{{dataset.name}}/manage/delete/",
+                        {
+                        id:"{{item.id}}",
+                        csrfmiddlewaretoken:"{{csrf_token}}"
+                        },
+                        function(data,status){
+                            dt = JSON.parse(data);
+                            if(dt["status"] == "ok"){
+                                $("#row-{{item.id}}").remove();
+                            }else{
+                                alert(dt["status"]);
+                            }
+                        });
+                    '><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 删除</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

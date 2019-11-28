@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from user.models import UserProfile
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password, check_password
 
 # Create your views here.
 def login_view(request):
@@ -34,10 +35,36 @@ def signup_view(request):
             UserProfile.objects.create_user(username = username, password = password, email = email)
             return render(request, 'success.html', {'title':'注册成功', 'content':'恭喜你🎉，注册成功了，赶快试试下载数据集吧！'})
         except:
-            return render(request, 'failure.html', {'title':'注册失败', 'content':'滚'})
+            return render(request, 'failure.html', {'title':'注册失败', 'content':'请检查用户名与密码可用性'})
     return render(request, 'user/signup.html')
 
 @login_required
 def profile_view(request):
     return render(request, 'user/profile.html')
+
+@login_required
+def revise_view(request):
+    if request.method == "POST":
+        old_password = request.POST.get('old_password', '')
+        new_password = request.POST.get('new_password', '')
+        description = request.POST.get('description', '')
+        first_name = request.POST.get('first_name', '')
+        last_name = request.POST.get('last_name', '')
+        if check_password(old_password, request.user.password):
+            try:
+                if len(new_password) > 0:
+                    request.user.password = make_password(new_password)
+                if len(description) > 0:    
+                    request.user.description = description
+                if len(first_name) > 0:    
+                    request.user.first_name = first_name
+                if len(last_name) > 0:    
+                    request.user.last_name = last_name
+                request.user.save()
+                return render(request, 'success.html', {'title':'修改成功'})
+            except:
+                return render(request, 'failure.html', {'title':'修改失败'})
+        else:
+            return render(request, 'failure.html', {'title':'修改失败', 'content':'旧密码不正确'})
+    return render(request, 'user/revise.html') 
     
