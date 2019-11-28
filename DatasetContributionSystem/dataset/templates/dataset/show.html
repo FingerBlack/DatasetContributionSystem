@@ -2,8 +2,6 @@
 {% block title %}test-title{% endblock %}
 {% load my_filter %}
 {% block content %}
-
-
 <main role="main">
   <div class="jumbotron">
     <div class="container">
@@ -30,12 +28,42 @@
       <div class="col-md-4">
         <h2>下载</h2>
         <p>前往下载界面以获取全部数据集。</p>
-        <p><a class="btn btn-secondary" href="/dataset/{{dataset.name}}/download/" role="button">前往下载 &raquo;</a></p>
+        {% if not user_have_bought %}
+        <button id="download-btn" class="btn btn-secondary" onclick="$('#download-confirm').modal('show');">购买数据集 &raquo;</button>
+        {% else %}
+        <button id="download-btn" class="btn btn-secondary" onclick="window.location='/dataset/{{dataset.name}}/download/';">立刻下载 &raquo;</button>
+        {% endif %}
       </div>
     </div>
     <hr>
   </div>
-
 </main>
+<div class="modal" tabindex="-1" role="dialog" id="download-confirm">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">确认购买</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>数据集价格:{{dataset.price}}</p>
+        <p>用户余额:{{request.user.balance}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" 
+        {% if request.user.balance < dataset.price %}disabled="disabled"{% endif %}
+        onclick="
+        $('#download-confirm').modal('hide');
+        $('#download-btn').attr('onclick', 'window.location=\'/dataset/{{dataset.name}}/download/\';');
+        $('#download-btn').text('立刻下载 &raquo;');
+        window.location='/dataset/{{dataset.name}}/download/';
+        ">确认购买</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
