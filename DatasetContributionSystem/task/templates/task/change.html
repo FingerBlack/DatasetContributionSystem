@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}创建数据集{% endblock %}
+{% block title %}修改数据集{% endblock %}
 {% block head %}
     <style>
         .bd-placeholder-img {
@@ -45,8 +45,10 @@
         $(function () {
             $('#ddl').datetimepicker({
                 format: 'YYYY-MM-DD',
-                locale: 'zh-CN'    });
+                locale: 'zh-CN'
+            });
         });
+        {#$("#ddl").datetimepicker("setDate", {{ task.deadline }});#}
     </script>
 
 {% endblock %}
@@ -54,8 +56,7 @@
 {% block content %}
     <div class="container">
         <div class="py-5 text-center">
-            <h2>创建任务</h2>
-            <p class="lead">输入必要信息，以创建任务。</p>
+            <h2>修改任务</h2>
         </div>
 
         <div class="row">
@@ -65,7 +66,7 @@
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="name">任务名称</label>
-                        <input type="text" class="form-control" name="name" required="">
+                        <input type="text" class="form-control" name="name" required="" value={{ task.name }}>
                         <div class="invalid-feedback">
                             请输入任务名称
                         </div>
@@ -81,7 +82,7 @@
 
                         <div class="col-md-6 mb-3">
                             <label for="amount">需求数量</label>
-                            <input type="number" step='1' min='0' class="form-control" name="amount" placeholder="0" required="">
+                            <input type="number" step='1' min='0' class="form-control" name="amount" value={{ task.amount }} required="">
                             <div class="invalid-feedback">
                                 请输入需求数量
                             </div>

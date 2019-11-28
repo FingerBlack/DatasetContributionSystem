@@ -8,6 +8,12 @@
             <div class="container">
                 <h1 class="display-3">{{task.name}}</h1>
                 <p>{{task.description}}</p>
+                {% if task.owner == request.user.username %}
+                <div>
+                    <a href="/dataset/{{task.dataset.name}}/task/{{task.id}}/change/" class="btn btn-primary my-2">修改任务</a>
+                    <a href="/dataset/{{task.dataset.name}}/task/{{task.id}}/delete/" class="btn btn-danger my-2">删除任务</a>
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -23,7 +29,7 @@
                 </div>
                 <div class="col-md-4">
                     <h2>所属数据集</h2>
-                    <p>{{task.related_dataset}}</p>
+                    <p>{{task.dataset.name}}</p>
                 </div>
             </div>
             <hr>
