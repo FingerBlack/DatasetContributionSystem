@@ -36,7 +36,7 @@ def idex(request,datasetname):
     except:
         i = 1
 
-    return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=data), 'check': comment.objects.filter(DatasetName=data).first(),'i': i, 'countt': countt})
+    return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=data), 'check': data, 'i': i, 'countt': countt})
 
 @login_required
 def delete(request,datasetname):
