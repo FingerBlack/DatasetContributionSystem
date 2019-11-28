@@ -1,83 +1,101 @@
 {% extends 'base.html' %}
 {% block title %}创建数据集{% endblock %}
 {% block head %}
-    <script>
-        (function () {
-            'use strict'
+<script>
+    (function () {
+        'use strict'
 
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation')
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation')
 
-                // Loop over them and prevent submission
-                Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-            }, false)
-        }())
-    </script>
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        }, false)
+    }())
+</script>
+<script>
+    lastType = '';
+    function changeType() {
+        if(lastType != ''){
+            $("#format-" + lastType).hide();
+        }
+        $("#format-" + $("#datatype").val()).show();
+        lastType = $("#datatype").val();
+    }
+</script>
 {% endblock %}
 
 {% block content %}
-    <div class="bg-light">
-        <div class="container">
-            <div class="py-5 text-center">
-                <h2>创建数据集</h2>
-                <p class="lead">输入必要信息，以创建属于你的数据集。</p>
-            </div>
+<div>
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>创建数据集</h2>
+            <p class="lead">输入必要信息，以创建属于你的数据集。</p>
+        </div>
 
+        <form class="needs-validation" novalidate="" method="POST">
+            {% csrf_token %}
             <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <form class="needs-validation" novalidate="" method="POST">
-                        {% csrf_token %}
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <div class="mb-3">
+                        <label for="name">名称</label>
+                        <input type="text" class="form-control" name="name" required="">
+                        <div class="invalid-feedback">
+                            请输入数据集名称
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">描述</label>
+                        <textarea style='height: 100' class="form-control" name="description" required=""></textarea>
+                        <div class="invalid-feedback">
+                            请输入数据集描述
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price">价格</label>
+                        <input type="number" step='0.1' min='0.0' class="form-control" name="price" placeholder="0.0"
+                            required="">
+                        <div class="invalid-feedback">
+                            请输入数据集价格
+                        </div>
+                    </div>
+                    <!--<hr class="mb-4">-->
+                </div>
+                <div class="col-md-5">
+                    <row>
                         <div class="mb-3">
-                            <label for="name">名称</label>
-                            <input type="text" class="form-control" name="name" required="">
+                            <label for="datatype">类别</label>
+                            <select class="custom-select d-block w-100" name="datatype" id="datatype" required=""
+                                onchange="changeType()">
+                                <option value="">---</option>
+                                <option value="1">带标签的图片</option>
+                                <option value="2">无标签的图片</option>
+                            </select>
                             <div class="invalid-feedback">
-                                请输入数据集名称
+                                请选择数据类别
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="description">描述</label>
-                            <textarea style='height: 100' class="form-control" name="description" required=""></textarea>
-                            <div class="invalid-feedback">
-                                请输入数据集描述
-                            </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3">
-                                <label for="price">价格</label>
-                                <input type="number" step='0.1' min='0.0' class="form-control" name="price" placeholder="0.0" required="">
-                                <div class="invalid-feedback">
-                                    请输入数据集价格
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="datatype">类别</label>
-                                <select class="custom-select d-block w-100" name="datatype" required="">
-                                    <option value="">---</option>
-                                    <option value="1">分类</option>
-                                    <option value="2">检测</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    请选择数据集类别
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr class="mb-4">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">完成创建</button>
-                    </form>
+                        {% include 'dataset/format_requirements.html' %}
+                    </row>
                 </div>
             </div>
-        </div>
+            <div class="col-md-4 offset-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">完成创建</button>
+            </div>
+        </form>
     </div>
+<<<<<<< HEAD
+=======
+</div>
+>>>>>>> feature-upload-type
 {% endblock %}

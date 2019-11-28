@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from dataset.models import dataset
 from task.models import task
+from django.views.decorators.cache import cache_page
 
 # Create your views here.
 
