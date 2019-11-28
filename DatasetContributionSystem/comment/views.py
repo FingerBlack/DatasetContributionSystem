@@ -25,7 +25,7 @@ def post(request,datasetname):
 
 def idex(request,datasetname):
     data = dataset.objects.get(name = datasetname)
-    return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=data), 'check': comment.objects.first() })
+    return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=data), 'check': comment.objects.filter(DatasetName=data).first()})
 
 def delete(request,datasetname):
     ret = {}
@@ -37,5 +37,23 @@ def delete(request,datasetname):
     ret['status'] = 'ok'
     return HttpResponse(json.dumps(ret))
 
+def like(request,datasetname):
+    #print(11111)
+    ret = {}
+    if request.method == "POST":
+        dn = request.POST.get('name','')
+        #print(dn)
+        dd = comment.objects.filter(DatasetName=dataset.objects.get(name = dn))
 
+        todo = dd.values("Like")
+        #print(todo)
+        for item in dd:
+            item.Like = item.Like+1
+            item.save()
+        dd = comment.objects.filter(DatasetName=dataset.objects.get(name=dn))
+
+        todo = dd.values("Like")
+        #print(todo)
+    data = dataset.objects.get(name=datasetname)
+    return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=data), 'check': comment.objects.filter(DatasetName=data).first()})
 # Create your views here.

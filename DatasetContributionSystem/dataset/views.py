@@ -24,7 +24,7 @@ def create(request):
                                dataType=datatype, 
                                description=description,
                                owner=request.user)
-        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', str(data.id))
+        dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset/', str(data.id))
         if os.path.exists(dir_dest) == False:
             os.mkdir(dir_dest)
         return HttpResponseRedirect('/dataset/' + name + '/')

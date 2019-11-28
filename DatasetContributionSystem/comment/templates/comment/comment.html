@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}评论区{% endblock %}
-{% block head %}<style>tbody {
+{% block head %}
+    <meta charset="utf-8">
+    <style>tbody {
    counter-reset:sectioncounter;
 }
 
@@ -10,10 +12,6 @@
 
 }
 </style>
-
-
-
-
 {% endblock %}
 
 {% block content %}
@@ -26,16 +24,18 @@
                 <p>
                     <a href="post/" class="btn btn-primary my-2">添加评论</a>
                 </p>
-                <p>
-                    <a><button type="button" class="btn btn-danger" onclikc="myfunction()">11</button></a>
-                    <script>
-                        function myfunction(){
-                            document.getElementById('like').innerHTML=parseInt(document.getElementById('like').innerHTML)+1;
-                        }
+                <button type="button" class="btn btn-danger" onclick="$.post('/dataset/{{check.DatasetName.name}}/comment/like/'
+                        ,{name:'{{ check.DatasetName.name }}',csrfmiddlewaretoken:'{{csrf_token}}'
+                                            },myLunction())">点赞</button>
+                <script>
+                    function myLunction(){
+                        document.getElementById("like").innerHTML=parseInt(document.getElementById("like").innerHTML)+1;
+                        alert("对数据集点赞成功，当前点赞数："+document.getElementById("like").innerHTML)
 
-                    </script>
-                    &ensp;<a id="like"><button type="button" class="btn btn-success">{{ check.Like }}</button></a>
-                </p>
+                    };
+                </script>
+                &ensp;<a><button id="like" type="button" class="btn btn-success">{{ check.Like }}</button></a>
+
             </div>
         </div>
     </section>
