@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from .models import dataset, datasetFileIndex, transaction
+from .models import dataset, datasetFileIndex, transaction, userBuyDataset
+from user.models import UserProfile
 from task.models import task
+from django.db import transaction as db_transaction
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, FileResponse
 from django.conf import settings
@@ -203,13 +205,17 @@ def download(request, datasetname):
         data = dataset.objects.get(name = datasetname)
     except:
         return render(request, 'failure.html', {'title': '所选数据集不存在'})
-    if not transaction.objects.filter(dataset = data, user = request.user).exists():
-        if request.user.balance >= data.price:
-            transaction.objects.create(dataset = data, user = request.user, price = data.price)
-            request.user.balance -= data.price
-            request.user.save()
-        else:
-            return render(request, 'failure.html', {'title': '没钱还下载，你炸了！'})
+    if not userBuyDataset.objects.filter(dataset = data, user = request.user).exists():
+        with db_transaction.atomic():
+            if request.user.balance >= data.price:
+                transaction.objects.create(user1 = request.user, user2 = data.owner, detail = data.name, amount = data.price)
+                userBuyDataset.objects.create(user = request.user, dataset = data)
+                request.user.balance -= data.price
+                request.user.save()
+                data.owner.balance += data.price
+                data.owner.save()
+            else:
+                return render(request, 'failure.html', {'title': '没钱还下载，你炸了！'})
     dh = DatasetHandler(request.user, data)
     data.page_download += 1
     data.save()

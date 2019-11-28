@@ -27,6 +27,11 @@ class datasetFileIndex(models.Model):
     size = models.IntegerField(default = 0)
 
 class transaction(models.Model):
-    dataset = models.ForeignKey(dataset, on_delete = models.CASCADE)
+    user1 = models.ForeignKey(UserProfile, on_delete = models.CASCADE, related_name = "transaction_user1")
+    user2 = models.ForeignKey(UserProfile, on_delete = models.CASCADE, related_name = "transaction_user2")
+    detail = models.CharField(max_length = 50)
+    amount = models.FloatField()
+
+class userBuyDataset(models.Model):
     user = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
-    price = models.FloatField()
+    dataset = models.ForeignKey(dataset, on_delete = models.CASCADE)
