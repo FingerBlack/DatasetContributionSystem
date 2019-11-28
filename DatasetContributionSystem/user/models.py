@@ -5,3 +5,4 @@ from django.contrib.auth.models import User, AbstractUser
 
 class UserProfile(AbstractUser):
     description = models.CharField(max_length = 500, blank=True) 
+    balance = models.FloatField(default = 0.0)
