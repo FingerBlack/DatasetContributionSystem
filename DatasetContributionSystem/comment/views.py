@@ -24,12 +24,11 @@ def post(request,datasetname):
     return render(request,'comment/post.html')
 
 def idex(request,datasetname):
-
-    return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=datasetname), 'check': comment.objects.first() })
+    data = dataset.objects.get(name = datasetname)
+    return render(request, 'comment/comment.html',{'comment': comment.objects.filter(DatasetName=data), 'check': comment.objects.first() })
 
 def delete(request,datasetname):
     ret = {}
-
     if request.method == "POST":
 
         id = request.POST.get('id','')
