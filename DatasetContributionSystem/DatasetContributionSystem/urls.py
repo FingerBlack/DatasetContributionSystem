@@ -48,7 +48,7 @@ urlpatterns = [
     path('query/search/paginator/', query_views.paginator),
     path('logout/', user_views.logout_view),
     path('signup/', user_views.signup_view), 
-    path('profile/', user_views.profile_view),
+    path('profile/<str:username>/', user_views.profile_view), 
     path('profile/revise/', user_views.revise_view),
 
     path('dataset/<str:datasetname>/comment/',comment_views.idex),
