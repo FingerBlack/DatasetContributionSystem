@@ -48,11 +48,11 @@ urlpatterns = [
     path('query/search/paginator/', query_views.paginator),
     path('logout/', user_views.logout_view),
     path('signup/', user_views.signup_view), 
-    path('profile/', user_views.profile_view),
     path('profile/revise/', user_views.revise_view),
+    path('profile/<str:username>/', user_views.profile_view), 
 
     path('dataset/<str:datasetname>/comment/',comment_views.idex),
     path('dataset/<str:datasetname>/comment/post/',comment_views.post),
     path('dataset/<str:datasetname>/comment/delete/',comment_views.delete),
-    path('dataset/<str:datasetname>/comment/like/',comment_views.like),
+    path('dataset/<str:datasetname>/star/',comment_views.star_views),
 ]

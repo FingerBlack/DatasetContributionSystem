@@ -28,26 +28,7 @@
                     <p>
                         <a href="post/" class="btn btn-primary my-2">添加评论</a>
                     </p>
-                    <script>
-                        function myLunction(){
-
-                            document.getElementById("like").innerHTML = parseInt(document.getElementById("like").innerHTML) + i;
-
-                            if (i == 1) {
-                                //alert("对数据集点赞成功，当前点赞数：" + document.getElementById("like").innerHTML);
-                                $("#like-icon").attr('class', 'glyphicon glyphicon-star');
-                            } else {
-                                //alert("对数据集点赞取消，当前点赞数：" + document.getElementById("like").innerHTML);
-                                $("#like-icon").attr('class', 'glyphicon glyphicon-star-empty');
-                            }
-                            i *= -1;
-
-                        };
-                    </script>
-                    &ensp;<button type="button" class="btn btn-danger"  style="vertical-align: middle" {% if request.user.username == '' %}disabled="disabled"{% endif %} onclick="$.post('/dataset/{{check.name}}/comment/like/'
-                        ,{name:'{{ check.name }}',csrfmiddlewaretoken:'{{csrf_token}}'
-                        },myLunction())"
-                ><span class="glyphicon glyphicon-star{% if i == 1 %}-empty{% endif %}" id="like-icon"></span><span> </span><span id="like" >{{ countt }}</span></button>
+                    
 
                 </div>
             </div>
