@@ -40,23 +40,23 @@
                         <li class="page-item "><span>...</span></li>
                     {% endif %}
                     {% for i in data.left %}
-                        <li class="page-item "><a  class="page-link" href="/query/Dataset_search/?page={{i}}&Datasetname={{data.Datasetname}}">{{i}}</a></li>
+                        <li class="page-item "><a  class="page-link" href="/query/Task_search/?page={{i}}&Taskname={{data.Taskname}}">{{i}}</a></li>
                     {% endfor %}
                 {% endif %}
-                <li class="page-item active"><a   class="page-link" href="/query/Dataset_search/?page={{data.page}}&Datasetname={{data.Datasetname}}">
+                <li class="page-item active"><a   class="page-link" href="/query/Task_search/?page={{data.page}}&Taskname={{data.Taskname}}">
                 {{data.page}}</a></li>
                 {% if data.right %}
                     {% for i in data.right %}
-                        <li class=" page-item"><a  class="page-link"href="/query/Dataset_search/?page={{i}}&Datasetname={{data.Datasetname}}">{{i}}</a></li>
+                        <li class=" page-item"><a  class="page-link"href="/query/Task_search/?page={{i}}&Taskname={{data.Taskname}}">{{i}}</a></li>
                     {% endfor %}
                     {% if data.right_has_more %}
                         <li class="page-item"><span>......</span></li>
                     {% endif %}
                 {% endif %}
                 {% if data.last %}
-                    <li class="page-item"><a class="page-link" href="/query/Dataset_search/?page={{data.total_pages}}&Datasetname={{data.Datasetname}}">{{data.total_pages}}</a></li>
+                    <li class="page-item"><a class="page-link" href="/query/Task_search/?page={{data.total_pages}}&Taskname={{data.Taskname}}">{{data.total_pages}}</a></li>
                 {% endif %}
-                <li class="page-item "><a class="page-link" href="/query/Dataset_search/?page={{data.page}}&item={{1}}&Datasetname={{data.Datasetname}}">next</a></li>
+                <li class="page-item "><a class="page-link" href="/query/Task_search/?page={{data.page}}&item={{1}}&Taskname={{data.Taskname}}">next</a></li>
                
             </ul>
             

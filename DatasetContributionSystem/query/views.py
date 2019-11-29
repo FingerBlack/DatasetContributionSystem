@@ -165,7 +165,7 @@ def Task_search(request):
             'last':last,
             'total_pages':total_pages,
             'page':page,
-            'Task':x
+            'Taskname':x
         }
     return render(request,'querypage/Task_result.html',context={
         'task':result_list,'data':data
