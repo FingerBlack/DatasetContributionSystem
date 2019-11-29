@@ -44,8 +44,9 @@ urlpatterns = [
     path('dataset/<str:datasetname>/manage/delete/', dataset_views.delete), 
     path('dataset/<str:datasetname>/manage/drop/', dataset_views.drop), 
     path('query/', query_views.index),
-    path('query/search/', query_views.search),
-    path('query/search/paginator/', query_views.paginator),
+    
+    path('query/Dataset_search/', query_views.Dataset_search),
+    path('query/Task_search/', query_views.Task_search),
     path('logout/', user_views.logout_view),
     path('signup/', user_views.signup_view), 
     path('profile/revise/', user_views.revise_view),
