@@ -16,6 +16,7 @@ class dataset(models.Model):
     dataType = models.IntegerField(choices = dataType_str)
     cached_time = models.DateTimeField(default = timezone.now)
     last_revise_time = models.DateTimeField(default = timezone.now)
+    star = models.IntegerField(default = 0)
     def __str__(self):
         return self.name
 

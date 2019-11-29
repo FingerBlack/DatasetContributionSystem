@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import dataset, datasetFileIndex, transaction, userBuyDataset
 from user.models import UserProfile
 from task.models import task
+from comment.models import star
 from django.db import transaction as db_transaction
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, FileResponse
@@ -208,9 +209,13 @@ def show(request, datasetname):
         user_have_bought = True
     else:
         user_have_bought = False
+    if request.user.is_authenticated and star.objects.filter(DatasetName = data, Username = request.user).exists():
+        have_star = 1
+    else:
+        have_star = -1
     data.page_view += 1
     data.save()
-    return render(request, 'dataset/show.html', {'dataset': data, 'user_have_bought': user_have_bought})
+    return render(request, 'dataset/show.html', {'dataset': data, 'user_have_bought': user_have_bought, 'have_star': have_star})
 
 @login_required
 def download(request, datasetname):

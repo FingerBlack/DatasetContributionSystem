@@ -1,6 +1,23 @@
 {% extends 'base.html' %}
 {% block title %}test-title{% endblock %}
 {% load my_filter %}
+{% block head %}
+<script>
+  var have_star = {{ have_star }};
+  function star(){
+    $.get('/dataset/{{dataset.name}}/star/', star_suc());
+  }
+  function star_suc(){
+    have_star *= -1;
+    document.getElementById("like").innerHTML = parseInt(document.getElementById("like").innerHTML) + have_star;
+    if (have_star == 1) {
+      $("#like-icon").attr('class', 'glyphicon glyphicon-star');
+    } else {
+      $("#like-icon").attr('class', 'glyphicon glyphicon-star-empty');
+    }
+  };
+</script>
+{% endblock %}
 {% block content %}
 <main role="main">
   <div class="jumbotron">
@@ -10,7 +27,9 @@
       <a href="/dataset/{{dataset.name}}/task/create/"><button class="btn btn-primary btn-lg" role="button">发布任务 &raquo;</button></a>
       <a href="/dataset/{{dataset.name}}/manage/"><button class="btn btn-primary btn-lg" role="button">管理 &raquo;</button></a>
       <p>数据集大小:{{dataset.size | unitConvert}} 数据集发布日期:{{dataset.createdTime}}</p>
-
+      <button type="button" class="btn btn-danger" style="vertical-align: middle" {% if not request.user.is_authenticated %}disabled="disabled"{% endif %} onclick="star();">
+        <span class="glyphicon glyphicon-star{% if have_star == -1 %}-empty{% endif %}" id="like-icon"></span><span> </span><span id="like" >{{ dataset.star }}</span>
+      </button>
     </div>
   </div>
 
