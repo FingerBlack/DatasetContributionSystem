@@ -42,6 +42,11 @@ def signup_view(request):
 def profile_view(request):
     return render(request, 'user/profile.html')
 
+def profile_view(request, username):
+    if UserProfile.objects.filter(username = username).exists():
+        return render(request, 'user/profile.html', {'profile': UserProfile.objects.get(username = username)})
+    return render(request, 'failure.html', {'title': '无此用户！'})
+
 @login_required
 def revise_view(request):
     if request.method == "POST":
