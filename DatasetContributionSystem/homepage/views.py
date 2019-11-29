@@ -6,4 +6,7 @@ from django.views.decorators.cache import cache_page
 # Create your views here.
 
 def index(request):
-    return render(request, 'homepage/home.html', {'dataset': dataset.objects.all(), 'task':task.objects.all()})
+    data = dataset.objects.all().order_by('-star')
+    if data.count() > 5:
+        data = data[:5]
+    return render(request, 'homepage/home.html', {'dataset': data, 'task':task.objects.all()})
