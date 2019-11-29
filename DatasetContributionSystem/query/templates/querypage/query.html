@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}查找{% endblock %}
-
 {% block head %}
 <script>
-(function () {
+    (function () {
   'use strict'
 
   window.addEventListener('load', function () {
@@ -75,55 +74,38 @@
 
     }
 </style>
-
-
 {% endblock %}
 {% block content %}
-
-<main role="main" class="bg-light">
-  <section class="jumbotron text-center">
-<div style="margin-top:50px">
-    <h1 class="h1 mb-2 text-primary" style="text-align:center"> 
-      Search
-    </h1>
-
-    <div class="form-signin col-md-20"  
-     style="margin-top:0px positon:relative">
-
-        {% csrf_token %}
-        <h1 class="h3 mb-2 font-weight-normal" style="text-align:left"> Input the Datasetname you want to search </h1>
-        <label for="Datasetname" class="sr-only">Dataset name</label>
-
-        <!-- <form method="get" action="search/" class="input-group col-md-20" style="margin-top:0px positon:relative"> -->
-             <form method="get" action="/query/search" class="input-group col-md-20" id="form" style="margin-top:0px positon:relative" >
-        
-            {% csrf_token %}
-            <input type="text" name="Datasetname" class="form-control" placeholder="Dataset name" 
-            required="">
-            
-            <button id= "submit" onclick="updata()" class="btn btn-primary btn-lg" form ="form" >
-                    Search
-            </button>
-           
-            
-      </form>
-        <label for="Taskname" class="sr-only">Task name</label>
-        <h1 class="h3 mb-2 font-weight-normal" style="text-align:left "> Input the Taskname you want to search 
-        </h1>
-        <form method="get" action="/query/search" class="input-group col-md-20" id="form1" style="margin-top:0px positon:relative" >
-        
+<main role="main" class="">
+    <section class="text-center">
+        <div style="margin-top:50px">
+            <h1 class="h1 mb-2 text-primary" style="text-align:center">
+                搜索
+            </h1>
+            <div class="form-signin col-md-20" style="margin-top:0px positon:relative">
                 {% csrf_token %}
-            <input type="search" name="Taskname" id="Taskname" class="form-control" placeholder="Task name" required="" >
-             <button id= "submit" form ="form1" class="btn btn-primary btn-lg" >
-                    Search
-            </button>
-           
-        </form>
-     
-        <p class="mt-5 mb-3 text-muted">© 2017-2019</p>
-    </div>
-</div>
-
+                <p style="text-align:left"> 输入你想输入的数据集名 </p>
+                <label for="Datasetname" class="sr-only">数据集名</label>
+                <!-- <form method="get" action="search/" class="input-group col-md-20" style="margin-top:0px positon:relative"> -->
+                <form method="get" action="/query/Dataset_search" class="input-group col-md-20" id="form" style="margin-top:0px positon:relative">
+                    {% csrf_token %}
+                    <input type="text" name="Datasetname" class="form-control" placeholder="数据集名" required="">
+                    <button id="submit" class="btn btn-primary btn-lg" form="form">
+                        搜索
+                    </button>
+                </form>
+                <label for="Taskname" class="sr-only">任务名</label>
+                <p class=" mb-2 font-weight-normal" style="text-align:left "> 输入你想输入的任务名
+                </p>
+                <form method="get" action="/query/Task_search" class="input-group col-md-20" id="form1" style="margin-top:0px positon:relative">
+                    {% csrf_token %}
+                    <input type="search" name="Taskname" id="Taskname" class="form-control" placeholder="任务名" required="">
+                    <button id="submit" form="form1" class="btn btn-primary btn-lg">
+                        搜索
+                    </button>
+                </form>
+                <p class="mt-5 mb-3 text-muted">© 2017-2019</p>
+            </div>
+        </div>
 </main>
-    
 {% endblock %}
