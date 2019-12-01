@@ -44,8 +44,9 @@ def delete(request, datasetname, taskid):
         task_tmp = task.objects.get(id=taskid)
     except:
         return HttpResponseRedirect('/task/')
-    if task_tmp.owner == request.user.username:
+    if task_tmp.owner == request.user:
         task_tmp.delete()
+        return render(request, 'success.html', {'title': '删除任务成功'})
     return HttpResponseRedirect('/task/')
 
 
@@ -57,10 +58,10 @@ def change(request, datasetname, taskid):
         description = request.POST.get('description', '')
         amount = request.POST.get('amount', '')
         task_tmp = task.objects.get(id=taskid)
-        task_tmp.name=name
-        task_tmp.deadline=deadline
-        task_tmp.description=description
+        task_tmp.name = name
+        task_tmp.deadline = deadline
+        task_tmp.description = description
         task_tmp.amount = amount
         task_tmp.save()
-        return render(request, 'success.html', {'title':'修改任务成功'})
+        return render(request, 'success.html', {'title': '修改任务成功'})
     return render(request, 'task/change.html', {'task': task.objects.get(id=taskid)})
