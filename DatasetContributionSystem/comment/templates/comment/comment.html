@@ -28,50 +28,35 @@
                     <p>
                         <a href="post/" class="btn btn-primary my-2">添加评论</a>
                     </p>
-                    
-
+                    <p>
+                        <button type="button" class="btn badge-success">数据集平均得分：{{ avg_score }} (由用户评价所得)</button>
+                    </p>
                 </div>
             </div>
         </section>
 
         <div class="container">
             <div class="row">
-                <table class="table">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">序号</th>
-                        <th scope="col">用户名</th>
-                        <th scope="col"><centre>评论内容</centre></th>
-                        <th scope="col">数据集</th>
-                        <th scope="col">数据集评分</th>
-                        <th scope="col">评论时间</th>
-                        <th scope="col">编辑</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+
                     {%for item in comment%}
-                        <tr id="row-{{item.id}}">
-                            <td class="SortCLASS" scope="row"></td>
-                            <td>{{ item.Username }}</td>
-                            <td>{{ item.Description }}</td>
-                            <td>{{ item.DatasetName.name }}</td>
-                            <td>{{ item.Score }}</td>
-                            <td>{{ item.Time }}</td>
-                            <td><button type="button" class="btn btn-warning" {% if not request.user == item.Username %}disabled="disabled"{% endif %} onclick='
-                                    $.post("/dataset/{{item.DatasetName.name}}/comment/delete/",
-                                    {
-                                    id:"{{item.id}}",
-                                    csrfmiddlewaretoken:"{{csrf_token}}"
-                                    },
-                                    function(data,status){
-                                    $("#row-{{item.id}}").remove();
-                                    });
-                                    '>删除</button>
-                            </td>
-                        </tr>
+                        <div class="col-12" style="margin:10px;" id="row-{{item.id}}">
+                            <div class="alert-dark" role="alert" style="padding:10px; word-break:break-all; word-wrap:break-word; white-space:inherit"><span class="font-weight-bold">用户名</span> {{ item.Username }} <span class="font-weight-bold">评价数据集</span> {{ item.DatasetName.name }} <span class="font-weight-bold">评分</span> {{ item.Score }} <span class="font-weight-bold">评论时间</span> {{ item.Time }}</div>
+                            <div class="alert alert-success" role="alert" style="word-break:break-all; word-wrap:break-word; white-space:inherit">{{ item.Description }}</div>
+                            <div class="float-right"><a href="/dataset/{{item.DatasetName.name}}/comment/{{item.id}}/change/" class="btn btn-warning" {% if not request.user == item.Username %}disabled="disabled"{% endif %} >修改</a>
+
+                                <button type="button" class="btn btn-danger" {% if not request.user == item.Username %}disabled="disabled"{% endif %} onclick='
+                                        $.post("/dataset/{{item.DatasetName.name}}/comment/delete/",
+                                        {
+                                        id:"{{item.id}}",
+                                        csrfmiddlewaretoken:"{{csrf_token}}"
+                                        },
+                                        function(data,status){
+                                        $("#row-{{item.id}}").remove();
+                                        });
+                                        '>删除</button>
+                            </div>
+                        </div>
                     {%endfor%}
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

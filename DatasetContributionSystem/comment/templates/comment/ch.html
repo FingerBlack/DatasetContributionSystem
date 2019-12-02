@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}添加评论{% endblock %}
+{% block title %}修改评论{% endblock %}
 {% block head %}
     <script>
         (function () {
@@ -28,8 +28,8 @@
     <div class="bg-light">
         <div class="container">
             <div class="py-5 text-center">
-                <h2>添加评论</h2>
-                <p class="lead">输入信息，以添加你的评论。</p>
+                <h2>修改评论</h2>
+                <p class="lead">输入信息，以重新添加你的评论。</p>
             </div>
 
             <div class="row">
@@ -40,7 +40,7 @@
 
                         <div class="mb-3">
                             <label for="description">评论描述</label>
-                            <textarea style='height: 100' class="form-control" name="description" required=""></textarea>
+                            <textarea style='height: 100' class="form-control" name="description" required="">{{ commentchange.Description }}</textarea>
                             <div class="invalid-feedback">
                                 请输入具体评论内容(不超过1000字)
                             </div>
@@ -49,10 +49,10 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="addon-wrapping">Score</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Score(1~100)" aria-label="score" aria-describedby="addon-wrapping" name="score" required="">
+                            <input type="text" class="form-control" placeholder="Score(1~100)" value={{ commentchange.Score }} aria-label="score" aria-describedby="addon-wrapping" name="score" required="">
                         </div>
                         <hr class="mb-4">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">完成添加</button>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">完成修改</button>
                     </form>
                 </div>
             </div>
