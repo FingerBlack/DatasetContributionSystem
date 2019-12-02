@@ -53,10 +53,10 @@ urlpatterns = [
     path('signup/', user_views.signup_view), 
     path('profile/<str:username>/', user_views.profile_view),
     path('profile/<str:username>/revise/', user_views.revise_view),
-    path('profile/<str:username>/avator/', user_views.avator_view),
+    path('profile/<str:username>/avatar/', user_views.avatar_view),
     
     path('dataset/<str:datasetname>/comment/',comment_views.idex),
     path('dataset/<str:datasetname>/comment/post/',comment_views.post),
     path('dataset/<str:datasetname>/comment/delete/',comment_views.delete),
     path('dataset/<str:datasetname>/star/',comment_views.star_views),
-] + static(settings.MEDIA_URL, document_root= '.' + settings.MEDIA_ROOT)
+]

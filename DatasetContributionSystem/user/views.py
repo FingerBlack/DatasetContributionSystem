@@ -77,7 +77,7 @@ def revise_view(request, username):
     return render(request, 'user/revise.html') 
 
 @login_required
-def avator_view(request, username):
+def avatar_view(request, username):
     if request.method == 'POST':
         img = request.FILES.get('img')
         try:
@@ -86,11 +86,11 @@ def avator_view(request, username):
             return render(request, 'failure.html', {'title':'请检查上传图片格式'})
 
         img_name = str(uuid.uuid4())
-        img_path = os.path.join('.' + settings.MEDIA_ROOT, 'avator')
+        img_path = os.path.join('.' + settings.MEDIA_ROOT, 'avatar')
         if not os.path.exists(img_path):
             os.makedirs(img_path)
         img.save(os.path.join(img_path, img_name + '.jpg'))
-        request.user.avator = os.path.join(settings.MEDIA_ROOT, 'avator', img_name + '.jpg')
+        request.user.avator = os.path.join(settings.MEDIA_ROOT, 'avatar', img_name + '.jpg')
         request.user.save()
         return render(request, 'success.html', {'title':'修改头像成功'})
             

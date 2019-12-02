@@ -232,6 +232,7 @@ def download(request, datasetname):
                 request.user.save()
                 data.owner.balance += data.price
                 data.owner.save()
+                return HttpResponse(json.dumps({'status': 'buy success'}))
             else:
                 return render(request, 'failure.html', {'title': '没钱还下载，你炸了！'})
     dh = DatasetHandler(request.user, data)
