@@ -44,11 +44,11 @@
     <script type="text/javascript">
         $(function () {
             $('#ddl').datetimepicker({
+                defaultDate: '{{ task.deadline }}',
                 format: 'YYYY-MM-DD',
-                locale: 'zh-CN'
+                locale: 'zh-CN',
             });
         });
-        {#$("#ddl").datetimepicker("setDate", {{ task.deadline }});#}
     </script>
 
 {% endblock %}
@@ -73,7 +73,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="description">描述</label>
-                        <textarea style='height: 100px' class="form-control" name="description" required=""></textarea>
+                        <textarea style='height: 100px' class="form-control" name="description" required="">{{ task.description }}</textarea>
                         <div class="invalid-feedback">
                             请输入任务描述
                         </div>

@@ -16,6 +16,7 @@ class dataset(models.Model):
     dataType = models.IntegerField(choices = dataType_str)
     cached_time = models.DateTimeField(default = timezone.now)
     last_revise_time = models.DateTimeField(default = timezone.now)
+    star = models.IntegerField(default = 0)
     def __str__(self):
         return self.name
 
@@ -25,3 +26,13 @@ class datasetFileIndex(models.Model):
     owner = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
     upload_time = models.DateTimeField(default = timezone.now)
     size = models.IntegerField(default = 0)
+
+class transaction(models.Model):
+    user1 = models.ForeignKey(UserProfile, on_delete = models.CASCADE, related_name = "transaction_user1")
+    user2 = models.ForeignKey(UserProfile, on_delete = models.CASCADE, related_name = "transaction_user2")
+    detail = models.CharField(max_length = 50)
+    amount = models.FloatField()
+
+class userBuyDataset(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
+    dataset = models.ForeignKey(dataset, on_delete = models.CASCADE)

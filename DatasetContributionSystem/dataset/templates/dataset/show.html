@@ -1,9 +1,24 @@
 {% extends 'base.html' %}
 {% block title %}test-title{% endblock %}
 {% load my_filter %}
+{% block head %}
+<script>
+  var have_star = {{ have_star }};
+  function star(){
+    $.get('/dataset/{{dataset.name}}/star/', star_suc());
+  }
+  function star_suc(){
+    have_star *= -1;
+    document.getElementById("like").innerHTML = parseInt(document.getElementById("like").innerHTML) + have_star;
+    if (have_star == 1) {
+      $("#like-icon").attr('class', 'glyphicon glyphicon-star');
+    } else {
+      $("#like-icon").attr('class', 'glyphicon glyphicon-star-empty');
+    }
+  };
+</script>
+{% endblock %}
 {% block content %}
-
-
 <main role="main">
   <div class="jumbotron">
     <div class="container">
@@ -12,6 +27,9 @@
       <a href="/dataset/{{dataset.name}}/task/create/"><button class="btn btn-primary btn-lg" role="button">发布任务 &raquo;</button></a>
       <a href="/dataset/{{dataset.name}}/manage/"><button class="btn btn-primary btn-lg" role="button">管理 &raquo;</button></a>
       <p>数据集大小:{{dataset.size | unitConvert}} 数据集发布日期:{{dataset.createdTime}}</p>
+      <button type="button" class="btn btn-danger" style="vertical-align: middle" {% if not request.user.is_authenticated %}disabled="disabled"{% endif %} onclick="star();">
+        <span class="glyphicon glyphicon-star{% if have_star == -1 %}-empty{% endif %}" id="like-icon"></span><span> </span><span id="like" >{{ dataset.star }}</span>
+      </button>
     </div>
   </div>
 
@@ -30,12 +48,41 @@
       <div class="col-md-4">
         <h2>下载</h2>
         <p>前往下载界面以获取全部数据集。</p>
-        <p><a class="btn btn-secondary" href="/dataset/{{dataset.name}}/download/" role="button">前往下载 &raquo;</a></p>
+        {% if not user_have_bought %}
+        <button id="download-btn" class="btn btn-secondary" onclick="$('#download-confirm').modal('show');">购买数据集 &raquo;</button>
+        {% else %}
+        <button id="download-btn" class="btn btn-secondary" onclick="window.location='/dataset/{{dataset.name}}/download/';">立刻下载 &raquo;</button>
+        {% endif %}
       </div>
     </div>
     <hr>
   </div>
-
 </main>
+<div class="modal" tabindex="-1" role="dialog" id="download-confirm">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">确认购买</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>数据集价格:{{dataset.price}}</p>
+        <p>用户余额:{{request.user.balance}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" 
+        {% if request.user.balance < dataset.price %}disabled="disabled"{% endif %}
+        onclick="
+        $('#download-confirm').modal('hide');
+        $('#download-btn').attr('onclick', 'window.location=\'/dataset/{{dataset.name}}/download/\';');
+        $('#download-btn').text('立刻下载 &raquo;');
+        ">确认购买</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

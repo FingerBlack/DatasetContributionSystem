@@ -187,7 +187,7 @@
                 <ul class="list-group">
                     {% for item in dataset %}
                     <a href="/dataset/{{item.name}}/">
-                        <li class="list-group-item" href="/">{{item.name}}</li>
+                        <li class="list-group-item" href="/">{{item.name}}<span>*{{item.star}}</span></li>
                     </a>
                     {% endfor %}
                     <a href="/dataset/">
@@ -199,7 +199,7 @@
                     <h3>热门任务</h3>
                     <ul class="list-group">
                         {% for item in task %}
-                        <a href="/dataset/{{item.dataset.name}}/task/{{item.name}}/">
+                        <a href="/dataset/{{item.dataset.name}}/task/{{item.id}}/">
                             <li class="list-group-item" href="/">{{item.name}}</li>
                         </a>
                         {% endfor %}

@@ -1,6 +1,9 @@
 from django.shortcuts import render
-from .models import dataset, datasetFileIndex
+from .models import dataset, datasetFileIndex, transaction, userBuyDataset
+from user.models import UserProfile
 from task.models import task
+from comment.models import star
+from django.db import transaction as db_transaction
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, FileResponse
 from django.conf import settings
@@ -10,7 +13,16 @@ from django.views.decorators.cache import cache_page
 
 # Create your views here.
 def index(request):
-    return render(request, 'dataset/dataset.html', {'dataset': dataset.objects.all()})
+    data = dataset.objects.all()
+    for item in data:
+        if request.user.is_authenticated:
+            if userBuyDataset.objects.filter(user = request.user, dataset = item).exists():
+                item.bought = True
+            else:
+                item.bought = False
+        else:
+            item.bought = False
+    return render(request, 'dataset/dataset.html', {'dataset': data})
 
 @login_required
 def create(request):
@@ -193,9 +205,17 @@ def show(request, datasetname):
         data = dataset.objects.get(name = datasetname)
     except:
         return render(request, 'failure.html', {'title': '所选数据集不存在'})
+    if request.user.is_authenticated and userBuyDataset.objects.filter(dataset = data, user = request.user).exists():
+        user_have_bought = True
+    else:
+        user_have_bought = False
+    if request.user.is_authenticated and star.objects.filter(DatasetName = data, Username = request.user).exists():
+        have_star = 1
+    else:
+        have_star = -1
     data.page_view += 1
     data.save()
-    return render(request, 'dataset/show.html', {'dataset': data})
+    return render(request, 'dataset/show.html', {'dataset': data, 'user_have_bought': user_have_bought, 'have_star': have_star})
 
 @login_required
 def download(request, datasetname):
@@ -203,6 +223,17 @@ def download(request, datasetname):
         data = dataset.objects.get(name = datasetname)
     except:
         return render(request, 'failure.html', {'title': '所选数据集不存在'})
+    if not userBuyDataset.objects.filter(dataset = data, user = request.user).exists():
+        with db_transaction.atomic():
+            if request.user.balance >= data.price:
+                transaction.objects.create(user1 = request.user, user2 = data.owner, detail = data.name, amount = data.price)
+                userBuyDataset.objects.create(user = request.user, dataset = data)
+                request.user.balance -= data.price
+                request.user.save()
+                data.owner.balance += data.price
+                data.owner.save()
+            else:
+                return render(request, 'failure.html', {'title': '没钱还下载，你炸了！'})
     dh = DatasetHandler(request.user, data)
     data.page_download += 1
     data.save()

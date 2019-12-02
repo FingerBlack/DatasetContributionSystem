@@ -11,3 +11,7 @@ class comment(models.Model):
     Score = models.IntegerField()
     Time = models.DateTimeField(default = timezone.now)
     Like = models.IntegerField(default = 0)
+
+class star(models.Model):
+    DatasetName = models.ForeignKey(dataset, on_delete=models.CASCADE, related_name = "star_dn")
+    Username = models.ForeignKey(UserProfile, on_delete=models.CASCADE)

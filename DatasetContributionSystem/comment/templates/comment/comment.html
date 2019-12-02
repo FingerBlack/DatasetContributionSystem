@@ -1,82 +1,76 @@
 {% extends 'base.html' %}
 {% block title %}评论区{% endblock %}
-{% block head %}<style>tbody {
-   counter-reset:sectioncounter;
-}
+{% block head %}
+    <meta charset="utf-8">
+    <style>tbody {
+        counter-reset:sectioncounter;
+    }
 
-.SortCLASS:before {
-   content:counter(sectioncounter);
-   counter-increment:sectioncounter;
+    .SortCLASS:before {
+        content:counter(sectioncounter);
+        counter-increment:sectioncounter;
 
-}
-</style>
+    }
 
-
-
-
+    </style>
+    <script>
+        var i = {{ i }};
+    </script>
 {% endblock %}
 
 {% block content %}
     <div class="bg-light">
-    <section class="jumbotron text-center">
-        <div class="container">
-            <div class="py-5 text-center">
-                <h2>数据集评论区</h2>
-                <p class="lead">在这里，可以添加对数据集的任何评论。</p>
-                <p>
-                    <a href="post/" class="btn btn-primary my-2">添加评论</a>
-                </p>
-                <p>
-                    <a><button type="button" class="btn btn-danger" onclikc="myfunction()">11</button></a>
-                    <script>
-                        function myfunction(){
-                            document.getElementById('like').innerHTML=parseInt(document.getElementById('like').innerHTML)+1;
-                        }
+        <section class="jumbotron text-center">
+            <div class="container">
+                <div class="py-5 text-center">
+                    <h2>数据集评论区</h2>
+                    <p class="lead">在这里，可以添加对数据集的任何评论。</p>
+                    <p>
+                        <a href="post/" class="btn btn-primary my-2">添加评论</a>
+                    </p>
+                    
 
-                    </script>
-                    &ensp;<a id="like"><button type="button" class="btn btn-success">{{ check.Like }}</button></a>
-                </p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
         <div class="container">
             <div class="row">
                 <table class="table">
-                      <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">序号</th>
-                          <th scope="col">用户名</th>
-                          <th scope="col"><centre>评论内容</centre></th>
-                          <th scope="col">数据集</th>
-                            <th scope="col">数据集评分</th>
-                            <th scope="col">评论时间</th>
-                            <th scope="col">编辑</th>
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">序号</th>
+                        <th scope="col">用户名</th>
+                        <th scope="col"><centre>评论内容</centre></th>
+                        <th scope="col">数据集</th>
+                        <th scope="col">数据集评分</th>
+                        <th scope="col">评论时间</th>
+                        <th scope="col">编辑</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {%for item in comment%}
+                        <tr id="row-{{item.id}}">
+                            <td class="SortCLASS" scope="row"></td>
+                            <td>{{ item.Username }}</td>
+                            <td>{{ item.Description }}</td>
+                            <td>{{ item.DatasetName.name }}</td>
+                            <td>{{ item.Score }}</td>
+                            <td>{{ item.Time }}</td>
+                            <td><button type="button" class="btn btn-warning" {% if not request.user == item.Username %}disabled="disabled"{% endif %} onclick='
+                                    $.post("/dataset/{{item.DatasetName.name}}/comment/delete/",
+                                    {
+                                    id:"{{item.id}}",
+                                    csrfmiddlewaretoken:"{{csrf_token}}"
+                                    },
+                                    function(data,status){
+                                    $("#row-{{item.id}}").remove();
+                                    });
+                                    '>删除</button>
+                            </td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {%for item in comment%}
-                            <tr id="row-{{item.id}}">
-                                <td class="SortCLASS" scope="row"></td>
-                                <td>{{ item.Username }}</td>
-                                <td>{{ item.Description }}</td>
-                                <td>{{ item.DatasetName.name }}</td>
-                                <td>{{ item.Score }}</td>
-                                <td>{{ item.Time }}</td>
-                                <td><button type="button" class="btn btn-warning" {% if not request.user == item.Username %}disabled="disabled"{% endif %} onclick='
-                                            $.post("/dataset/{{item.DatasetName.name}}/comment/delete/",
-                                            {
-                                            id:"{{item.id}}",
-                                            csrfmiddlewaretoken:"{{csrf_token}}"
-                                            },
-                                            function(data,status){
-                                            $("#row-{{item.id}}").remove();
-                                            });
-                                            '>删除</button>
-                                </td>
-                            </tr>
-                        {%endfor%}
-                      </tbody>
+                    {%endfor%}
+                    </tbody>
                 </table>
             </div>
         </div>

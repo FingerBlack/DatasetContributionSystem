@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from user.models import UserProfile
+from dataset.models import dataset
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 
@@ -15,7 +16,7 @@ def login_view(request):
         if user is not None:
             #返回用户页面
             login(request, user)
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(request.GET.get('next', '/'))
         else:
             #返回登陆失败页面
             return render(request, 'failure.html', {'title':'登陆失败', 'content':'登陆失败，用户名或密码错误'})
@@ -38,9 +39,12 @@ def signup_view(request):
             return render(request, 'failure.html', {'title':'注册失败', 'content':'请检查用户名与密码可用性'})
     return render(request, 'user/signup.html')
 
-@login_required
-def profile_view(request):
-    return render(request, 'user/profile.html')
+def profile_view(request, username):
+    if UserProfile.objects.filter(username = username).exists():
+        user = UserProfile.objects.get(username = username)
+        return render(request, 'user/profile.html', {'user': UserProfile.objects.get(username = username),
+        'dataset': dataset.objects.filter(owner = user)})
+    return render(request, 'failure.html', {'title': '无此用户！'})
 
 @login_required
 def revise_view(request):

@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
 import os
-from .models import Lists
 from dataset.models import dataset
 from django.core.paginator import Paginator
 from task.models import task
@@ -12,11 +11,11 @@ from itertools import chain
 def index(request):
     return render(request, 'querypage/query.html', {'dataset': dataset.objects.all()})
 
-def search(request):
+def Dataset_search(request):
     if  request.method == "GET":
-        x =str(request.GET.get("Datasetname") )
-        y =str(request.GET.get("Taskname"))
+        x =str(request.GET.get("Datasetname")) 
         list_all=[]
+        name_list=[]
         data=[]
         if x != None:
             for i in x.split(' '):
@@ -24,19 +23,9 @@ def search(request):
             list2=[]
             for i in list_all:
                 list2.append(i.name)
-            Lists.name_list = dataset.objects.filter(name__in=list2)  
-        elif y!= None:
-            for i in y.split(' '):
-                list_all=chain(list_all,task.objects.filter(name__contains = i))
-            list2=[]
-        return paginator(request)
-        #return render(request,'querypage/result.html',context={
-def paginator(request):
-    #paginator = Paginator(dataset, settings.EACH_OF_NUMBER)#每10篇文章分一页
-    #page_of_blogs = paginator.get_page(page_num)#get_page方法处理用户输入的错误值
-    #name_list = dataset.objects.all().filter(name__contains = x)  #导入的Article模型
-    p = Paginator(Lists.name_list,6)   #分页，6篇文章一页
-    result_list = Lists.name_list  
+            name_list = dataset.objects.filter(name__in=list2)  
+    p = Paginator(name_list,6)   #分页，6篇文章一页
+    result_list =name_list  
     if p.num_pages <= 1:  #如果文章不足一页
         data = ''  #不需要分页按钮
     else:
@@ -62,7 +51,6 @@ def paginator(request):
         last = False  # 标示是否需要显示最后一页的页码号。
         total_pages = p.num_pages  
         page_range = p.page_range
-
         if page == 1:  #如果请求第1页
             right = page_range[page:page+2]  #获取右边连续号码页
             if right[-1] < total_pages - 1:    # 如果最右边的页码号比最后一页的页码号减去 1 还要小，
@@ -88,7 +76,6 @@ def paginator(request):
                 right_has_more = True
             if right[-1] < total_pages:
                 last = True
-
         data = {    #将数据包含在data字典中
             'left':left,
             'right':right,
@@ -97,8 +84,11 @@ def paginator(request):
             'first':first,
             'last':last,
             'total_pages':total_pages,
-            'page':page
+            'page':page,
+            'Datasetname':x
         }
-    return render(request,'querypage/result.html',context={
+    return render(request,'querypage/Dataset_result.html',context={
         'dataset':result_list,'data':data
     })
+def Task_search(request):
+    return render(request, 'querypage/query.html', {'dataset': dataset.objects.all()})
