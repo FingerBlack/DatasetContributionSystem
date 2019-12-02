@@ -152,6 +152,8 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.AppDirectoriesFinder"
 )
 
+SESSION_COOKIE_AGE = 60*30
+
 #import local_settings
 try:
     from local_settings import *
