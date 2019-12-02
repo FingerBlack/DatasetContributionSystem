@@ -22,7 +22,9 @@ from user import views as user_views
 from dataset import views as dataset_views
 from task import views as task_views
 from query import views as query_views
-
+from django.conf import settings
+from django.conf.urls.static import static
+import os
 
 urlpatterns = [
     path('', homepage_views.index),
@@ -49,11 +51,12 @@ urlpatterns = [
     path('query/Task_search/', query_views.Task_search),
     path('logout/', user_views.logout_view),
     path('signup/', user_views.signup_view), 
-    path('profile/revise/', user_views.revise_view),
-    path('profile/<str:username>/', user_views.profile_view), 
-
+    path('profile/<str:username>/', user_views.profile_view),
+    path('profile/<str:username>/revise/', user_views.revise_view),
+    path('profile/<str:username>/icon/', user_views.icon_view),
+    
     path('dataset/<str:datasetname>/comment/',comment_views.idex),
     path('dataset/<str:datasetname>/comment/post/',comment_views.post),
     path('dataset/<str:datasetname>/comment/delete/',comment_views.delete),
     path('dataset/<str:datasetname>/star/',comment_views.star_views),
-]
+] + static(settings.MEDIA_URL, document_root= '.' + settings.MEDIA_ROOT)

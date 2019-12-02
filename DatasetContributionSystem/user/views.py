@@ -5,6 +5,10 @@ from user.models import UserProfile
 from dataset.models import dataset
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
+import os, uuid
+from django.conf import settings
+from django.http import HttpResponse
+from PIL import Image
 
 # Create your views here.
 def login_view(request):
@@ -47,7 +51,7 @@ def profile_view(request, username):
     return render(request, 'failure.html', {'title': '无此用户！'})
 
 @login_required
-def revise_view(request):
+def revise_view(request, username):
     if request.method == "POST":
         old_password = request.POST.get('old_password', '')
         new_password = request.POST.get('new_password', '')
@@ -71,4 +75,22 @@ def revise_view(request):
         else:
             return render(request, 'failure.html', {'title':'修改失败', 'content':'旧密码不正确'})
     return render(request, 'user/revise.html') 
-    
+
+@login_required
+def icon_view(request, username):
+    if request.method == 'POST':
+        img = request.FILES.get('img')
+        try:
+            img = Image.open(img)
+        except:
+            return render(request, 'failure.html', {'title':'请检查上传图片格式'})
+
+        img_name = str(uuid.uuid4())
+        img_path = os.path.join('.' + settings.MEDIA_ROOT, 'icon')
+        img.save(os.path.join(img_path, img_name + '.jpg'))
+        request.user.icon = os.path.join(settings.MEDIA_ROOT, 'icon', img_name + '.jpg')
+        print(request.user.icon)
+        request.user.save()
+        return render(request, 'success.html', {'title':'修改头像成功'})
+            
+    return render(request, 'user/icon.html') 
