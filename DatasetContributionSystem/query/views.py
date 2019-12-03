@@ -147,9 +147,7 @@ def Task_search(request):
         'Taskname':x,
         'order':order
     }
-    if p.num_pages <= 1:  #如果文章不足一页
-        data = ''  #不需要分页按钮
-    else:
+    if p.num_pages > 1: 
         page = int(request.GET.get('page',1))  #获取请求的文章页码，默认为第一页
         add =int(request.GET.get('item',-2))
         if add == 1:
