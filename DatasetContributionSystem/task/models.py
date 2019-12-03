@@ -16,6 +16,7 @@ class task(models.Model):
     amount = models.BigIntegerField(default=0)
     pv = models.IntegerField()  # 浏览次数
 
+
 class complete(models.Model):
     task = models.ForeignKey(task, on_delete=models.CASCADE)
     amount = models.BigIntegerField(default=0)
