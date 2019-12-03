@@ -58,6 +58,7 @@ def revise_view(request, username):
         description = request.POST.get('description', '')
         first_name = request.POST.get('first_name', '')
         last_name = request.POST.get('last_name', '')
+        img = request.FILES.get('img')
         if check_password(old_password, request.user.password):
             try:
                 if len(new_password) > 0:
@@ -68,6 +69,17 @@ def revise_view(request, username):
                     request.user.first_name = first_name
                 if len(last_name) > 0:    
                     request.user.last_name = last_name
+                try:
+                    img = Image.open(img)
+                except:
+                    return render(request, 'failure.html', {'title':'请检查上传图片格式'})
+
+                img_name = str(uuid.uuid4())
+                img_path = os.path.join('.' + settings.MEDIA_ROOT, 'avatar')
+                if not os.path.exists(img_path):
+                    os.makedirs(img_path)
+                img.save(os.path.join(img_path, img_name + '.jpg'))
+                request.user.avatar = os.path.join(settings.MEDIA_ROOT, 'avatar', img_name + '.jpg')
                 request.user.save()
                 return render(request, 'success.html', {'title':'修改成功'})
             except:
@@ -82,23 +94,3 @@ def show_avatar(request, username):
     file = open(img_path, "rb")
     response = FileResponse(file)
     return response
-
-@login_required
-def avatar_view(request, username):
-    if request.method == 'POST':
-        img = request.FILES.get('img')
-        try:
-            img = Image.open(img)
-        except:
-            return render(request, 'failure.html', {'title':'请检查上传图片格式'})
-
-        img_name = str(uuid.uuid4())
-        img_path = os.path.join('.' + settings.MEDIA_ROOT, 'avatar')
-        if not os.path.exists(img_path):
-            os.makedirs(img_path)
-        img.save(os.path.join(img_path, img_name + '.jpg'))
-        request.user.avatar = os.path.join(settings.MEDIA_ROOT, 'avatar', img_name + '.jpg')
-        request.user.save()
-        return render(request, 'success.html', {'title':'修改头像成功'})
-            
-    return render(request, 'user/avatar.html') 

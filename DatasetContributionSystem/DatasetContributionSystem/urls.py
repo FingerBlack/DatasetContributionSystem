@@ -53,7 +53,6 @@ urlpatterns = [
     path('signup/', user_views.signup_view), 
     path('profile/<str:username>/', user_views.profile_view),
     path('profile/<str:username>/revise/', user_views.revise_view),
-    path('profile/<str:username>/revise_avatar/', user_views.avatar_view),
     path('profile/<str:username>/avatar/', user_views.show_avatar),
     
     path('dataset/<str:datasetname>/comment/',comment_views.idex),
