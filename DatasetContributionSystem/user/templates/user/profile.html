@@ -25,7 +25,7 @@
 
 
     <!-- START THE FEATURETTES -->
-
+    {%if dataset|length > 0%}
     <div class="row col-2" style="margin-bottom: 1rem;">
       <h4>创建的数据集</h4>
     </div>
@@ -51,6 +51,7 @@
       </div>
       {% endfor %}
     </div>
+    {%endif%}
   </div><!-- /.container -->
 </main>
 
