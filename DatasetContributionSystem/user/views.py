@@ -90,9 +90,9 @@ def revise_view(request, username):
             return render(request, 'failure.html', {'title':'修改失败', 'content':'旧密码不正确'})
     return render(request, 'user/revise.html') 
 
-@login_required
+
 def show_avatar(request, username):
-    img_path = '.' + request.user.avatar
+    img_path = '.' + UserProfile.objects.get(username = username).avatar
     file = open(img_path, "rb")
     response = FileResponse(file)
     return response
