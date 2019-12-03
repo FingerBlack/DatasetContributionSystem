@@ -74,6 +74,7 @@ def revise_view(request, username):
                 if img:
                     try:
                         img = Image.open(img)
+                        img = img.convert('RGB')
                     except:
                         return render(request, 'failure.html', {'title':'请检查上传图片格式'})
 
@@ -85,7 +86,8 @@ def revise_view(request, username):
                     request.user.avatar = os.path.join(settings.MEDIA_ROOT, 'avatar', img_name + '.jpg')
                 request.user.save()
                 return render(request, 'success.html', {'title':'修改成功'})
-            except:
+            except Exception as e:
+                print(str(e))
                 return render(request, 'failure.html', {'title':'修改失败'})
         else:
             return render(request, 'failure.html', {'title':'修改失败', 'content':'旧密码不正确'})
