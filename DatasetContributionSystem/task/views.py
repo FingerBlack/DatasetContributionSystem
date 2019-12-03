@@ -24,7 +24,8 @@ def create(request, datasetname):
         try:
             nowDate = datetime.strftime(deadline, "%Y-%m-%d")
         except:
-            return render(request, 'failure.html', {'title':'日期格式错误'})
+            #return render(request, 'failure.html', {'title':'日期格式错误'})
+            pass
 
         task.objects.create(name=name,
                             deadline=deadline,
@@ -75,7 +76,7 @@ def change(request, datasetname, taskid):
         return render(request, 'success.html', {'title': '修改任务成功'})
     return render(request, 'task/change.html', {'task': task.objects.get(id=taskid)})
 
-@login_required
+
 def completeTask(user, taskid, amount):
     if taskid == -1 or task.objects.get(id=taskid) is None:
         return
