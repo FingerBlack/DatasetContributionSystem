@@ -68,28 +68,27 @@
 {% endblock %}
 {% block content %}
 <main role="main" class="">
+    <section class="jumbotron text-center">
+            <div class="container">
+                <h1>搜索</h1>
+                <p class="lead text-muted p-2">你可以搜索平台的数据集和他人发布的任务。</p>
+            </div>
+        </section>
     <section class="text-center">
-        <div style="margin-top:50px">
-            <h1 class="h1 mb-2 text-primary" style="text-align:center">
-                搜索
-            </h1>
-            <div class="form-signin col-md-20" style="margin-top:0px positon:relative">
-                {% csrf_token %}
-                <p style="text-align:left"> 输入你想输入的数据集名 </p>
-                <label for="Datasetname" class="sr-only">数据集名</label>
+        <div style="margin-top:1px">
+            
+            <div class="form-signin " style="margin-top:0px positon:relative">
+                
                 <!-- <form method="get" action="search/" class="input-group col-md-20" style="margin-top:0px positon:relative"> -->
                 <form method="get" action="/query/Dataset_search" class="input-group col-md-20" id="form" style="margin-top:0px positon:relative">
-                    {% csrf_token %}
                     <input type="text" name="Datasetname" class="form-control" placeholder="数据集名" required="">
                     <button id="submit" class="btn btn-primary btn-lg" form="form">
                         搜索
                     </button>
                 </form>
-                <label for="Taskname" class="sr-only">任务名</label>
-                <p class=" mb-2 font-weight-normal" style="text-align:left "> 输入你想输入的任务名
-                </p>
+              
+                
                 <form method="get" action="/query/Task_search" class="input-group col-md-20" id="form1" style="margin-top:0px positon:relative">
-                    {% csrf_token %}
                     <input type="search" name="Taskname" id="Taskname" class="form-control" placeholder="任务名" required="">
                     <button id="submit" form="form1" class="btn btn-primary btn-lg">
                         搜索

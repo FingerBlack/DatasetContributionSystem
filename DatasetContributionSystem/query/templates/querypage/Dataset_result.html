@@ -1,65 +1,74 @@
 {% extends 'base.html' %}
 {% block title %}数据集{% endblock %}
 {% block content %}
-
-<main role="main" class="bg-light">
-  <div class="album py-5 bg-light">
+<div class="album py-4 ">
     <div class="container">
-
-      <div class="row">
-        {%for item in dataset%}
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{item.name}}</text></svg>
-            <div class="card-body">
-              <p class="card-text">{{item.description}}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <a href="/dataset/{{item.name}}/"><button type="button" class="btn btn-sm btn-outline-secondary">展示</></button>
-                  <a href="/dataset/{{item.name}}/download/"><button type="button" class="btn btn-sm btn-outline-secondary">下载</button></a>
-                </div>
-                <small class="text-muted">{{item.pv}}次</small>
-              </div>
-            </div>
-          </div>
+        <div class="btn-group mb-1 " role="group" aria-label="Basic example">
+            <a class="page-link  btn-primary btn-sm  {%if data.order == 0 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{0}}&Datasetname={{data.Datasetname}}">综合排序</a>
+            <a class="page-link  btn-primary btn-sm  {%if data.order == 1 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{1}}&Datasetname={{data.Datasetname}}">浏览量</a>
+            <a class="page-link btn btn-primary btn-sm {%if data.order == 2 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{2}}&Datasetname={{data.Datasetname}}">下载量</a>
+            <a class="page-link btn btn-primary btn-sm {%if data.order == 3 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{3}}&Datasetname={{data.Datasetname}}">创建时间</a>
+            <a class="page-link btn btn-primary btn-sm {%if data.order == 4 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{4}}&Datasetname={{data.Datasetname}}">价格</a>
+            <a class="page-link btn btn-primary btn-sm {%if data.order == 5 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{5}}&Datasetname={{data.Datasetname}}">大小</a>
         </div>
-        {% empty %}
-          <div>暂时还没有这样的数据集！
-        {%endfor%}
-      </div>
+        <div class="row">
+            {%for item in dataset%}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#55595c"></rect>
+                        <text x="10%" y="85%" fill="#eceeef" style="font-size: 1.5em">{{item.name}}</text>
+                    </svg>
+                    {% if item.bought %}
+                    <div style="position:relative; margin-top:-200px; margin-bottom:175px; border-radius: 0px 1000px 1000px 0px;background-color:green; height:25px; width:25%;padding-left:3%;">已在库中</div>
+                    {% endif %}
+                    <div class="card-body">
+                        <p class="card-text">{{item.description}}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="/dataset/{{item.name}}/"><button type="button" class="btn btn-sm btn-outline-secondary">查看详情</button></a>
+                            </div>
+                            <small class="text-muted">浏览：{{item.page_view}}次，下载{{item.page_download}}次</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div>暂时还没有这样的数据集！
+              {%endfor%}
+            </div>
+        </div>
     </div>
-  </div>
-</main>
-  {% if data %}
-  <nav aria-label="...">
-            <ul id="pages" class="pagination m-4 justify-content-end">
-                 <li class="page-item "><a class="page-link" href="/query/Dataset_search/?page={{data.page}}&item={{-1}}&Datasetname={{data.Datasetname}}">previous</a></li>
-                {% if data.first %}
-                {% endif %}
-                {% if data.left %}
-                    {% if data.left_has_more %}
-                        <li class="page-item "><span>...</span></li>
-                    {% endif %}
-                    {% for i in data.left %}
-                        <li class="page-item "><a  class="page-link" href="/query/Dataset_search/?page={{i}}&Datasetname={{data.Datasetname}}">{{i}}</a></li>
-                    {% endfor %}
-                {% endif %}
-                <li class="page-item active"><a   class="page-link" href="/query/Dataset_search/?page={{data.page}}&Datasetname={{data.Datasetname}}">
-                {{data.page}}</a></li>
-                {% if data.right %}
-                    {% for i in data.right %}
-                        <li class=" page-item"><a  class="page-link"href="/query/Dataset_search/?page={{i}}&Datasetname={{data.Datasetname}}">{{i}}</a></li>
-                    {% endfor %}
-                    {% if data.right_has_more %}
-                        <li class="page-item"><span>......</span></li>
-                    {% endif %}
-                {% endif %}
-                {% if data.last %}
-                    <li class="page-item"><a class="page-link" href="/query/Dataset_search/?page={{data.total_pages}}&Datasetname={{data.Datasetname}}">{{data.total_pages}}</a></li>
-                {% endif %}
-                <li class="page-item "><a class="page-link" href="/query/Dataset_search/?page={{data.page}}&item={{1}}&Datasetname={{data.Datasetname}}">next</a></li>
-               
-            </ul>
-            
-{% endif %}
-{% endblock %}
+    {% if data %}
+    <nav aria-label="...">
+        <ul id="pages" class="pagination m-4 justify-content-end">
+            <li class="page-item "><a class="page-link" href="/query/Dataset_search/?page={{data.page}}&order={{data.order}}&item={{-1}}&Datasetname={{data.Datasetname}}">前一页</a></li>
+            {% if data.first %}
+            {% endif %}
+            {% if data.left %}
+            {% if data.left_has_more %}
+            <li class="page-item "><span>...</span></li>
+            {% endif %}
+            {% for i in data.left %}
+            <li class="page-item "><a class="page-link" href="/query/Dataset_search/?page={{i}}&order={{data.order}}&Datasetname={{data.Datasetname}}">{{i}}</a></li>
+            {% endfor %}
+            {% endif %}
+            <li class="page-item active"><a class="page-link" href="/query/Dataset_search/?page={{data.page}}&order={{data.order}}&Datasetname={{data.Datasetname}}">
+                    {{data.page}}</a></li>
+            {% if data.right %}
+            {% for i in data.right %}
+            <li class=" page-item"><a class="page-link" href="/query/Dataset_search/?page={{i}}&order={{data.order}}&Datasetname={{data.Datasetname}}">{{i}}</a></li>
+            {% endfor %}
+            {% if data.right_has_more %}
+            <li class="page-item"><span>......</span></li>
+            {% endif %}
+            {% endif %}
+            {% if data.last %}
+            <li class="page-item"><a class="page-link" href="/query/Dataset_search/?page={{data.total_pages}}&order={{data.order}}&Datasetname={{data.Datasetname}}">{{data.total_pages}}</a></li>
+            {% endif %}
+            <li class="page-item "><a class="page-link" href="/query/Dataset_search/?page={{data.page}}&order={{data.order}}&item={{1}}&Datasetname={{data.Datasetname}}">后一页</a></li>
+        </ul>
+    </nav>
+    {% endif %}
+    {% endblock %}

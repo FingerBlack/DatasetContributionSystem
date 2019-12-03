@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}任务{% endblock %}
+{% block content %}
+    <div class="album py-4">
+        <div class="container">
+            <div class="btn-group mb-1 " role="group" aria-label="Basic example">
+                <a class="page-link  btn-primary btn-sm  {%if data.order == 0 %} active {% endif %}" href="/query/Task_search/?page={{1}}&order={{0}}&Taskname={{data.Taskname}}">综合排序</a>
+                <a class="page-link  btn-primary btn-sm  {%if data.order == 1 %} active {% endif %}" href="/query/Task_search/?page={{1}}&order={{1}}&Taskname={{data.Taskname}}">需求数量</a>
+                 <a class="page-link  btn-primary btn-sm  {%if data.order == 2 %} active {% endif %}" href="/query/Task_search/?page={{1}}&order={{2}}&Taskname={{data.Taskname}}">创建时间</a>
+                  <a class="page-link  btn-primary btn-sm  {%if data.order == 3 %} active {% endif %}" href="/query/Task_search/?page={{1}}&order={{3}}&Taskname={{data.Taskname}}">截止时间</a>
+             
+
+            </div>
+            <div class="row">
+                {%for item in task%}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{item.name}}</text>
+                        </svg>
+                        <div class="card-body">
+                            <p class="card-text">{{item.description}}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <a href="/dataset/{{item.dataset.name}}/task/{{item.id}}/"><button type="button" class="btn btn-sm btn-outline-secondary">详情</button></a>
+                                </div>
+                                <small class="text-muted">{{item.pv}}次</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div>暂时还没有这样的任务！
+                    {%endfor%}
+                </div>
+            </div>
+        </div>
+{% if data %}
+    <ul id="pages" class="pagination m-4 justify-content-end">
+        <li class="page-item "><a class="page-link" href="/query/Dataset_search/?page={{data.page}}&order={{data.order}}&item={{-1}}&Datasetname={{data.Datasetname}}">前一页</a></li>
+        {% if data.first %}
+        {% endif %}
+        {% if data.left %}
+        {% if data.left_has_more %}
+        <li class="page-item "><span>...</span></li>
+        {% endif %}
+        {% for i in data.left %}
+        <li class="page-item "><a class="page-link" href="/query/Task_search/?page={{i}}&order={{data.order}}&Taskname={{data.Taskname}}">{{i}}</a></li>
+        {% endfor %}
+        {% endif %}
+        <li class="page-item active"><a class="page-link" href="/query/Task_search/?page={{data.page}}&order={{data.order}}&Taskname={{data.Taskname}}">
+                {{data.page}}</a></li>
+        {% if data.right %}
+        {% for i in data.right %}
+        <li class=" page-item"><a class="page-link" href="/query/Task_search/?page={{i}}&order={{data.order}}&Taskname={{data.Taskname}}">{{i}}</a></li>
+        {% endfor %}
+        {% if data.right_has_more %}
+        <li class="page-item"><span>......</span></li>
+        {% endif %}
+        {% endif %}
+        {% if data.last %}
+        <li class="page-item"><a class="page-link" href="/query/Task_search/?page={{data.total_pages}}&order={{data.order}}&Taskname={{data.Taskname}}">{{data.total_pages}}</a></li>
+        {% endif %}
+        <li class="page-item "><a class="page-link" href="/query/Task_search/?page={{data.page}}&item={{1}}&order={{data.order}}&Taskname={{data.Taskname}}">后一页</a></li>
+    </ul>
+    {% endif %}
+    {% endblock %}
