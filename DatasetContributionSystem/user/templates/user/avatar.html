@@ -4,7 +4,7 @@
 {% block content %}
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="file" name="img"><br>
-    <button type="submit">提交</button>
+    <input type="file" name="img">
+    <button class="btn btn-primary my-2" type="submit">提交</button>
 </form>
 {% endblock %}
