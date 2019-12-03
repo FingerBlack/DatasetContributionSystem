@@ -46,8 +46,10 @@ def signup_view(request):
 def profile_view(request, username):
     if UserProfile.objects.filter(username = username).exists():
         user = UserProfile.objects.get(username = username)
-        return render(request, 'user/profile.html', {'user': UserProfile.objects.get(username = username),
-        'dataset': dataset.objects.filter(owner = user)})
+        ret = {}
+        ret['user'] = UserProfile.objects.get(username = username)
+        ret['dataset'] = dataset.objects.filter(owner = user)
+        return render(request, 'user/profile.html', ret)
     return render(request, 'failure.html', {'title': '无此用户！'})
 
 @login_required
