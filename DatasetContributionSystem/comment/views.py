@@ -16,11 +16,14 @@ def post(request, datasetname):
         score = request.POST.get('score')
         # print(score)
         # print(request.user.username)
-        comment.objects.create(DatasetName=dataset.objects.get(name=datasetname),
-                               Username=request.user,
-                               Description=description,
-                               Score=int(score))
-        return HttpResponseRedirect('/dataset/' + datasetname + '/comment/')
+        if len(description)>1000:
+            return render(request, 'failure.html', {'title': '提交评论失败（字数限制）'})
+        else:
+            comment.objects.create(DatasetName=dataset.objects.get(name=datasetname),
+                                   Username=request.user,
+                                   Description=description,
+                                   Score=int(score))
+            return HttpResponseRedirect('/dataset/' + datasetname + '/comment/')
     return render(request, 'comment/post.html')
 
 
@@ -28,10 +31,13 @@ def idex(request, datasetname):
     data = dataset.objects.get(name=datasetname)
     dh = comment.objects.filter(DatasetName=data)
     avg_score = 0
-    for item in dh:
-        avg_score = item.Score + avg_score
-    avg_score = avg_score / dh.count()
-    avg_score = int(avg_score)
+    if dh.count() < 2:
+        avg_score = -1
+    else:
+        for item in dh:
+            avg_score = item.Score + avg_score
+        avg_score = avg_score / dh.count()
+        avg_score = int(avg_score)
     print(avg_score)
     return render(request, 'comment/comment.html',
                   {'comment': comment.objects.filter(DatasetName=data).order_by('-id'), 'avg_score': avg_score})
@@ -67,13 +73,16 @@ def star_views(request, datasetname):
         data.save()
     return HttpResponse(json.dumps(ret))
 
-
+@login_required
 def change(request, datasetname, commentid):
 
     if request.method == "POST":
         description = request.POST.get('description', '')
         score = request.POST.get('score', '')
-        comment_tmp = comment.objects.get(id=commentid)
+        try:
+            comment_tmp = comment.objects.get(id=commentid, Username=request.user)
+        except:
+            return render(request, 'failure.html', {'title': '不存在此条评论'})
         comment_tmp.Description = description
         comment_tmp.Score = score
         comment_tmp.save()

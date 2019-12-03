@@ -40,7 +40,7 @@
 
                         <div class="mb-3">
                             <label for="description">评论描述</label>
-                            <textarea style='height: 100' class="form-control" name="description" required=""></textarea>
+                            <textarea maxlength="1000" style='height: 100' class="form-control" name="description" required=""></textarea>
                             <div class="invalid-feedback">
                                 请输入具体评论内容(不超过1000字)
                             </div>
@@ -49,9 +49,11 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="addon-wrapping">Score</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Score(1~100)" aria-label="score" aria-describedby="addon-wrapping" name="score" required="">
+                            <input type="number" step='1' min='0' max="10" class="form-control" placeholder="Score(0~10)" aria-label="score" aria-describedby="addon-wrapping" name="score" required="">
+                            
                         </div>
                         <hr class="mb-4">
+
                         <button class="btn btn-primary btn-lg btn-block" type="submit">完成添加</button>
                     </form>
                 </div>
