@@ -14,10 +14,10 @@ def post(request, datasetname):
     if request.method == "POST":
         description = request.POST.get('description', '')
         score = request.POST.get('score')
-        # print(score)
+
         # print(request.user.username)
-        if len(description)>1000:
-            return render(request, 'failure.html', {'title': '提交评论失败（字数限制）'})
+        if len(description)>1000 or (int(score)>10 or int(score)<0):
+            return render(request, 'failure.html', {'title': '提交评论失败(与要求不符)'})
         else:
             comment.objects.create(DatasetName=dataset.objects.get(name=datasetname),
                                    Username=request.user,
