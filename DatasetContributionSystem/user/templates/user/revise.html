@@ -35,7 +35,7 @@
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <form class="needs-validation" novalidate="" method="POST">
+                    <form class="needs-validation" novalidate="" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="name">旧密码</label>
@@ -61,6 +61,13 @@
                         <div class="mb-3">
                             <label for="name">个性签名</label>
                             <textarea style='height: 100' class="form-control" name="description">{{request.user.description}}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for='img'>修改头像</label>
+                            <div class="custom-file">
+                                <input class="custom-file-input" type="file" name="img">
+                                <label class="custom-file-label">选择图片</label>
+                            </div>
                         </div>
                         <button class="btn btn-primary btn-lg btn-block" type="submit">修改个人信息</button>
                     </form>
