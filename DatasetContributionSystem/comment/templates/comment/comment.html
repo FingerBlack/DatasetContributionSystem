@@ -29,7 +29,7 @@
                         <a href="post/" class="btn btn-primary my-2">添加评论</a>
                     </p>
                     <p>
-                        <button type="button" class="btn badge-success">数据集平均得分：{{ avg_score }} (由用户评价所得)</button>
+                        <button type="button" class="btn badge-success">数据集平均得分：{% if avg_score == -1 %}评论不足，不存在{% else %}{{ avg_score }}{% endif %} (由用户评价所得)</button>
                     </p>
                 </div>
             </div>
@@ -42,7 +42,8 @@
                         <div class="col-12" style="margin:10px;" id="row-{{item.id}}">
                             <div class="alert-dark" role="alert" style="padding:10px; word-break:break-all; word-wrap:break-word; white-space:inherit"><span class="font-weight-bold">用户名</span> {{ item.Username }} <span class="font-weight-bold">评价数据集</span> {{ item.DatasetName.name }} <span class="font-weight-bold">评分</span> {{ item.Score }} <span class="font-weight-bold">评论时间</span> {{ item.Time }}</div>
                             <div class="alert alert-success" role="alert" style="word-break:break-all; word-wrap:break-word; white-space:inherit">{{ item.Description }}</div>
-                            <div class="float-right"><a href="/dataset/{{item.DatasetName.name}}/comment/{{item.id}}/change/" class="btn btn-warning" {% if not request.user == item.Username %}disabled="disabled"{% endif %} >修改</a>
+                            <div class="float-right">
+                                <a href="/dataset/{{item.DatasetName.name}}/comment/{{item.id}}/change/" ><button class="btn btn-warning" {% if not request.user == item.Username %}disabled="disabled"{% endif %}>修改</button></a>
 
                                 <button type="button" class="btn btn-danger" {% if not request.user == item.Username %}disabled="disabled"{% endif %} onclick='
                                         $.post("/dataset/{{item.DatasetName.name}}/comment/delete/",
