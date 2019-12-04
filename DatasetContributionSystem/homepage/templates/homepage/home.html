@@ -132,7 +132,7 @@
                     <div class="carousel-caption text-left">
                         <h1>开放的平台</h1>
                         <p>注册称为平台会员，你可以从平台中购买你所需要的数据集...</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">立刻注册</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button">现在就去</a></p>
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@
                     <div class="carousel-caption">
                         <h1>发布任务</h1>
                         <p>通过发布任务，并附带一定的报酬，你可以通过他人的帮助获取数据集...</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">立刻完成任务</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button">现在就去</a></p>
                     </div>
                 </div>
             </div>
@@ -157,8 +157,8 @@
                 <div class="container">
                     <div class="carousel-caption text-right">
                         <h1>查看数据集</h1>
-                        <p></p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">查看数据集</a></p>
+                        <p>浏览他人的贡献，找到自己需要的数据集...</p>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button">现在就去</a></p>
                     </div>
                 </div>
             </div>
@@ -182,35 +182,50 @@
 
         <!-- Three columns of text below the carousel -->
         <div class="row">
-            <div class="col-lg-6">
-                <h3>热门数据集</h3>
-                <ul class="list-group">
-                    {% for item in dataset %}
-                    <a href="/dataset/{{item.name}}/">
-                        <li class="list-group-item" href="/">{{item.name}}<span style="float:right;"><span class="glyphicon glyphicon-star" id="like-icon"></span>{{item.star}}</span></li>
-                    </a>
-                    {% endfor %}
-                    <a href="/dataset/">
-                        <li class="list-group-item" href="/">More...</li>
-                    </a>
-                </ul>
+            <div class="col-1"></div>
+            <div class="col-5">
+                <h3 style="margin-bottom: 20px;margin-left: 120px;">热门数据集</h3>
+ 
+                {% for item in dataset %}
+                <div class="card bg-light" style="width: 400px;margin-top: 20px;">
+                    <div class="card-body">
+                        <a href="/dataset/{{item.name}}/" class="text-decoration-none text-dark"><h5>{{item.name}}</h5></a>
+                        <p class="card-text">{{item.description}}
+                            <span style="float:right">
+                                <span class="glyphicon glyphicon-star" id="like-icon" style="vertical-align: -1px;"></span>
+                                {{item.star}}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                {% endfor %}
+                <a href="/dataset/" class="btn btn-primary" style="margin-top: 20px;width: 400px;">
+                    查看所有数据集
+                </a>
             </div><!-- /.col-lg-4 -->
-            <div class="col-lg-6">
-                    <h3>热门任务</h3>
-                    <ul class="list-group">
-                        {% for item in task %}
-                        <a href="/dataset/{{item.dataset.name}}/task/{{item.id}}/">
-                            <li class="list-group-item" href="/">{{item.name}}</li>
-                        </a>
-                        {% endfor %}
-                    </ul>
+
+            <div class="col-5">
+                    <h3 style="margin-bottom: 20px;margin-left: 140px;">热门任务</h3>
+ 
+                    {% for item in task %}
+                    <div class="card bg-light" style="width: 400px;margin-top: 20px;">
+                        <div class="card-body">
+                            <a href="/dataset/{{item.dataset.name}}/task/{{item.id}}/" class="text-decoration-none text-dark"><h5>{{item.name}}</h5></a>
+                            <p class="card-text">{{item.description}}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <a href="/task/" class="btn btn-primary" style="margin-top: 20px;width: 400px;">
+                        查看所有任务
+                    </a>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
     </div><!-- /.container -->
-    <!-- FOOTER 
-    <footer class="container">
+    <!-- FOOTER  -->
+    <!-- <footer class="container">
         <p>© 2017-2019 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
-    </footer>-->
+    </footer> -->
 </main>
 <div class="container" style="margin-top:50px;">
 

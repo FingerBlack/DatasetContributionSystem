@@ -4,14 +4,14 @@
 <div class="album py-4 ">
     <div class="container">
         <div class="btn-group mb-1 " role="group" aria-label="Basic example">
-            <a class="page-link  btn-primary btn-sm  {%if data.order == 0 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{0}}&Datasetname={{data.Datasetname}}">综合排序</a>
-            <a class="page-link  btn-primary btn-sm  {%if data.order == 1 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{1}}&Datasetname={{data.Datasetname}}">浏览量</a>
-            <a class="page-link btn btn-primary btn-sm {%if data.order == 2 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{2}}&Datasetname={{data.Datasetname}}">下载量</a>
-            <a class="page-link btn btn-primary btn-sm {%if data.order == 3 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{3}}&Datasetname={{data.Datasetname}}">创建时间</a>
-            <a class="page-link btn btn-primary btn-sm {%if data.order == 4 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{4}}&Datasetname={{data.Datasetname}}">价格</a>
-            <a class="page-link btn btn-primary btn-sm {%if data.order == 5 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{5}}&Datasetname={{data.Datasetname}}">大小</a>
+            <a class="page-link btn btn-primary  {%if data.order == 0 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{0}}&Datasetname={{data.Datasetname}}">综合排序</a>
+            <a class="page-link btn-primary  {%if data.order == 1 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{1}}&Datasetname={{data.Datasetname}}">浏览量</a>
+            <a class="page-link btn-primary {%if data.order == 2 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{2}}&Datasetname={{data.Datasetname}}">下载量</a>
+            <a class="page-link btn-primary {%if data.order == 3 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{3}}&Datasetname={{data.Datasetname}}">创建时间</a>
+            <a class="page-link btn-primary {%if data.order == 4 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{4}}&Datasetname={{data.Datasetname}}">价格</a>
+            <a class="page-link btn btn-primary {%if data.order == 5 %} active {% endif %}" href="/query/Dataset_search/?page={{1}}&order={{5}}&Datasetname={{data.Datasetname}}">大小</a>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top: 15px;">
             {%for item in dataset%}
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
@@ -35,9 +35,9 @@
                 </div>
             </div>
             {% empty %}
-            <div>暂时还没有这样的数据集！
-              {%endfor%}
-            </div>
+            <div class="alert alert-info" style="margin-left: 15px;">暂时还没有这样的数据集！</div>
+            {%endfor%}
+            
         </div>
     </div>
     {% if data %}

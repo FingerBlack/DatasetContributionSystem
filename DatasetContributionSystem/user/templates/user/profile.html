@@ -25,7 +25,7 @@
 
 
     <!-- START THE FEATURETTES -->
-
+    {%if dataset|length > 0%}
     <div class="row col-2" style="margin-bottom: 1rem;">
       <h4>创建的数据集</h4>
     </div>
@@ -44,13 +44,14 @@
               <div>
                 <a href="/dataset/{{item.name}}/"><button type="button" class="btn btn-sm btn-outline-secondary">详细信息</button></a>
               </div>
-              <small class="text-muted">0次</small>
+              <small class="text-muted">浏览:{{item.page_view}}次 下载:{{item.page_download}}次</small>
             </div>
           </div>
         </div>
       </div>
       {% endfor %}
     </div>
+    {%endif%}
   </div><!-- /.container -->
 </main>
 
