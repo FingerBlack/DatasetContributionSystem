@@ -189,10 +189,13 @@
                 {% for item in dataset %}
                 <div class="card bg-light" style="width: 400px;margin-top: 20px;">
                     <div class="card-body">
-                        <h5 class="card-title">{{item.name}}</h5>
-                        <p class="card-text">{{item.description}}</p>
-                        <a href="/dataset/{{item.name}}/" class="btn btn-primary">前往查看</a>
-                        <span style="float:right"><span class="glyphicon glyphicon-star" id="like-icon"></span>{{item.star}}</span>
+                        <a href="/dataset/{{item.name}}/" class="text-decoration-none text-dark"><h5>{{item.name}}</h5></a>
+                        <p class="card-text">{{item.description}}
+                            <span style="float:right">
+                                <span class="glyphicon glyphicon-star" id="like-icon" style="vertical-align: -1px;"></span>
+                                {{item.star}}
+                            </span>
+                        </p>
                     </div>
                 </div>
 
@@ -208,9 +211,8 @@
                     {% for item in task %}
                     <div class="card bg-light" style="width: 400px;margin-top: 20px;">
                         <div class="card-body">
-                            <h5 class="card-title">{{item.name}}</h5>
+                            <a href="/dataset/{{item.dataset.name}}/task/{{item.id}}/" class="text-decoration-none text-dark"><h5>{{item.name}}</h5></a>
                             <p class="card-text">{{item.description}}</p>
-                            <a href="/dataset/{{item.dataset.name}}/task/{{item.id}}/" class="btn btn-primary">前往查看</a>
                         </div>
                     </div>
                     {% endfor %}
