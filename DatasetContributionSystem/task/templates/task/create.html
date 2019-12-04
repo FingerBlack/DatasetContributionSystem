@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}创建数据集{% endblock %}
+{% block title %}创建任务{% endblock %}
 {% block head %}
     <style>
         .bd-placeholder-img {
@@ -45,7 +45,9 @@
         $(function () {
             $('#ddl').datetimepicker({
                 format: 'YYYY-MM-DD',
-                locale: 'zh-CN'    });
+                locale: 'zh-CN',
+                minDate: new Date(),
+            });
         });
     </script>
 
@@ -88,7 +90,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="datatype">截止日期</label>
-                            <input type="text" class="form-control datetimepicker-input  id="ddl" name = "deadline" data-toggle="datetimepicker" data-target="#datetimepicker5"/>
+                            <input type="text" class="form-control datetimepicker" id="ddl" name = "deadline" required="">
                             <div class="invalid-feedback">
                                 请选择截止日期
                             </div>

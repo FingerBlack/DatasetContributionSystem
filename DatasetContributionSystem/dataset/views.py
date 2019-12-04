@@ -10,6 +10,7 @@ from django.conf import settings
 import django.utils.timezone as timezone
 import os, zipfile, shutil, uuid, json, datetime
 from django.views.decorators.cache import cache_page
+from task.views import completeTask
 
 # Create your views here.
 def index(request):
@@ -57,6 +58,7 @@ class DatasetHandler():
         ret['status'] = '成功'
         ret['message'] = '上传成功'
         ret['acceptFileList'] = []
+        cnt = 0
         for item in zf.infolist():
             fn_jpg = item.filename.split('.')
             if fn_jpg[-1] != 'jpg':
@@ -70,6 +72,7 @@ class DatasetHandler():
             ret['acceptFileList'].append('.'.join(fn_jpg))
             targetName = str(uuid.uuid4())
             size = 0
+            cnt += 1
             with open(os.path.join(self.dir_dest, targetName + '.jpg'), 'wb') as f:
                 size += f.write(zf.read('.'.join(fn_jpg)))
             with open(os.path.join(self.dir_dest, targetName + '.txt'), 'wb') as f:
@@ -77,6 +80,7 @@ class DatasetHandler():
             datasetFileIndex.objects.create(name = self.dataset, filename = targetName, owner = self.user, size = size)
             self.dataset.size += size
         self.dataset.save()
+        completeTask(self.user, self.taskid, cnt)
         return ret
     def download_image_with_tag(self):
         fp = self.dir_dest + '.zip'
@@ -112,6 +116,7 @@ class DatasetHandler():
         ret['status'] = '成功'
         ret['message'] = '上传成功'
         ret['acceptFileList'] = []
+        cnt = 0
         for item in zf.infolist():
             fn_jpg = item.filename.split('.')
             if fn_jpg[-1] != 'jpg':
@@ -120,11 +125,13 @@ class DatasetHandler():
             ret['acceptFileList'].append('.'.join(fn_jpg))
             targetName = str(uuid.uuid4())
             size = 0
+            cnt += 1
             with open(os.path.join(self.dir_dest, targetName + '.jpg'), 'wb') as f:
                 size += f.write(zf.read('.'.join(fn_jpg)))
             datasetFileIndex.objects.create(name = self.dataset, filename = targetName, owner = self.user, size = size)
             self.dataset.size += size
         self.dataset.save()
+        completeTask(self.user, self.taskid, cnt)
         return ret
     def download_image_without_tag(self):
         fp = self.dir_dest + '.zip'
@@ -156,9 +163,10 @@ class DatasetHandler():
         self.dataset = dataset
         self.dir_dest = os.path.join('.' + settings.MEDIA_ROOT, 'dataset', str(self.dataset.id))
 
-    def upload(self, file):
+    def upload(self, file, taskid):
         self.file = file
         self.dataset.last_revise_time = timezone.now()
+        self.taskid = taskid
         return HttpResponse(json.dumps(self.upload_type_to_func[self.dataset.dataType](self)))
     def download(self):
         if (self.dataset.last_revise_time - self.dataset.cached_time) > datetime.timedelta(seconds = 1):
@@ -194,10 +202,10 @@ def upload_view(request, datasetname):
         taskid = request.POST.get('taskid', '')
         if taskid != '':
             taskid = int(taskid)
-            print(taskid)
-            pass
+        else:
+            taskid = -1
         dh = DatasetHandler(request.user, data)
-        return dh.upload(myfile)
+        return dh.upload(myfile, taskid)
     return render(request, 'dataset/upload.html', {'dataset':data, 'task':task.objects.filter(dataset = data)})
 
 def show(request, datasetname):

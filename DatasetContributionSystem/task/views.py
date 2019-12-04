@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
-from .models import task, dataset
-
+from .models import task, dataset, complete
+from datetime import datetime
 # Create your views here.
 
 
@@ -19,6 +19,14 @@ def create(request, datasetname):
         deadline = request.POST.get("deadline", '')
         description = request.POST.get('description', '')
         amount = request.POST.get('amount', '')
+        if len(name) >= 50 or len(description) >= 200:
+            return render(request, 'failure.html', {'title':'任务名或描述过长'})
+        try:
+            nowDate = datetime.strftime(deadline, "%Y-%m-%d")
+        except:
+            #return render(request, 'failure.html', {'title':'日期格式错误'})
+            pass
+
         task.objects.create(name=name,
                             deadline=deadline,
                             dataset=dataset_obj,
@@ -57,6 +65,8 @@ def change(request, datasetname, taskid):
         deadline = request.POST.get("deadline", '')
         description = request.POST.get('description', '')
         amount = request.POST.get('amount', '')
+        if len(name) >= 50 or len(description) >= 200:
+            return render(request, 'failure.html', {'title': '任务名或描述过长'})
         task_tmp = task.objects.get(id=taskid)
         task_tmp.name = name
         task_tmp.deadline = deadline
@@ -65,3 +75,12 @@ def change(request, datasetname, taskid):
         task_tmp.save()
         return render(request, 'success.html', {'title': '修改任务成功'})
     return render(request, 'task/change.html', {'task': task.objects.get(id=taskid)})
+
+
+def completeTask(user, taskid, amount):
+    if taskid == -1 or task.objects.get(id=taskid) is None:
+        return
+
+    complete.objects.create(user=user,
+                            task=task.objects.get(id=taskid),
+                            amount=amount)
