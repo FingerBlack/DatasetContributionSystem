@@ -25,11 +25,9 @@
                 <div class="py-5 text-center">
                     <h2>数据集评论区</h2>
                     <p class="lead">在这里，可以添加对数据集的任何评论。</p>
-
                         <a style="width:180px;height:40px;" href="post/" class="btn btn-primary my-2">添加评论</a>
-
                     <p>
-                        <button style="width:180px;height:40px;" type="button" class="btn badge-success my-2">数据集平均得分：{% if avg_score == -1 %}评论不足，不存在{% else %}{{ avg_score }}{% endif %} </button>
+                        <p style>数据集平均得分：{% if avg_score == -1 %}评论不足，不存在{% else %}{{ avg_score }}{% endif %} </p>
                     </p>
                 </div>
             </div>
@@ -37,7 +35,6 @@
 
         <div class="container">
             <div class="row">
-
                     {%for item in comment%}
                         <div class="col-12" style="margin:10px;" id="row-{{item.id}}">
                             <div class="alert-dark" role="alert" style="padding:10px; word-break:break-all; word-wrap:break-word; white-space:inherit"><span class="font-weight-bold">用户名</span> {{ item.Username }} <span class="font-weight-bold">评价数据集</span> {{ item.DatasetName.name }} <span class="font-weight-bold">评分</span> {{ item.Score }} <span class="font-weight-bold">评论时间</span> {{ item.Time }}
@@ -55,16 +52,11 @@
                                         });
                                         '>删除</button>
                             </div>
-
-
                             </div>
                             <div class="alert alert-success" role="alert" style="word-break:break-all; word-wrap:break-word; white-space:inherit">{{ item.Description }}</div>
-
                         </div>
                     {%endfor%}
-
             </div>
-            <p style="text-align: center;float: none;" class="mt-5 mb-3 text-muted">© 2017-2019</p>
         </div>
     </div>
 
