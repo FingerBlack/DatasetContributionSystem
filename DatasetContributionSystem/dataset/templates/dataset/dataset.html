@@ -37,6 +37,7 @@ var tmp = $('.card-pic-random').children();
       <div class="row">
         {%for item in dataset%}
         <div class="col-md-4">
+        <a href="/dataset/{{item.name}}/" style="text-decoration:none;color:#000000;">
           <div class="card mb-4 shadow-sm">
             <div width="100%" height="225px" class="card-pic">
               {% if item.image == '' %}
@@ -51,23 +52,26 @@ var tmp = $('.card-pic-random').children();
             {% endif %}
             <div class="card-body">
               <p class="card-text"><strong>{{item.name}}</strong></p>
-              <div class="d-flex justify-content-between align-items-center">
+              <!--<div class="d-flex justify-content-between align-items-center">
                 <div>
                   <a href="/dataset/{{item.name}}/"><button type="button" class="btn btn-sm btn-outline-secondary">查看详情</button></a>
-                </div>
-                <span style="float:right">
+                </div>-->
+                <div style="float:right">
                 <span class="glyphicon glyphicon-hdd"></span>
                 <span>{{item.size|unitConvert}}B</span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span>{{ item.star }}</span>
                 <span class="glyphicon glyphicon-download-alt"></span>
                 <span>{{item.page_download|unitConvert}}</span>
                 <span class="glyphicon glyphicon-globe"></span>
                 <span>{{item.page_view|unitConvert}}<span>
-                </span>
+                </div>
                 <!--<small class="text-muted">浏览:{{item.page_view}}次 {{item.page_download}}次</small>-->
-              </div>
+              <!--</div>-->
             </div>
           </div>
         </div>
+        </a>
         {%endfor%}
       </div>
     </div>
