@@ -17,6 +17,7 @@ class dataset(models.Model):
     cached_time = models.DateTimeField(default = timezone.now)
     last_revise_time = models.DateTimeField(default = timezone.now)
     star = models.IntegerField(default = 0)
+    image = models.CharField(max_length = 50, default = '')
     def __str__(self):
         return self.name
 
