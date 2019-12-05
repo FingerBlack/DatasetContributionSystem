@@ -8,6 +8,6 @@ def unitConvert(num):
     num = float(num)
     for i in range(0, 5):
         if num < 1024:
-            return str(round(num, 2)) + unit[i] + 'B'
+            return str(round(num, 2)) + unit[i]
         num /= 1024
-    return str(round(num, 2)) + 'EB'
+    return str(round(num, 2)) + 'E'
