@@ -1,3 +1,5 @@
+import sys
+import codecs
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
@@ -9,8 +11,8 @@ from task.models import task
 from itertools import chain
 # Create your views here.
 def index(request):
+    sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
     return render(request, 'querypage/query.html', {'dataset': dataset.objects.all()})
-
 def Dataset_search(request):
     if  request.method == "GET":
         x =str(request.GET.get("Datasetname"))
