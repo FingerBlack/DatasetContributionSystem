@@ -1,5 +1,3 @@
-import sys
-import codecs
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
@@ -11,7 +9,6 @@ from task.models import task
 from itertools import chain
 # Create your views here.
 def index(request):
-    sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
     return render(request, 'querypage/query.html', {'dataset': dataset.objects.all()})
 def Dataset_search(request):
     if  request.method == "GET":
@@ -131,7 +128,7 @@ def Task_search(request):
             name_list = task.objects.filter(name__in=list2)    
     order =int(request.GET.get('order',0)) 
     if order == 1:
-        name_list=name_list.order_by('-size')
+        name_list=name_list.order_by('-amount')
     elif order ==2:
         name_list=name_list.order_by('-createdTime')
     elif order ==3:
