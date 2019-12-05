@@ -26,8 +26,8 @@ def Dataset_search(request):
             for i in list_all:
                 list2.append(i.name)
             name_list = dataset.objects.filter(name__in=list2)  
-    order =int(request.GET.get('order',0)) 
-    if order == 1:    
+    order =int(request.GET.get('order',0))  
+    if order == 1:
         name_list=name_list.order_by('-page_view')
     elif order ==2:
         name_list=name_list.order_by('-page_download')
@@ -37,6 +37,8 @@ def Dataset_search(request):
         name_list=name_list.order_by('-price')
     elif order ==5:
         name_list=name_list.order_by('-size')
+    else:
+        name_list=name_list.order_by('name')
     p = Paginator(name_list,16)   #分页，6篇文章一页
     result_list =name_list  
     data = {    #将数据包含在data字典中
@@ -126,10 +128,7 @@ def Task_search(request):
             list2=[]
             for i in list_all:
                 list2.append(i.name)
-            name_list = task.objects.filter(name__in=list2)  
-  
-    p = Paginator(name_list,12)   #分页，6篇文章一页
-    result_list =name_list
+            name_list = task.objects.filter(name__in=list2)    
     order =int(request.GET.get('order',0)) 
     if order == 1:
         name_list=name_list.order_by('-size')
@@ -137,6 +136,10 @@ def Task_search(request):
         name_list=name_list.order_by('-createdTime')
     elif order ==3:
         name_list=name_list.order_by('-deadline')
+    else:
+        name_list=name_list.order_by('name')
+    p = Paginator(name_list,12)   #分页，6篇文章一页
+    result_list =name_list
     data = {    #将数据包含在data字典中
         'left':None,
         'right':None,
