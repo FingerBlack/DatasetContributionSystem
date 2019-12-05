@@ -169,9 +169,6 @@ def Task_search(request):
         left_has_more = False  # 标示第 1 页页码后是否需要显示省略号
         right_has_more = False  # 标示最后一页页码前是否需要显示省略号
         first = False   # 标示是否需要显示第 1 页的页码号。
-        # 因为如果当前页左边的连续页码号中已经含有第 1 页的页码号，此时就无需再显示第 1 页的页码号，
-        # 其它情况下第一页的页码是始终需要显示的。
-        # 初始值为 False
         last = False  # 标示是否需要显示最后一页的页码号。
         total_pages = p.num_pages  
         page_range = p.page_range
